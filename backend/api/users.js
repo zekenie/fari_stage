@@ -113,7 +113,7 @@ usersRouter.get("/usernames/:username", check('username').not().isEmpty().trim()
 });
 
 
-usersRouter.get('/search/:query', check('query').not().isEmpty().trim().escape(), async (req, res, next) => {
+usersRouter.get('/usersearch/:query', check('query').not().isEmpty().trim().escape(), async (req, res, next) => {
 const { query } = req.params;
   let errors = validationResult(req);
      if (!errors.isEmpty()) {
@@ -532,15 +532,15 @@ usersRouter.post("/subscribe/:channelname", requireUser, check('userSubed').not(
 });
 
 
-usersRouter.delete("/unsubscribe/:channelname/:userSubed", requireUser, check('channelname').not().isEmpty().trim().escape(), check('userSubed').not().isEmpty().isNumeric().withMessage('Not a valid value').trim().escape(), async (req, res, next) => {
- const { channelname, userSubed } = req.params;
+usersRouter.delete("/unsubscribe/:channelname/:userid", requireUser, check('channelname').not().isEmpty().trim().escape(), check('userid').not().isEmpty().isNumeric().withMessage('Not a valid value').trim().escape(), async (req, res, next) => {
+ const { channelname, userid } = req.params;
  const channel = channelname;
   let errors = validationResult(req);
      if (!errors.isEmpty()) {
    return res.status(400).send({name: 'Validation Error', message: errors.array()[0].msg});
 }else{	
   try {
-    const myunSubs = await removeSubs(userSubed, channel);
+    const myunSubs = await removeSubs(userid, channel);
     const userunSubs = await removeChannelSub(channelname);
     res.send({ removedSub: myunSubs});
   } catch(error) {
