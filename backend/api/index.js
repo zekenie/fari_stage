@@ -44,6 +44,12 @@ apiRouter.use("/users", usersRouter);
 const explorerRouter = require("./explorer");
 apiRouter.use("/explorer", explorerRouter);
 
+const mailRouter = require("./mailer");
+apiRouter.use("/mailer", mailRouter);
+
+const analyticsRouter = require("./analytics");
+apiRouter.use("/analytics", analyticsRouter);
+
 apiRouter.use((error, req, res, next) => {
   res.send(error);
 });
