@@ -31,6 +31,8 @@ const {
   getUserByEmail,
   getAllUsers,
   getAllChannels,
+  verifiedVendors,
+  getUserSubs,
   getUserChannelByChannelID,
   getPostByChannelID,
   getUserChannel,
@@ -70,179 +72,27 @@ usersRouter.get("/", requireUser, async (req, res, next) => {
     });
   } catch ({ name, message }) {
     next({ name, message });
-  }
+  }	
 });
 
-usersRouter.post(
-  "/register",
-  ddos,
-  check("username")
-    .not()
-    .isEmpty()
-    .withMessage("Please provide a valid username")
-    .trim()
-    .escape()
-    .isLength({ min: 3 })
-    .withMessage({ message: "Username must have a min of 4 characters" }),
-  check("email")
-    .not()
-    .isEmpty()
-    .isEmail()
-    .withMessage("Please provide a valid email")
-    .normalizeEmail(),
-  check("location").trim().escape(),
-  check("password")
-    .not()
-    .isEmpty()
-    .trim()
-    .escape()
-    .isLength({ min: 8 })
-    .withMessage({
-      message: "Password does not meet the min requirements of 8 characters",
-    })
-    .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$/, "i")
-    .withMessage({
-      message:
-        "Password must include one lowercase character, one uppercase character, a number, and a special character.",
-    }),
-  check("confirmpassword")
-    .not()
-    .isEmpty()
-    .trim()
-    .escape()
-    .isLength({ min: 8 })
-    .withMessage({
-      message: "Password does not meet the min requirements of 8 characters",
-    })
-    .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$/, "i")
-    .withMessage({
-      message:
-        "Password must include one lowercase character, one uppercase character, a number, and a special character.",
-    }),
-  async (req, res, next) => {
-    const { username, email, password, confirmpassword, location } = req.body;
-    let errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res
-        .status(400)
-        .send({ name: "Validation Error", message: errors.array()[0].msg });
-    } else {
-      try {
-        const _user = await getUserByUsername(username);
-        if (_user) {
-          next({
-            error: "UserExistsError",
-            message: "A user by that username already exists",
-          });
-          return false;
-        }
 
-        const _email = await getUserByEmail(email);
-        if (_email) {
-          next({
-            error: "EmailExistsError",
-            message: "A user with that email already exists",
-          });
-          return false;
-        }
-
-        if (password.length < 8) {
-          next({
-            error: "PasswordNotStrongEnough",
-            message: "Password not strong enough, minimum 8 characters",
-          });
-          return false;
-        }
-
-        if (password != confirmpassword) {
-          next({
-            error: "PasswordsMatchError",
-            message: "Your password and confirmed password don't match.",
-          });
-          return false;
-        }
-        const user = await createUser({
-          username,
-          email,
-          password,
-          confirmpassword,
-          location,
-        });
-        if (!user) {
-          next({
-            message: "Ooop, could not create your account, please try again.",
-          });
-        } else {
-          const token = jwt.sign(
-            {
-              id: user.id,
-              username,
-            },
-            process.env.JWT_SECRET
-          );
-
-          res.send({
-            success: "SuccessfulRegistration",
-            message: "Thank you for signing up, please return to login.",
-            user,
-            token,
-          });
-        }
-      } catch (error) {
-        console.error(error, errors);
-        next(error);
-      }
-    }
+usersRouter.get("/usernames", requireUser, async (req, res, next) => {
+ let getCache = await redisClient.get('fariUsers')
+  await redisClient.expire('fariUsers', 1800)
+  if(getCache && getCache != null){
+    console.log('cache found')  
+  res.send({users: JSON.parse(getCache)})
+  }else if(!getCache){
+    console.log('no cache found')		
+  try {
+    const allUsernames = await getAllUsersUsername();
+    let setData = await redisClient.set('fariUsers', JSON.stringify(allUsernames))	  
+    res.send({ users: allUsernames });
+  } catch ({ name, message }) {
+    next({ name, message });
   }
-);
-
-usersRouter.post(
-  "/login",
-  ddos,
-  check("username")
-    .not()
-    .isEmpty()
-    .trim()
-    .escape()
-    .withMessage({ message: "Please provide a valid username" }),
-  check("password")
-    .not()
-    .isEmpty()
-    .trim()
-    .escape()
-    .withMessage({ message: "Please provide a valid password" }),
-  async (req, res, next) => {
-    const { username, password } = req.body;
-
-    let errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res
-        .status(400)
-        .send({ name: "Validation Error", message: errors.array()[0].msg });
-    } else {
-      try {
-        const user = await getUser({ username, password });
-        if (user) {
-          const token = jwt.sign(user, process.env.JWT_SECRET);
-          next({
-            success: "SuccsessfulLogin",
-            message: "Welcome to Fari!",
-            token,
-          });
-        } else {
-          next({
-            error: "IncorrectCredentialsError",
-            message: "Your username or password is invalid.",
-          });
-        }
-      } catch (error) {
-        console.error(error, errors);
-        next(error);
-      }
     }
-  }
-);
-
+});
 
 usersRouter.get("/usernames/:username", check('username').not().isEmpty().trim().escape(), async (req, res, next) => {
   const { username } = req.params;
@@ -263,17 +113,176 @@ usersRouter.get("/usernames/:username", check('username').not().isEmpty().trim()
 });
 
 
-usersRouter.get("/myprofile", requireUser, async (req, res, next) => {
+usersRouter.get('/search/:query', check('query').not().isEmpty().trim().escape(), async (req, res, next) => {
+const { query } = req.params;
+  let errors = validationResult(req);
+     if (!errors.isEmpty()) {
+   return res.status(400).send({name: 'Validation Error', message: errors.array()[0].msg});
+}else{
+try{
+ const usersSearch = await userSearch(query) 
+ res.send({users: usersSearch})
+}catch(error){
+console.log('Oops could not find search results', error)
+   next({ name: "ErrorGettingSearchResults", message: "Could not get the search results" });
+}
+};		
+
+});
+
+
+usersRouter.get("/channels", async (req, res, next) => {	
   try {
-    const { username, id } = req.user;
-    const me = await getUserProfile(username);  
-    res.send({ profile: me });
-  } catch (error) {
-    console.log("Could not get user channel", error);
+    const allChannels = await getAllChannels();
+    res.send({ allChannels });
+  } catch ({ name, message }) {
+    next({
+      name: "ErrorGettingChannels",
+      message: "Could not retrieve channels",
+    });
   }
+});
+
+usersRouter.get("/livechannels/:userid", check('userid').not().isEmpty().isNumeric().withMessage('Not a valid value').trim().escape(), async (req, res, next) => {
+  const { userSubed } = req.params;
+  let errors = validationResult(req);
+     if (!errors.isEmpty()) {
+   return res.status(400).send({name: 'Validation Error', message: errors.array()[0].msg});
+}else{	
+  try {
+    const liveChannels = await getLiveChannels(userid);
+    res.send({ live: liveChannels });
+  } catch (error) {
+    console.log(error)
+    next({
+      name: "ErrorGettingLiveChannels",
+      message: "Could not retrieve live channels",
+    });
+  }
+}
+});
+
+
+
+usersRouter.post("/register", ddos, 
+   check('username').not().isEmpty().withMessage('Please provide a valid username').trim().escape().isLength({min: 3,}).withMessage({message:'Username must have a min of 4 characters'}),	
+   check('email').not().isEmpty().isEmail().withMessage('Please provide a valid email').normalizeEmail(),
+   check('location').trim().escape(),		 
+   check('password').not().isEmpty().trim().escape().isLength({min: 8,}).withMessage({message: 'Password does not meet the min requirements of 8 characters'}).matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$/, "i").withMessage({message:'Password must include one lowercase character, one uppercase character, a number, and a special character.'}), 
+   check('confirmpassword').not().isEmpty().trim().escape().isLength({min: 8,}).withMessage({message:'Password does not meet the min requirements of 8 characters'}).matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$/, "i").withMessage({message:'Password must include one lowercase character, one uppercase character, a number, and a special character.'}),
+    async (req, res, next) => {
+     const { username, email, password, confirmpassword, location } = req.body;
+  let errors = validationResult(req);
+     if (!errors.isEmpty()) {
+   return res.status(400).send({name: 'Validation Error', message: errors.array()[0].msg});
+}else{
+ try {
+
+    const _user = await getUserByUsername(username);
+    if (_user) {
+      next({
+        error: "UserExistsError",
+        message: "A user by that username already exists",
+      });
+      return false;
+    }
+
+    const _email = await getUserByEmail(email);
+    if (_email) {
+
+      next({
+        error: "EmailExistsError",
+        message: "A user with that email already exists",
+      });
+      return false;
+    }
+
+    if (password.length < 8) {
+      next({
+        error: "PasswordNotStrongEnough",
+        message: "Password not strong enough, minimum 8 characters",
+      });
+      return false;
+    }
+
+    if (password != confirmpassword) {
+      next({
+        error: "PasswordsMatchError",
+        message: "Your password and confirmed password don't match.",
+      });
+      return false;
+    }
+    const user = await createUser({
+      username,
+      email,
+      password,
+      confirmpassword,
+      location,	    
+    });
+    if (!user) {
+      next({
+        message: "Ooop, could not create your account, please try again.",
+      });
+    } else {
+      const token = jwt.sign(
+        {
+          id: user.id,
+          username,
+        },
+        process.env.JWT_SECRET
+      );
+
+      res.send({
+        success: "SuccessfulRegistration",
+        message: "Thank you for signing up, please return to login.",
+        user,
+        token,
+      });
+    }
+  } catch (error) {
+    console.error(error, errors);
+    next(error);
+  }
+};
  
 });
 
+
+usersRouter.post("/login", ddos, 
+   check('username').not().isEmpty().trim().escape().withMessage({message:'Please provide a valid username'}),	
+   check('password').not().isEmpty().trim().escape().withMessage({message:'Please provide a valid password'}),	
+   async (req, res, next) => {
+  const { username, password } = req.body;
+      
+	
+  let errors = validationResult(req);
+     if (!errors.isEmpty()) {
+   return res.status(400).send({name: 'Validation Error', message: errors.array()[0].msg});
+}else{
+ try {
+    const user = await getUser({ username, password });
+    if (user) {
+      const token = jwt.sign(user, process.env.JWT_SECRET);
+      next({
+        success: "SuccsessfulLogin",
+        message: "Welcome to Fari!",
+        token,
+      });
+    } else {
+      next({
+        error: "IncorrectCredentialsError",
+        message: "Your username or password is invalid.",
+      });
+    }
+ 
+  } catch (error) {
+    console.error(error, errors);
+    next(error);
+  }
+};
+
+  
+});
 
 usersRouter.patch('/addbio/:id', requireUser, check('bio').trim().escape(), check('id').not().isEmpty().isNumeric().withMessage('Not a valid value').trim().escape(), async(req, res, next) => {
 const { id } = req.params;
@@ -319,7 +328,32 @@ let errors = validationResult(req);
 })
 
 
+usersRouter.get("/loggedin/:id", requireUser, check('id').not().isEmpty().isNumeric().withMessage('Not a valid value').trim().escape(), async (req, res, next) => {
+const { id } = req.params;
+  let errors = validationResult(req);
+     if (!errors.isEmpty()) {
+   return res.status(400).send({name: 'Validation Error', message: errors.array()[0].msg});
+}else{	
+try{
+const loggedIn = await getUserById(id);
+res.send({user: loggedIn})
+}catch(error){
+console.error("Hmm, can't seem to get that user", error);
+  next(error);
+}
+}
+});
 
+usersRouter.get("/myprofile", requireUser, async (req, res, next) => {
+  try {
+    const { username, id } = req.user;
+    const me = await getUserProfile(username);  
+    res.send({ profile: me });
+  } catch (error) {
+    console.log("Could not get user channel", error);
+  }
+ 
+});
 
 
 usersRouter.get(
@@ -343,7 +377,7 @@ usersRouter.get(
 );
 
 usersRouter.get(
-  "/myprofile/channel-post/:channelid",
+  "/myprofile/post/:channelid",
   requireUser,
   check('channelid').not().isEmpty().isNumeric().withMessage('Not a valid value').trim().escape(),	
   async (req, res, next) => {
@@ -363,37 +397,303 @@ usersRouter.get(
   }
 );
 
-
-usersRouter.get("/user-subscriptions/:userid", requireUser, check('userid').not().isEmpty().isNumeric().withMessage('Not a valid value').trim().escape(),  async (req, res, next) => {
-  const { userid } = req.params;
+usersRouter.put(
+  "/myprofile/update/posters/:channelname", cors(),
+  profilePosterUpdate,
+  requireUser,
+  check('channelname').not().isEmpty().trim().escape(),
+  async (req, res, next) => {
+    const { channelname } = req.params;
+    const cloudfront = 'https://drotje36jteo8.cloudfront.net';
+    const pic2 = req.file; 
   let errors = validationResult(req);
- if (!errors.isEmpty()) {
-  return res.status(400).send({name: 'Validation Error', message: errors.array()[0].msg});
-}else{ 
+     if (!errors.isEmpty()) {
+   return res.status(400).send(errors.array());
+}else{
+  if(req.file.mimetype === 'image/jpeg' || req.file.mimetype === 'image/png' || req.file.mimetype === 'image/jpg' || req.file.mimetype === 'image/gif'){
+   try {
+      const result1 = await uploadThumbnails(pic2);      
+      const updateData = {
+        slider_pic1: cloudfront + '/' + result1.Key,
+      };
+
+      const updatedchannel = await updatePosters(channelname, updateData);
+      res.send({ channel: updatedchannel });
+    } catch (error) {
+      console.error("Could not update user profile", error);
+      next(error);
+    }
+    
+    }else{
+     return res.status(400).send({name: 'Invalid file type or no file found', message: 'Invalid file type or no file found'})
+    }
+
+}
+    
+  }
+);
+
+
+usersRouter.put(
+  "/myprofile/update/avatar/:channelname", cors(),
+  profileAvatarUpdate,
+  requireUser,
+    check('channelname').not().isEmpty().trim().escape(),
+ async (req, res, next) => {
+    const { channelname } = req.params;
+    const channel_name = channelname;
+    const commentorName = channelname;
+    const cloudfront = 'https://drotje36jteo8.cloudfront.net';
+    const pic1 = req.file
+
+  let errors = validationResult(req);
+     if (!errors.isEmpty()) {
+   return res.status(400).send(errors.array());
+}else{
+	 if(req.file.mimetype === 'image/jpeg' || req.file.mimetype === 'image/png' || req.file.mimetype === 'image/jpg' || req.file.mimetype === 'image/gif'){
+	     try {	    
+      const result = await uploadThumbnails(pic1);
+      const updatedAvi = {
+        profile_avatar: cloudfront + '/' + result.Key,
+      };
+      const updateChannelPic = {
+      channelpic: cloudfront + '/' + result.Key,
+      }
+      
+      const updateCommentPicture = {
+      commentorpic: cloudfront + '/' + result.Key,
+      }
+      const updatedchannel = await updateAvatar(channelname, updatedAvi, updateChannelPic);
+      const updatedPic = await updateUploadsPicture(channel_name, updateChannelPic);
+      const updateCommentphoto = await updateCommentsPic(commentorName, updateCommentPicture)
+      res.send({ channel: updatedchannel });
+    } catch (error) {
+      console.error("Could not update user profile", error);
+      next(error);
+    }
+	 }else{
+	  return res.status(400).send({name: 'Invalid file type or no file found', message: 'Invalid file type or no file found'})	 
+	 }
+
+};	  
+	  
+
+  }
+);
+
+
+usersRouter.get(
+  "/channel/:channelid",
+	requireUser,
+check('channelid').not().isEmpty().isNumeric().withMessage('Not a valid value').trim().escape(),	
+  async (req, res, next) => {
+  let errors = validationResult(req);
+     if (!errors.isEmpty()) {
+   return res.status(400).send({name: 'Validation Error', message: errors.array()[0].msg});
+}else{	  
+    try {
+      const { channelid } = req.params;
+      const userChannel = await getUserChannelByChannelID(channelid);
+      res.send({ channel: userChannel });
+    } catch (error) {
+       return res.status(400).send({name: 'Could not get user channel', message: 'Could not get user channel'});
+    }
+  }
+  }
+);
+
+
+usersRouter.post("/subscribe/:channelname", requireUser, check('userSubed').not().isEmpty().trim().escape(), async (req, res, next) => {
+ const userSubed = req.body.userSubed;
+ const channelID = req.body.channelID;
+ const channel_avi = req.body.channel_avi;
+ const channel = req.body.channel; 
+ const subscriber_count = req.body.subscriber_count;
+ const { channelname } = req.params;
+  let errors = validationResult(req);
+     if (!errors.isEmpty()) {
+   return res.status(400).send({name: 'Validation Error', message: errors.array()[0].msg});
+}else{
   try {
-    const userSubs = await getUserSubs(userid);
-    res.send({ mysubscriptions: userSubs});
-  } catch(error){
-      next({ name: "ErrorGettingUserSubs", message: "Could not get subscriptions" });
+    const subedData = {
+    userSubed: userSubed,
+    channelID: channelID,  
+    channel: channel,  
+    channel_avi: channel_avi, 
+    };
+    const mySubs = await createSubs(subedData);
+    const userSubs = await updateChannelSubs(channelname);
+    res.send({ mySubs: mySubs});
+  } catch(error) {
+    console.log(error)
+  next({ name: "ErrorSettiingUserSub", message: "Could not sub to this channel" });
   }
 }
 });
 
 
-usersRouter.get("/vendor-verification/:vendorid", cors(), requireUser, check('vendorid').not().isEmpty().isNumeric().withMessage('Not a valid value').trim().escape(), async (req, res, next) => {
- const { vendorid } = req.params;
- let errors = validationResult(req);  
- if (!errors.isEmpty()) {
-    return res.status(400).send({name: 'Validation Error', message: errors.array()[0].msg});
-}else{ 
+usersRouter.delete("/unsubscribe/:channelname/:userSubed", requireUser, check('channelname').not().isEmpty().trim().escape(), check('userSubed').not().isEmpty().isNumeric().withMessage('Not a valid value').trim().escape(), async (req, res, next) => {
+ const { channelname, userSubed } = req.params;
+ const channel = channelname;
+  let errors = validationResult(req);
+     if (!errors.isEmpty()) {
+   return res.status(400).send({name: 'Validation Error', message: errors.array()[0].msg});
+}else{	
   try {
-    const checkVerified = await verifiedVendors(vendorid);
-    res.send({ vendor: checkVerified });
+    const myunSubs = await removeSubs(userSubed, channel);
+    const userunSubs = await removeChannelSub(channelname);
+    res.send({ removedSub: myunSubs});
+  } catch(error) {
+    console.log(error)
+  next({ name: "ErrorSettiingUserUnSub", message: "Could not unsub to this channel" });
+  }
+}
+});
+
+
+
+usersRouter.get("/substatus/:userid/:channelID", requireUser, check('userid').not().isEmpty().isNumeric().withMessage('Not a valid value').trim().escape(), check('channelID').not().isEmpty().isNumeric().withMessage('Not a valid value').trim().escape(), async (req, res, next) => {
+const {userid, channelID} = req.params;
+  let errors = validationResult(req);
+     if (!errors.isEmpty()) {
+   return res.status(400).send({name: 'Validation Error', message: errors.array()[0].msg});
+}else{	
+try{
+const subStat = await getUserStatSubForChannel(userid, channelID);
+  res.send({subedChannel: subStat});
+}catch(error){
+console.log('Oops, could not determine sub status', error);
+  next({ name: "ErrorGettingSubsStatus", message: "Could set Subs status" });
+}
+}
+});
+
+usersRouter.get("/getChannel/:channelName", requireUser, check('userSubed').not().isEmpty().trim().escape(), async (req, res, next) => {
+const { channelName } = req.params;
+  let errors = validationResult(req);
+     if (!errors.isEmpty()) {
+   return res.status(400).send({name: 'Validation Error', message: errors.array()[0].msg});
+}else{	
+try{
+const channel = await getChannelByName(channelName);
+  res.send({channels: channel});
+}catch(error){
+console.log('Oops, could not get channel', error);
+  next({ name: "ErrorGettingChannel", message: "Could get channel" });
+}
+}
+});
+
+
+
+usersRouter.get("/password-reset/:id/:token", async (req, res, next) => {
+const { id, token } = req.params;
+  try {
+    const _user2 = await getUserById(id);
+    const payload = jwt.verify(token, process.env.JWT_SECRET_RESET)
+    res.set("Content-Security-Policy", "default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'")
+    res.sendFile(path.join(__dirname,'../public/password-reset.html'))  
+  } catch (error) {
+    console.log(error)
+    res.sendFile(path.join(__dirname,'../public/password-reset-link.html'));
+  }
+
+});
+
+usersRouter.post("/password-reset/:id/:token", 
+check('id').not().isEmpty().isNumeric().withMessage('Not a valid value').trim().escape(),		 
+check('password').not().isEmpty().trim().escape().isLength({min: 8,}).withMessage('Password does not meet the min requirements of 8 characters').matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$/, "i").withMessage('Password must include one lowercase character, one uppercase character, a number, and a special character.'), 
+check('confirmpassword').not().isEmpty().trim().escape().isLength({min: 8,}).withMessage('Password does not meet the min requirements of 8 characters').matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$/, "i").withMessage('Password must include one lowercase character, one uppercase character, a number, and a special character.'),
+async (req, res, next) => {
+const { id, token } = req.params;
+const  { password, confirmpassword } = req.body;	
+  let errors = validationResult(req);
+     if (!errors.isEmpty()) {
+   return res.status(400).send({name: 'Validation Error', message: errors.array()[0].msg});
+}else{
+try{	
+  const updatedPassword = {
+  password: password,
+  confirmpassword: confirmpassword,
+  }
+    if (password != confirmpassword) {
+      next({
+        error: "PasswordsMatchError",
+        message: "Your password and confirmed password does not match",
+      });
+      return false;
+    }
+ const updatingUser = await updatePassword(id, updatedPassword);
+ res.sendFile(path.join(__dirname,'../public/password-reset-success.html'));
+}catch(error){
+console.log('Oops, could not update user password', error);
+  res.sendFile(path.join(__dirname,'../public/password-reset-unsucessful.html'));
+  next(error)
+}
+};
+	
+});
+
+usersRouter.patch("/vendor-subscription-update/:id", requireUser, check('id').not().isEmpty().isNumeric().withMessage('Not a valid value').trim().escape(), async (req, res, next) => {
+const { id } = req.params;
+   let errors = validationResult(req);
+     if (!errors.isEmpty()) {
+   return res.status(400).send({name: 'Validation Error', message: errors.array()[0].msg});
+}else{ 
+try{
+ const updatingVendor = await updateVendorSubscription(id);
+ res.send({updatedSubscription: updatingVendor})
+}catch(error){
+console.log('Oops, could not update vendor subscription status', error);
+}
+}
+});
+
+usersRouter.patch("/user-subscription-update/:id", requireUser, check('id').not().isEmpty().isNumeric().withMessage('Not a valid value').trim().escape(), async (req, res, next) => {
+const { id } = req.params;
+  let errors = validationResult(req);
+     if (!errors.isEmpty()) {
+   return res.status(400).send({name: 'Validation Error', message: errors.array()[0].msg});
+}else{	
+try{
+ const updatingUser = await updateUserSubscription(id);
+ res.send({updatedSubscription: updatingUser})
+}catch(error){
+console.log('Oops, could not update user subscription status', error);
+}
+}
+});
+
+usersRouter.get("/user-sub-verified/:id", cors(), requireUser, check('id').not().isEmpty().isNumeric().withMessage('Not a valid value').trim().escape(), async (req, res, next) => {
+ const { id } = req.params;
+  let errors = validationResult(req);
+     if (!errors.isEmpty()) {
+   return res.status(400).send({name: 'Validation Error', message: errors.array()[0].msg});
+}else{	
+  try {
+    const checkVerified = await verifyUserSubscriptionStatus(id);
+    res.send({ user: checkVerified });
   } catch (error) {
     console.log("Oops, could not check verification of vendor", error);
   }
 }
 });
+
+
+usersRouter.patch("/updatechannelsub/:id", cors(), requireUser, check('id').not().isEmpty().isNumeric().withMessage('Not a valid value').trim().escape(), async (req, res, next) => {
+  const { id } = req.params;
+  let errors = validationResult(req);
+     if (!errors.isEmpty()) {
+   return res.status(400).send({name: 'Validation Error', message: errors.array()[0].msg});
+}else{	
+   try {
+     const channelsubstatus = await updateChannelSubsStatus(id);
+     res.send({ user: channelsubstatus });
+   } catch (error) {
+     console.log("Oops, could not check verification of vendor", error);
+   }
+}
+ });
 
 
 
