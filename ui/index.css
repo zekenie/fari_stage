@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Frijole&family=Permanent+Marker&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Faster+One&family=Frijole&family=Permanent+Marker&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nosifer&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Bowlby+One+SC&family=Luckiest+Guy&family=Nosifer&family=Rock+Salt&family=Sigmar+One&family=Special+Elite&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+
+body{
+  color: #FDFBF9;
+  height: 100vh;
+  overflow-x: hidden;
+  background-color:hsla(240,80%,9%,1);
+background-image:
+radial-gradient(at 91% 79%, hsla(240,0%,96%,0.2) 0px, transparent 50%),
+radial-gradient(at 0% 0%, hsla(0,0%,96%,0.2) 0px, transparent 50%);
+}
+
+body::-webkit-scrollbar{
+    width: 5px;
+  }
+
+body::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+body::-webkit-scrollbar-thumb {
+  background: #a9a9b0; 
+  border-radius: 5px;
+}
+
+body::-webkit-scrollbar-corner {
+background-color: rgba(0, 0, 0, 0.4);
+}
+
+
+.view{
+  width: auto;
+  height: 100vh;
+  border-radius: 15px;
+  text-align: center;
+}
+
+#logo {
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+}
