@@ -14,14 +14,52 @@ const ddos = limiter({
 const cors = require("cors");
 usersRouter.use(cors());
 
+const profilePosterUpdate = upload.single("channel-poster");
+
+const profileAvatarUpdate = upload.single("avatar");
+
+
+const cors = require("cors");
+usersRouter.use(cors());
+
 const {
   createUser,
   getUser,
   addLocation,
-  addBio,
+  addBio,	
   getUserByUsername,
   getUserByEmail,
   getAllUsers,
+  getAllChannels,
+  getUserChannelByChannelID,
+  getPostByChannelID,
+  getUserChannel,
+  getUserProfile,
+  updateAvatar,
+  updatePosters,
+  updateUploadsPicture,
+  updateCommentsPic,
+  getUserById,
+  createSubs,
+  updateChannelSubs,
+  zeroSubs,
+  getUserSubsLimit,
+  removeChannelSub,
+  removeSubs,
+  myLikes,
+  myDisLikes,
+  getUserStatSubForChannel,
+  getChannelByName,
+  getJustVendors,
+  getLiveChannels,
+  userSearch,
+  getAllUsersUsername,
+  updatePassword,
+  getUsersByUsername,
+  updateVendorSubscription,
+  updateUserSubscription,
+  verifyUserSubscriptionStatus,
+  updateChannelSubsStatus,
 } = require("../db");
 
 usersRouter.get("/", requireUser, async (req, res, next) => {
@@ -204,5 +242,161 @@ usersRouter.post(
     }
   }
 );
+
+
+usersRouter.get("/usernames/:username", check('username').not().isEmpty().trim().escape(), async (req, res, next) => {
+  const { username } = req.params;
+  let errors = validationResult(req);
+     if (!errors.isEmpty()) {
+   return res.status(400).send({name: 'Validation Error', message: errors.array()[0].msg});
+}else{
+  try {
+    const usersName = await getUsersByUsername(username);
+    res.send({
+      users: usersName,
+    });
+  } catch ({ name, message }) {
+    next({ name, message });
+  }
+}	
+
+});
+
+
+usersRouter.get("/myprofile", requireUser, async (req, res, next) => {
+  try {
+    const { username, id } = req.user;
+    const me = await getUserProfile(username);  
+    res.send({ profile: me });
+  } catch (error) {
+    console.log("Could not get user channel", error);
+  }
+ 
+});
+
+
+usersRouter.patch('/addbio/:id', requireUser, check('bio').trim().escape(), check('id').not().isEmpty().isNumeric().withMessage('Not a valid value').trim().escape(), async(req, res, next) => {
+const { id } = req.params;
+const bio = req.body.bio; 	
+let errors = validationResult(req);
+     if (!errors.isEmpty()) {
+   return res.status(400).send({name: 'Validation Error', message: errors.array()[0].msg});
+}else{
+  try {
+    const data = {
+    bio: bio,
+    };
+    const biography = await addBio(id, data);
+    res.send({ user: biography});
+  } catch(error) {
+    console.log(error)
+  next({ name: "ErrorSettiingBio", message: "Could not add biography" });
+  }
+}
+
+
+})
+
+usersRouter.patch('/addlocation/:id', requireUser, check('location').trim().escape(), check('id').not().isEmpty().isNumeric().withMessage('Not a valid value').trim().escape(), async(req, res, next) => {
+const { id } = req.params;
+const location = req.body.location; 	
+let errors = validationResult(req);
+     if (!errors.isEmpty()) {
+   return res.status(400).send({name: 'Validation Error', message: errors.array()[0].msg});
+}else{
+  try {
+    const data = {
+    location: location,
+    };
+    const userLocation = await addLocation(id, data);
+    res.send({ user: userLocation});
+  } catch(error) {
+    console.log(error)
+  next({ name: "ErrorSettiingLocation", message: "Could not add location" });
+  }
+}
+
+})
+
+
+
+
+
+usersRouter.get(
+  "/myprofile/channel/:username",
+  requireUser,
+   check('username').not().isEmpty().trim().escape(),	
+  async (req, res, next) => {
+  let errors = validationResult(req);
+     if (!errors.isEmpty()) {
+   return res.status(400).send({name: 'Validation Error', message: errors.array()[0].msg});
+}else{	  
+    try {
+      const { username } = req.params;
+      const channel = await getUserChannel(username);
+      res.send({ profile: channel });
+    } catch (error) {
+      console.log("Could not get user channel");
+    }
+}
+  }
+);
+
+usersRouter.get(
+  "/myprofile/channel-post/:channelid",
+  requireUser,
+  check('channelid').not().isEmpty().isNumeric().withMessage('Not a valid value').trim().escape(),	
+  async (req, res, next) => {
+      const { username } = req.user;
+      const { channelid } = req.params;
+  let errors = validationResult(req);
+     if (!errors.isEmpty()) {
+   return res.status(400).send({name: 'Validation Error', message: errors.array()[0].msg});
+}else{	  
+    try {
+      const uploads = await getPostByChannelID(channelid);
+      res.send({ channelUploads: uploads });
+    } catch (error) {
+      console.log("Could not get user post");
+    }
+}
+  }
+);
+
+
+usersRouter.get("/user-subscriptions/:userid", requireUser, check('userid').not().isEmpty().isNumeric().withMessage('Not a valid value').trim().escape(),  async (req, res, next) => {
+  const { userid } = req.params;
+  let errors = validationResult(req);
+ if (!errors.isEmpty()) {
+  return res.status(400).send({name: 'Validation Error', message: errors.array()[0].msg});
+}else{ 
+  try {
+    const userSubs = await getUserSubs(userid);
+    res.send({ mysubscriptions: userSubs});
+  } catch(error){
+      next({ name: "ErrorGettingUserSubs", message: "Could not get subscriptions" });
+  }
+}
+});
+
+
+usersRouter.get("/vendor-verification/:vendorid", cors(), requireUser, check('vendorid').not().isEmpty().isNumeric().withMessage('Not a valid value').trim().escape(), async (req, res, next) => {
+ const { vendorid } = req.params;
+ let errors = validationResult(req);  
+ if (!errors.isEmpty()) {
+    return res.status(400).send({name: 'Validation Error', message: errors.array()[0].msg});
+}else{ 
+  try {
+    const checkVerified = await verifiedVendors(vendorid);
+    res.send({ vendor: checkVerified });
+  } catch (error) {
+    console.log("Oops, could not check verification of vendor", error);
+  }
+}
+});
+
+
+
+
 
 module.exports = usersRouter;
