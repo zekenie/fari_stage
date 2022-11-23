@@ -46,7 +46,7 @@ async function createTables() {
     console.log("Starting to build tables...");
 
     await client.query(`
-         CREATE TABLE Users (
+  CREATE TABLE Users (
                id SERIAL PRIMARY KEY UNIQUE,
                Username varchar(255) UNIQUE NOT NULL,
                Email TEXT NOT NULL,
@@ -58,10 +58,10 @@ async function createTables() {
                subscribed_vendor_acct BOOLEAN DEFAULT FALSE,
                subscribed_user_acct BOOLEAN DEFAULT FALSE,
                UNIQUE(Username, Email)
-             );
+  );
           
     
-           CREATE TABLE User_Channel(
+CREATE TABLE User_Channel(
             id SERIAL PRIMARY KEY UNIQUE,
             userID INT UNIQUE,
             FOREIGN KEY(userID) REFERENCES Users(id) ON DELETE CASCADE,
@@ -75,7 +75,7 @@ async function createTables() {
             vendoractive BOOLEAN DEFAULT FALSE,
             channel_earnings decimal(6,2) NULL,
             UNIQUE(channelName, userID)
-          );
+);
 
 
 CREATE TABLE channel_messages(
