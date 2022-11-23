@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const usersRouter = express.Router();
+const { JWT_SECRET, JWT_SECRET_RESET } = process.env;
 const jwt = require("jsonwebtoken");
 const { requireUser } = require("./utils");
 const path = require("path");
@@ -321,7 +322,7 @@ usersRouter.post(
               id: user.id,
               username,
             },
-            process.env.JWT_SECRET
+            JWT_SECRET
           );
 
           res.send({
@@ -366,7 +367,7 @@ usersRouter.post(
       try {
         const user = await getUser({ username, password });
         if (user) {
-          const token = jwt.sign(user, process.env.JWT_SECRET);
+          const token = jwt.sign(user, JWT_SECRET);
           next({
             success: "SuccsessfulLogin",
             message: "Welcome to Fari!",
@@ -822,7 +823,7 @@ usersRouter.get("/password-reset/:id/:token", async (req, res, next) => {
   const { id, token } = req.params;
   try {
     const _user2 = await getUserById(id);
-    const payload = jwt.verify(token, process.env.JWT_SECRET_RESET);
+    const payload = jwt.verify(token, JWT_SECRET_RESET);
     res.set(
       "Content-Security-Policy",
       "default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'"
