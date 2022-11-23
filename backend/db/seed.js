@@ -7,11 +7,27 @@ async function dropTables() {
     console.log("Starting to drop tables...");
 
     await client.query(`
+         DROP TABLE IF EXISTS chat_messages;
+         DROP TABLE IF EXISTS chat_conversations;
+
+         DROP TABLE IF EXISTS customer_market_orders;
+         DROP TABLE IF EXISTS customer_movie_orders;
          DROP TABLE IF EXISTS customer_orders;
          DROP TABLE IF EXISTS vendor_products;
          DROP TABLE IF EXISTS vendors;
+
+         
+         DROP TABLE IF EXISTS user_favorites;
+         DROP TABLE IF EXISTS user_watchlist;
+         DROP TABLE IF EXISTS user_subscriptions;
+         DROP TABLE IF EXISTS user_watch_history;
+         DROP TABLE IF EXISTS user_video_likes;
+         DROP TABLE IF EXISTS user_video_dislikes;
+         
          DROP TABLE IF EXISTS upload_comments;
          DROP TABLE IF EXISTS channel_uploads;
+
+         DROP TABLE IF EXISTS upload_copyright_reports;
          DROP TABLE IF EXISTS channel_messages;
          DROP TABLE IF EXISTS user_channel;
          DROP TABLE IF EXISTS users;
@@ -57,6 +73,7 @@ async function createTables() {
             constraint Subscriber_Count_nonnegative check (Subscriber_Count >= 0),
             user_islive BOOLEAN DEFAULT FALSE,
             vendoractive BOOLEAN DEFAULT FALSE,
+            channel_earnings decimal(6,2) NULL,
             UNIQUE(channelName, userID)
           );
 
@@ -104,7 +121,8 @@ CREATE TABLE channel_uploads (
   vendor_email varchar(255),
   stipe_acctid TEXT NULL,
   flagged_content BOOLEAN DEFAULT FALSE,
-  flag_reason varchar(255) NULL
+  flag_reason varchar(255) NULL,
+  vendoractive BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE upload_comments (
@@ -276,7 +294,7 @@ favedDT DATE DEFAULT CURRENT_DATE NOT NULL
 
 );
 
-CREATE TABLE user_watchlater (
+CREATE TABLE user_watchlist (
 id SERIAL PRIMARY KEY UNIQUE,
 userid INT NOT NULL,
 FOREIGN KEY (userid) REFERENCES users(id) ON DELETE CASCADE,
@@ -295,7 +313,7 @@ paidtoview BOOLEAN DEFAULT FALSE,
 user_started_watching BOOLEAN DEFAULT FALSE,
 first_viewingDT DATE DEFAULT CURRENT_DATE NULL,
 
-watchlatertDT DATE DEFAULT CURRENT_DATE NOT NULL
+watchlaterDT DATE DEFAULT CURRENT_DATE NOT NULL
 );
 
 CREATE TABLE user_subscriptions (
@@ -313,10 +331,14 @@ userid INT NOT NULL,
 FOREIGN KEY (userid) REFERENCES users(id) ON DELETE CASCADE,
 videoid INT NULL,
 FOREIGN KEY (videoid) REFERENCES channel_uploads(id) ON DELETE CASCADE,
-video TEXT NULL,
+channelid INT,
+channelavi TEXT,
+channelname varchar(800),
+videofile TEXT NULL,
 videoviewcount INT NOT NULL,
-thumbnail TEXT NULL,
-title varchar(800) NULL
+videothumbnail TEXT NULL,
+videotitle varchar(800) NULL,
+historydt DATE DEFAULT CURRENT_DATE NOT NULL
 );
 
 CREATE TABLE user_video_likes(
@@ -343,6 +365,174 @@ FOREIGN KEY (videoid) REFERENCES channel_uploads(id)
     console.log("Finished building tables!");
   } catch (error) {
     console.error("Error building tables!");
+    throw error;
+  }
+}
+
+async function createInitialUsers() {
+  try {
+    console.log("Starting to create users...");
+    await createUser({
+      username: "Rashon",
+      email: "rashonwill92@gmail.com",
+      location: "Southern Louisiana",
+      password: "P@ssw0rd!!",
+      confirmpassword: "P@ssw0rd!!",
+    });
+
+    await createUser({
+      username: "CupofJoe",
+      email: "cupofjoe@test.com",
+      location: "New York, NY",
+      password: "P@ssw0rd!!",
+      confirmpassword: "P@ssw0rd!!",
+    });
+
+    console.log("Finished creating users!");
+  } catch (error) {
+    console.error("Error creating users!");
+    throw error;
+  }
+}
+
+async function updateChannelPics() {
+  try {
+    console.log("Starting to update users' channels...");
+
+    await updateChannel({
+      channelname: "Rashon",
+      profile_avatar:
+        "https://faribucket.s3.amazonaws.com/1629464622097_Rashon.png",
+      profile_poster:
+        "https://faribucket.s3.amazonaws.com/1629464622386_Greatness.jpg",
+    });
+
+    await updateChannel({
+      channelname: "CupofJoe",
+      profile_avatar:
+        "https://faribucket.s3.amazonaws.com/1629487258233_Believe%20In%20Yourself.jpg",
+      profile_poster:
+        "https://faribucket.s3.amazonaws.com/1629487258270_Grit.jpg",
+    });
+
+    console.log("Finished updating users' channel!");
+  } catch (error) {
+    console.error("Error updating users' channel!");
+    throw error;
+  }
+}
+
+async function createContent() {
+  try {
+    console.log("Starting to create uploads...");
+    await createUploads({
+      channelID: "2",
+      channelname: "CupofJoe",
+      channelavi:
+        "https://faribucket.s3.amazonaws.com/1629487258233_Believe%20In%20Yourself.jpg",
+      videoFile:
+        "https://faribucket.s3.amazonaws.com/1629426670553_Inside+My+6%2C000+Sqft+House+_+Full+House+Tour.mp4",
+      videoThumbnail:
+        "https://faribucket.s3.amazonaws.com/1629426814648_ricky%20gutierrez.jpeg",
+      videoTitle: "Tour of my 6,000 Sqft Arizona Home",
+      videoDescription: "Ricky Guiterrez shows us a tour of his mansion.",
+      videoTags: "#DayTrading #LifeStyleVlog #RickyGuiterrez",
+    });
+
+    await createUploads({
+      channelID: "2",
+      channelname: "CupofJoe",
+      channelavi:
+        "https://faribucket.s3.amazonaws.com/1629487258233_Believe%20In%20Yourself.jpg",
+      videoFile:
+        "https://faribucket.s3.amazonaws.com/1629474137199_Forex+Bought+Me+a+%242.2+MILLION+Dollar+MANSION%21.mp4",
+      videoThumbnail:
+        "https://faribucket.s3.amazonaws.com/1629474228325_mambafx.jpeg",
+      videoTitle: "Forex got me a Mansion!!",
+      videoDescription: "Tour of my $2.2 Million mansion - MambaFX",
+      videoTags: "#HouseTour #DayTrading #MambaFX",
+    });
+
+    await createUploads({
+      channelID: "2",
+      channelname: "CupofJoe",
+      channelavi:
+        "https://faribucket.s3.amazonaws.com/1629487258233_Believe%20In%20Yourself.jpg",
+      videoFile:
+        "https://faribucket.s3.amazonaws.com/1629426240310_Day+in+the+Life+of+a+Millionaire+Entrepreneur+%2825+Years+Old%29.mp4",
+      videoThumbnail:
+        "https://faribucket.s3.amazonaws.com/1629426334946_Chris%20Williams.jpeg",
+      videoTitle: "Day in the Life of a 25 Year Old Millionaire",
+      videoDescription:
+        "Chris Swaggy C Williams shows us a day in the life of a forex, day trading millionaire.",
+      videoTags:
+        "#Forex #DayTrading #LifeStyleVlog #SwagAcademy #SwaggyC #ChrisWilliams #SwagAcademy",
+    });
+
+    await createUploads({
+      channelID: "1",
+      channelname: "Rashon",
+      channelavi:
+        "https://faribucket.s3.amazonaws.com/1629464622097_Rashon.png",
+      videoFile:
+        "https://faribucket.s3.amazonaws.com/1629424713018_Seventeen+Again+-+Full+Movie.mp4",
+      videoThumbnail:
+        "https://faribucket.s3.amazonaws.com/1629425161859_17Again.jpg",
+      videoTitle: "Seventeen Again",
+      videoDescription:
+        "While divorced and bickering grandparents watch their grandchildren (Tia Mowry, Tamera Mowry), a lab experiment gone awry transforms the elders into teenagers again.",
+      videoTags: "#Movie #TiaMowry #TameraMowry",
+    });
+
+    await createUploads({
+      channelID: "1",
+      channelname: "Rashon",
+      channelavi:
+        "https://faribucket.s3.amazonaws.com/1629464622097_Rashon.png",
+      videoFile:
+        "https://faribucket.s3.amazonaws.com/1629592484528_Building+a+6+Million+Dollar+Home+%26+Changing+My+Forex+Day+Trading+Strategy...+Secure+The+Swag+%28Ep.+5%29.mp4",
+      videoThumbnail:
+        "https://faribucket.s3.amazonaws.com/1629592670554_Swaggy-C-Favorite-Purchase.jpeg",
+      videoTitle:
+        "Building a 6 Million Dollar Home & Changing My Forex Day Trading Strategy.",
+      videoDescription:
+        "Millionaire Forex Trader Swaggy C - Secure the Swag Episode 5",
+      videoTags: "#Forex #DayTrader #Vlog",
+    });
+
+    await createUploads({
+      channelID: "1",
+      channelname: "Rashon",
+      channelavi:
+        "https://faribucket.s3.amazonaws.com/1629464622097_Rashon.png",
+      videoFile:
+        "https://faribucket.s3.amazonaws.com/1630968628118_Making+Of+Aston+Martin+Music.mp4",
+      videoThumbnail:
+        "https://faribucket.s3.amazonaws.com/1630968656762_Justic%20League.jpeg",
+      videoTitle: "The Making of Aston Martin Music - Justice League",
+      videoDescription:
+        "Grammy Award Winning Production team, The J.U.S.T.I.C.E. League, to talk about the latest single off of Teflon Don, 'Aston Martin Music'.",
+      videoTags: "#HipHop #Beats #MusicProduction #Drake #RickRoss",
+    });
+
+    await createUploads({
+      channelID: "2",
+      channelname: "CupofJoe",
+      channelavi:
+        "https://faribucket.s3.amazonaws.com/1629487258233_Believe%20In%20Yourself.jpg",
+      videoFile:
+        "https://faribucket.s3.amazonaws.com/1631373457280_I+Moved+Into+A+Van+-+Van+Life.mp4",
+      videoThumbnail:
+        "https://faribucket.s3.amazonaws.com/1631373636554_Jesse%20.jpeg",
+      videoTitle: "I Moved Into A Van - Van Life",
+      videoDescription:
+        "Jesse decided to get out of Los Angeles and out of his comfort zone.",
+      videoTags: "#Vlogger #VanLife #SimpleLife",
+    });
+
+    console.log("Finished creating Uploads!");
+  } catch (error) {
+    console.error("Error creating Uploads!");
     throw error;
   }
 }

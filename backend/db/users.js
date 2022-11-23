@@ -236,7 +236,6 @@ async function getAllUsers() {
   return rows;
 }
 
-
 async function getAllUsersUsername() {
   const { rows } = await client.query(`
   SELECT users.id AS userid, username, email, users_channel.profile_avatar 
@@ -246,7 +245,6 @@ async function getAllUsersUsername() {
 
   return rows;
 }
-
 
 async function getUsersByUsername(username) {
   const { rows } = await client.query(`
@@ -259,7 +257,6 @@ async function getUsersByUsername(username) {
   return rows;
 }
 
-
 async function userSearch(query) {
   try {
     const { rows } = await client.query(
@@ -267,8 +264,8 @@ async function userSearch(query) {
               SELECT users.id AS userid, username, email
               FROM users
               WHERE username ILIKE N'%${query}%';
-            `,
-    )
+            `
+    );
     return rows;
   } catch (error) {
     throw error;
@@ -276,7 +273,9 @@ async function userSearch(query) {
 }
 
 async function getAllChannels() {
-  const { rows } = await client.query(`SELECT * FROM users_channel order by random() limit 9;`);
+  const { rows } = await client.query(
+    `SELECT * FROM user_channel order by random() limit 9;`
+  );
 
   return rows;
 }
@@ -285,12 +284,13 @@ async function getLiveChannels(userSubed) {
   try {
     const { rows } = await client.query(
       `
-  SELECT *, users_channel.id AS channelid
-  FROM users_channel
-  RIGHT JOIN user_subscriptions ON users_channel.id = user_subscriptions.channelid
-  WHERE users_channel.user_islive='true' AND user_subscriptions.userSubed=$1
+  SELECT *, user_channel.id AS channelid
+  FROM user_channel
+  RIGHT JOIN user_subscriptions ON user_channel.id = user_subscriptions.channelid
+  WHERE user_channel.user_islive='true' AND user_subscriptions.userid=$1
   order by random() limit 9;
-  `,[userSubed]
+  `,
+      [userSubed]
     );
 
     return rows;
@@ -299,15 +299,14 @@ async function getLiveChannels(userSubed) {
   }
 }
 
-
 async function getUserChannelByChannelID(channelid) {
   try {
     const { rows } = await client.query(
       `
-  SELECT *, users_channel.id AS channelid, users.location, users.bio
-  FROM users_channel
-  RIGHT JOIN users ON users_channel.channelname = users.username
-  WHERE users_channel.id=$1;
+  SELECT *, user_channel.id AS channelid, users.location, users.bio
+  FROM user_channel
+  RIGHT JOIN users ON user_channel.channelname = users.username
+  WHERE user_channel.id=$1;
   `,
       [channelid]
     );
@@ -318,14 +317,13 @@ async function getUserChannelByChannelID(channelid) {
   }
 }
 
-
 async function getUserChannel(username) {
   try {
     const { rows } = await client.query(
       `
-  SELECT *, users_channel.id AS channelid
+  SELECT *, user_channel.id AS channelid
   FROM users
-  RIGHT JOIN Users_Channel ON users.username = users_channel.channelname
+  RIGHT JOIN user_channel ON users.username = user_channel.channelname
   WHERE username=$1;
   `,
       [username]
@@ -341,11 +339,11 @@ async function getUserProfile(username) {
   try {
     const { rows } = await client.query(
       `
-  SELECT DISTINCT users.id AS userID, users.username, users.email, users_channel.channelname, users_channel.profile_avatar, users_channel.id AS channelid, users_channel.user_islive,
+  SELECT DISTINCT users.id AS userID, users.username, users.email, user_channel.channelname, user_channel.profile_avatar, user_channel.id AS channelid, user_channel.user_islive,
   vendors.id AS vendorID, vendors.vendor_name, vendors.stripe_acctid
   FROM users
-  RIGHT JOIN users_channel ON users.username = users_channel.channelname
-  RIGHT JOIN vendors ON users.username = vendors.vendor_name
+  RIGHT JOIN user_channel ON users.username = user_channel.channelname
+  RIGHT JOIN vendors ON users.username = vendors.vendorname
   WHERE username=$1;
   `,
       [username]
@@ -361,9 +359,9 @@ async function getPostByChannelID(id) {
   try {
     const { rows } = await client.query(
       `
-  SELECT *, useruploads.id AS videoID
-  FROM useruploads 
-  RIGHT JOIN Users_Channel ON useruploads.channelid = users_channel.id
+  SELECT *, channel_uploads.id AS videoID
+  FROM channel_uploads 
+  RIGHT JOIN User_Channel ON channel_uploads.channelid = user_channel.id
   WHERE channelid=$1;
   `,
       [id]
@@ -376,18 +374,18 @@ async function getPostByChannelID(id) {
 }
 
 async function updateAvatar(channelname, photos) {
-  const { profile_avatar} = photos;
+  const { profile_avatar } = photos;
   try {
     const { rows } = await client.query(
       `
-              UPDATE users_channel
+              UPDATE user_channel
               SET profile_avatar=$2
               WHERE channelname=$1
               RETURNING *;
             `,
       [channelname, profile_avatar]
     );
-    
+
     return rows;
   } catch (error) {
     throw error;
@@ -399,33 +397,34 @@ async function updatePosters(channelname, photos) {
   try {
     const { rows } = await client.query(
       `
-              UPDATE users_channel
-              SET slider_pic1=$2
+              UPDATE user_channel
+              SET profile_poster=$2
               WHERE channelname=$1
               RETURNING *;
             `,
       [channelname, slider_pic1]
     );
-    
+
     return rows;
   } catch (error) {
     throw error;
   }
 }
 
-
 async function updateChannelSubs(channelname) {
   try {
-    const { rows: [channel], } = await client.query(
+    const {
+      rows: [channel],
+    } = await client.query(
       `
-              UPDATE users_channel
+              UPDATE user_channel
               SET subscriber_count = subscriber_count + 1
               WHERE channelname=$1
               RETURNING *;
             `,
       [channelname]
     );
-    
+
     return channel;
   } catch (error) {
     throw error;
@@ -434,16 +433,18 @@ async function updateChannelSubs(channelname) {
 
 async function removeChannelSub(channelname) {
   try {
-    const { rows: [channel], } = await client.query(
+    const {
+      rows: [channel],
+    } = await client.query(
       `
-              UPDATE users_channel
+              UPDATE user_channel
               SET subscriber_count = subscriber_count - 1
               WHERE channelname=$1
               RETURNING *;
             `,
       [channelname]
     );
-    
+
     return channel;
   } catch (error) {
     throw error;
@@ -454,26 +455,26 @@ async function zeroSubs() {
   try {
     const { rows } = await client.query(
       `
-              UPDATE users_channel
+              UPDATE user_channel
               SET subscriber_count = 0
               RETURNING *;
-            `,
+            `
     );
-    
+
     return rows;
   } catch (error) {
     throw error;
   }
 }
 
-async function getChannelByName(channelName){
+async function getChannelByName(channelName) {
   try {
     const {
       rows: [channels],
     } = await client.query(
       `
-  SELECT *, users_channel.id AS channelid
-  FROM users_channel
+  SELECT *, user_channel.id AS channelid
+  FROM user_channel
   WHERE channelName=$1;
   `,
       [channelName]
@@ -485,112 +486,115 @@ async function getChannelByName(channelName){
   }
 }
 
-async function goLive(id){
-    try {
-    const { rows: [channel], } = await client.query(
+async function goLive(id) {
+  try {
+    const {
+      rows: [channel],
+    } = await client.query(
       `
-              UPDATE users_channel
+              UPDATE user_channel
               SET user_isLive='true'
               WHERE id=$1
               RETURNING *;
-            `,[id]
+            `,
+      [id]
     );
-    
+
     return channel;
   } catch (error) {
     throw error;
   }
-  
 }
 
-async function endLive(id){
-    try {
-    const { rows: [channel], } = await client.query(
+async function endLive(id) {
+  try {
+    const {
+      rows: [channel],
+    } = await client.query(
       `
-              UPDATE users_channel
+              UPDATE user_channel
               SET user_isLive='false'
               WHERE id=$1
               RETURNING *;
-            `,[id]
+            `,
+      [id]
     );
-    
+
     return channel;
   } catch (error) {
     throw error;
   }
-  
 }
 
-async function updateUserSubscription(id){
-try {
-    const { rows } = await client.query(
-      `
-              UPDATE users
-              SET fariuser_subed='true'
-              WHERE id=$1
-              RETURNING *;
-            `,[id]
-    )
-    return rows;
-  } catch (error) {
-    throw error;
-  }
-
-}
-
-async function updateChannelSubsStatus(id){
+async function updateUserSubscription(id) {
   try {
     const { rows } = await client.query(
       `
-              UPDATE users_channel
+              UPDATE users
+              SET subscribed_user_acct='true'
+              WHERE id=$1
+              RETURNING *;
+            `,
+      [id]
+    );
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function updateChannelSubsStatus(id) {
+  try {
+    const { rows } = await client.query(
+      `
+              UPDATE user_channel
               SET vendoractive='true'
               WHERE id=$1
               RETURNING *;
-            `,[id]
-    )
+            `,
+      [id]
+    );
     return rows;
   } catch (error) {
     throw error;
   }
 }
 
-async function updateVendorSubscription(id){
-try {
+async function updateVendorSubscription(id) {
+  try {
     const { rows } = await client.query(
       `
               UPDATE users
-              SET farivendor_subed='true'
+              SET subscribed_vendor_acct='true'
               WHERE id=$1
               RETURNING *;
-            `,[id]
-    )
+            `,
+      [id]
+    );
     return rows;
   } catch (error) {
     throw error;
   }
-
 }
 
-async function verifyUserSubscriptionStatus(id){
-try {
+async function verifyUserSubscriptionStatus(id) {
+  try {
     const { rows } = await client.query(
       `
               SELECT * FROM users
               WHERE id=$1;
-            `,[id]
-    )
+            `,
+      [id]
+    );
     return rows;
   } catch (error) {
     throw error;
   }
-
 }
- 
 
 //Inactive Vendor
 
-
-// UPDATE vendors 
+// UPDATE vendors
 // SET registered = 'false'
 // WHERE id = $1
 
@@ -605,11 +609,10 @@ try {
 // UPDATE usersuploads
 // SET paid_content = 'free',
 // WHERE id=$1
-   
+
 //    UPDATE users
 //    SET farivendor_subed='false'
 //    WHERE id=$1
-
 
 module.exports = {
   client,
