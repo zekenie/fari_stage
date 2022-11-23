@@ -322,9 +322,8 @@ usersRouter.post(
               id: user.id,
               username,
             },
-            JWT_SECRET
+            process.env.JWT_SECRET
           );
-          console.log(JWT_SECRET);
 
           res.send({
             success: "SuccessfulRegistration",
@@ -368,7 +367,7 @@ usersRouter.post(
       try {
         const user = await getUser({ username, password });
         if (user) {
-          const token = jwt.sign(user, JWT_SECRET);
+          const token = jwt.sign(user, process.env.JWT_SECRET);
           next({
             success: "SuccsessfulLogin",
             message: "Welcome to Fari!",
