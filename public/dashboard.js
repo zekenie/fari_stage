@@ -1,4 +1,4 @@
-const FARI_API = "https://fari-testapi.herokuapp.com/api";
+const FARI_API = "https://fari-stage.herokuapp.com/api";
 const myToken = localStorage.getItem("fariToken");
 
 (function () {
