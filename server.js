@@ -21,7 +21,7 @@ const httpServer = http.createServer(server);
 const { setupMaster, setupWorker } = require("@socket.io/sticky");
 const { createAdapter, setupPrimary } = require("@socket.io/cluster-adapter");
 
-server.use(express.static("ui", { extensions: ["html"] }));
+server.use(express.static("public", { extensions: ["html"] }));
 server.use(express.urlencoded({ extended: false, limit: "1kb" }));
 server.use(express.json({ limit: "100mb" }));
 

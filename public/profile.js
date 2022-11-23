@@ -5,7 +5,7 @@ const myToken = localStorage.getItem("fariToken");
 (function () {
   $("#videos").addClass("selected");
   if (!myToken || myToken === null) {
-    window.location.href = "/login";
+    window.location.href = "/login.html";
   }
 })();
 
@@ -32,7 +32,7 @@ $(".btn-board").click(function () {
 
 $("#logout").click(function () {
   localStorage.clear();
-  window.location.href = "index";
+  window.location.href = "index.html";
 });
 
 $(".bio .fa-pen").click(function () {
@@ -185,7 +185,7 @@ $("#analytics").click(() => {
 
 $("#logout").click(function () {
   localStorage.clear();
-  window.location.href = "login";
+  window.location.href = "login.html";
 });
 
 //Defaults
@@ -201,7 +201,7 @@ async function getUserProfile() {
     });
     const data = await response.json();
     if (data.profile.length === 0) {
-      window.location.href = "/login";
+      window.location.href = "/login.html";
     }
     return data.profile;
   } catch (error) {
@@ -338,7 +338,7 @@ function renderPost(channelUploads) {
                   </div>
                 </div>
                 <div class="card-mid">
-                  <a href="/theater" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
+                  <a href="/theater.html" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
                 </div>
                 <div class="card-bottom">
                   <h6>${unesTitle}</h6>
@@ -497,7 +497,7 @@ function rendersubChannels(mysubscriptions) {
            ? mysubscriptions.channel_avi
            : "https://drotje36jteo8.cloudfront.net/noAvi.png"
        }" alt="avatar" />
-        <h5 id="channelID"><a href="/channel-profile">${unesChannel}</a></h5>
+        <h5 id="channelID"><a href="/channel.html">${unesChannel}</a></h5>
     </div>
     
    `).data("mysubscriptions", mysubscriptions);
@@ -1274,7 +1274,7 @@ async function renderMessages(notes) {
   let note = $(`
 <div class="note">
 <div class="channel-avi">
-<a href="/channel-profile"><img loading="lazy" src="${notes.senderpic}" alt="sender pic" /></a>
+<a href="/channel.html"><img loading="lazy" src="${notes.senderpic}" alt="sender pic" /></a>
 <h3 id="channel"><a href="#">${unesChannel}</a></h3>
 </div>
 <h4>${unesMessage}</h4>

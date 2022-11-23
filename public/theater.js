@@ -10,7 +10,7 @@ let commentFlag = false;
   $("#info").addClass("selected");
   $("#discover").addClass("selected");
   if (!myToken || myToken === null) {
-    window.location.href = "/login";
+    window.location.href = "/login.html";
   }
   setTimeout(function () {
     updateViews();
@@ -103,7 +103,7 @@ async function getUserProfile() {
     });
     const data = await response.json();
     if (data.profile.length === 0) {
-      window.location.href = "/login";
+      window.location.href = "/login.html";
     }
     return data.profile;
   } catch (error) {
@@ -123,7 +123,7 @@ async function playVideo() {
     });
     const data = await response.json();
     if (data.video.length === 0) {
-      window.location.href = "/explorer";
+      window.location.href = "/explorer.html";
     }
     return data.video;
   } catch (error) {
@@ -356,7 +356,7 @@ function renderVideoInfo(video) {
                   ? video.profile_avatar
                   : "https://drotje36jteo8.cloudfront.net/noAvi.png"
               }" alt="avatar"/>
-                <h3><a href="/channel-profile" style="color:#fdfbf9; text-decoration:none;">${
+                <h3><a href="/channel.html" style="color:#fdfbf9; text-decoration:none;">${
                   video.channelname
                 }</a></h3>
               </div>
@@ -445,7 +445,7 @@ function renderVideoInfo(video) {
                   ? video.profile_avatar
                   : "https://drotje36jteo8.cloudfront.net/noAvi.png"
               }" alt="avatar"/>
-                <h3><a href="/channel-profile" style="color:#fdfbf9; text-decoration:none;">${
+                <h3><a href="/channel.html" style="color:#fdfbf9; text-decoration:none;">${
                   video.channelname
                 }</a></h3>
               </div>
@@ -690,10 +690,10 @@ function renderRecomVideos(uploads) {
             <div class="upload">
               <video poster="${uploads.videothumbnail}" src ="${uploads.videofile}" preload="none"></video>
               <div class="upload-overlay">
-                <a href="/theater" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
+                <a href="/theater.html" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
               </div>
               <div class="upload-info">
-                  <h6><a href="/channel-profile" style="color:#a9a9b0; text-decoration:none;" aria-label="View user channel">${unesChannel}</a><h6>
+                  <h6><a href="/channel.html" style="color:#a9a9b0; text-decoration:none;" aria-label="View user channel">${unesChannel}</a><h6>
                 <h5>${unesTitle}</h5>
               </div>
             </div>
@@ -723,7 +723,7 @@ function renderRecomVideos(uploads) {
         },
       });
       const data = await response.json();
-      window.location.href = "/theater";
+      window.location.href = "/theater.html";
     } catch (error) {
       response.status(400).send(error);
     }
@@ -771,10 +771,10 @@ async function renderFavVideos(myFavVids) {
             <div class="upload">
               <video poster="${myFavVids.thumbnail}" src ="${myFavVids.video}" preload="none"></video>
               <div class="upload-overlay">
-                <a href="/theater" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
+                <a href="/theater.html" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
               </div>
               <div class="upload-info">
-                  <h6><a href="/channel-profile" style="color:#a9a9b0; text-decoration:none;" aria-label="View user channel">${unesChannel}</a><h6>
+                  <h6><a href="/channel.html" style="color:#a9a9b0; text-decoration:none;" aria-label="View user channel">${unesChannel}</a><h6>
                 <h5>${unesTitle}</h5>
               </div>
             </div>
@@ -804,7 +804,7 @@ async function renderFavVideos(myFavVids) {
         },
       });
       const data = await response.json();
-      window.location.href = "/theater";
+      window.location.href = "/theater.html";
     } catch (error) {
       response.status(400).send(error);
     }
@@ -855,10 +855,10 @@ async function renderLaterVideos(myWatchList) {
             <div class="upload">
               <video poster="${myWatchList.thumbnail}" src ="${myWatchList.video}" preload="none"></video>
               <div class="upload-overlay">
-                <a href="/theater" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
+                <a href="/theater.html" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
               </div>
               <div class="upload-info">
-                  <h6><a href="/channel-profile" style="color:#a9a9b0; text-decoration:none;" aria-label="View user channel">${unesChannel}</a><h6>
+                  <h6><a href="/channel.html" style="color:#a9a9b0; text-decoration:none;" aria-label="View user channel">${unesChannel}</a><h6>
                 <h5>${unesTitle}</h5>
               </div>
             </div>
@@ -888,7 +888,7 @@ async function renderLaterVideos(myWatchList) {
         },
       });
       const data = await response.json();
-      window.location.href = "/theater";
+      window.location.href = "/theater.html";
     } catch (error) {
       response.status(400).send(error);
     }
@@ -996,7 +996,7 @@ function renderCommentSection(comments, index) {
                   : "https://drotje36jteo8.cloudfront.net/noAvi.png"
               }" alt="avatar"/>
                 <div class="commenter-info">
-                  <h5 class="user"><a href="/channel-profile" style="color:#a9a9b0; text-decoration:none;">${
+                  <h5 class="user"><a href="/channel.html" style="color:#a9a9b0; text-decoration:none;">${
                     comments.commentorname
                   }</a></h5>
               <p id="user-comment">${unesComment}</p>
@@ -1138,7 +1138,7 @@ function renderCommentSection(comments, index) {
                   : "https://drotje36jteo8.cloudfront.net/noAvi.png"
               }" alt="avatar"/>
                 <div class="commenter-info">
-                  <h5 class="user"><a href="/channel-profile" style="color:#a9a9b0; text-decoration:none;">${
+                  <h5 class="user"><a href="/channel.html" style="color:#a9a9b0; text-decoration:none;">${
                     comments.commentorname
                   }</a></h5>
               <h4>${unesComment}</h4>
@@ -1533,11 +1533,11 @@ function renderSearchedContent(videos) {
             <div class="upload">
               <video ${videos.videothumbnail}" src ="${videos.videofile}" preload="none"></video>
               <div class="upload-overlay">
-                <a href="/theater"><i class="fa-solid fa-play"></i></a>
+                <a href="/theater.html"><i class="fa-solid fa-play"></i></a>
               </div>
               <div class="upload-info">
-                <a href="/channel-profile">
-                  <h6><a href="/channel-profile" style="color:#fdfbf9; text-decoration:none;">${unesChannel}</a><h6>
+                <a href="/channel.html">
+                  <h6><a href="/channel.html" style="color:#fdfbf9; text-decoration:none;">${unesChannel}</a><h6>
                 </a>
                 <h5>${unesTitle}</h5>
               </div>
