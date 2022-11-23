@@ -1,11 +1,8 @@
+require("dotenv").config();
+
 const express = require("express");
 const explorerRouter = express.Router();
-const jwt = require("jsonwebtoken");
-const { JWT_SECRET, REDIS_URL } = process.env;
 const { requireUser } = require("./utils");
-
-const { STRIPE_SECRET } = process.env;
-const { STRIPE_BUSINESS_SECRET } = process.env;
 const stripe = require("stripe")(process.env.STRIPE_SECRET);
 const stripe2 = require("stripe")(process.env.STRIPE_BUSINESS_SECRET);
 const bodyParser = require("body-parser");
