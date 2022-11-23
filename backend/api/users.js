@@ -324,6 +324,7 @@ usersRouter.post(
             },
             JWT_SECRET
           );
+          console.log(JWT_SECRET);
 
           res.send({
             success: "SuccessfulRegistration",
