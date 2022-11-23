@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Fari | Profile</title>
+    <link rel="preload stylesheet" as="style" href="profile.css" />
+    <link
+      rel="preload stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/public/images/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/public/images/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/public/images/favicon-16x16.png"
+    />
+    <link rel="manifest" href="/public/images/site.webmanifest" />
+    <script
+      defer
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+    ></script>
+    <script
+      defer
+      src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.13.4/underscore-min.js"
+      integrity="sha512-uLKRd6hCNYAENFn2h7w0p5hrUAz21bAu/85eqSqmQ1Y565lFInwRga9Lgk+QAAR9QvNfSlZjnEb+HHfzkAC/8Q=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script defer src="profile.js"></script>
+  </head>
+
+  <header>
+    <img id="logo" src="/public/images/Logo%20Black.png" alt="Fari-Logo" />
+    <i class="fa-solid fa-bars" id="main-view-bars"></i>
+  </header>
+
+  <body>
+    <div class="nav">
+      <i class="fa-solid fa-x" id="main-view-x"></i>
+
+      <ul>
+        <li><a href="/explorer">Explorer</a></li>
+        <li><a href="/Dashboard">Dashboard</a></li>
+      </ul>
+
+      <div class="lite-text">
+        <h1>FARI.</h1>
+      </div>
+      <h5 id="logout">Logout</h5>
+    </div>
+
+    <div class="content-container">
+      <div class="left-pane">
+        <div class="user-info-card"></div>
+        <div class="channel-links">
+          <h4>Menu</h4>
+          <div class="menu">
+            <ul class="content-sort">
+              <li id="videos"><i class="fa-solid fa-play"></i>Videos</li>
+              <li id="analytics">
+                <i class="fa-solid fa-chart-pie"></i>Analytics
+              </li>
+              <li id="settings"><i class="fa-solid fa-gear"></i>Settings</li>
+              <li id="upload">
+                <i class="fa-solid fa-cloud-arrow-up"></i>New Upload
+              </li>
+              <!--             <li id="logout"><i class="fa-solid fa-right-from-bracket"></i>Logout</li> -->
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="main-content">
+        <div class="screen user-uploads">
+          <div
+            class="noUploads"
+            style="
+              color: #dddddd;
+              font-size: 18px;
+              text-align: center;
+              margin: 12rem auto;
+              font-family: 'Teko';
+            "
+          >
+            No uploads yet.
+          </div>
+        </div>
+        <div class="screen settings">
+          <div class="user-about">
+            <div class="about location">
+              <span
+                class="textarea"
+                contenteditable="false"
+                role="textbox"
+                id="location"
+                name="title"
+              ></span
+              ><i class="fa-solid fa-pen"></i>
+            </div>
+            <div class="about bio">
+              <span
+                class="textarea"
+                contenteditable="false"
+                role="textbox"
+                id="bio"
+                name="title"
+              ></span
+              ><i class="fa-solid fa-pen"></i>
+            </div>
+          </div>
+          <form
+            class="card avatar-upload"
+            enctype="multipart/form-data"
+            id="profileAviUpdate"
+          >
+            <h3>Profile Avatar</h3>
+            <img
+              src="https://img.icons8.com/ios-filled/50/000000/upload-to-cloud--v1.png"
+              alt="avatar"
+              class="avatar-preview"
+              id="avatar-photo"
+            />
+            <button class="upload-btn">
+              <input
+                type="file"
+                id="avatar"
+                name="avatar"
+                accept=".jpeg, .png, .jpg, .gif"
+                onchange="showPreviewAvi(event);"
+                required
+                name="avatar"
+              />
+              <h4>Select Avatar</h4>
+            </button>
+            <button class="upload-btn" id="submitAvatar">
+              <h4>Upload Avatar</h4>
+            </button>
+          </form>
+
+          <form
+            class="card poster-upload"
+            enctype="multipart/form-data"
+            id="profilePosterUpdate"
+          >
+            <h3>Profile Poster</h3>
+            <img
+              src="https://img.icons8.com/ios-filled/50/000000/upload-to-cloud--v1.png"
+              alt="poster"
+              class="poster-preview"
+              id="poster-photo"
+            />
+            <button class="upload-btn">
+              <input
+                type="file"
+                id="channel-poster"
+                name="channel-poster"
+                accept=".jpeg, .png, .jpg, .gif"
+                onchange="showPreviewPoster(event);"
+                required
+                name="poster"
+              />
+              <h4>Select Poster</h4>
+            </button>
+            <button class="upload-btn" id="submitPoster">
+              <h4>Upload Poster</h4>
+            </button>
+          </form>
+        </div>
+        <div class="screen subscriptions"></div>
+        <div class="screen analytics">
+          <div class="dashboard">
+            <h1>Channel Overview</h1>
+            <div class="mainViews">
+              <div class="card totalViews"></div>
+              <div class="card totalEarnings"></div>
+            </div>
+            <div class="miniViews">
+              <div class="card likes"></div>
+              <div class="card dislikes"></div>
+              <div class="card comments"></div>
+              <div class="card subscribers-analytics"></div>
+              <div class="card productsSolds"></div>
+            </div>
+          </div>
+
+          <div class="dashboard">
+            <h1>Videos/Marketplace Earnings</h1>
+            <div class="graphs">
+              <div class="videos">
+                <div class="graph">
+                  <h2>Movies/Films</h2>
+                  <div
+                    class="noData Rentals"
+                    style="
+                      color: #dddddd;
+                      text-align: center;
+                      font-family: 'Teko';
+                      font-size: 15px;
+                      margin: 8rem auto;
+                      font-weight: 700;
+                    "
+                  >
+                    No Data
+                  </div>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th scope="col">Product</th>
+                        <th></th>
+                        <th scope="col">#Sold</th>
+                        <th scope="col">Earnings</th>
+                        <th></th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="shop">
+                <div class="graph">
+                  <h2>Merchandise</h2>
+                  <div
+                    class="noData Marketplace"
+                    style="
+                      color: #dddddd;
+                      text-align: center;
+                      font-family: 'Teko';
+                      font-size: 15px;
+                      margin: 8rem auto;
+                      font-weight: 700;
+                    "
+                  >
+                    No Data
+                  </div>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th scope="col">Product</th>
+                        <th></th>
+                        <th scope="col">#Sold</th>
+                        <th scope="col">Earnings</th>
+                        <th></th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="screen newUpload">
+          <form
+            class="upload-page"
+            enctype="multipart/form-data"
+            id="newUpload"
+          >
+            <div class="user-input">
+              <div class="video-info">
+                <span
+                  class="textarea"
+                  contenteditable
+                  role="textbox"
+                  id="title"
+                  name="title"
+                ></span>
+                <span
+                  class="textarea"
+                  contenteditable
+                  role="textbox"
+                  id="description"
+                  name="description"
+                ></span>
+                <span
+                  class="textarea"
+                  contenteditable
+                  role="textbox"
+                  id="tags"
+                  name="tags"
+                ></span>
+              </div>
+              <div class="categories">
+                <h2>Upload Category</h2>
+                <div class="content-type">
+                  <input
+                    type="radio"
+                    name="content_type"
+                    value="film"
+                    id="film"
+                  />
+                  <label>Movie/Film</label>
+                  <br />
+                  <input
+                    type="radio"
+                    name="content_type"
+                    value="shows"
+                    id="shows"
+                  />
+                  <label>Show/Webseries</label>
+                  <br />
+                  <input
+                    type="radio"
+                    name="content_type"
+                    value="vlog"
+                    id="vlog"
+                  />
+                  <label>Vlog</label>
+                  <br />
+                  <input
+                    type="radio"
+                    name="content_type"
+                    value="other"
+                    id="other"
+                  />
+                  <label>Other</label>
+                </div>
+                <div class="paid-content">
+                  <input
+                    type="radio"
+                    name="paid_content"
+                    value="free"
+                    id="free"
+                  />
+                  <label>Free</label>
+                  <br />
+                  <input
+                    type="radio"
+                    name="paid_content"
+                    value="pay"
+                    id="rent"
+                    disabled
+                  />
+                  <label>Rental</label>
+                  <input
+                    type="number"
+                    step="any"
+                    name="ticketprice"
+                    value="0.00"
+                    placeholder="0.00"
+                    id="rentalprice"
+                  />
+                </div>
+                <div class="message">
+                  <h5
+                    style="
+                      color: #cc3333;
+                      font-family: 'Teko';
+                      width: 25rem;
+                      font-weight: 700;
+                    "
+                  >
+                    For Rentals: Please ensure that you have completed vendor
+                    registration, <br />in the Marketplace, to receive payment
+                    for customer purchases! Thank You.
+                  </h5>
+                </div>
+              </div>
+            </div>
+            <div class="break">
+              <div class="video-files">
+                <div class="card video-upload">
+                  <h3>Upload Video</h3>
+                  <video src="" poster="" id="video-file"></video>
+                  <button class="upload-btn">
+                    <input
+                      type="file"
+                      name="video"
+                      id="vidFile"
+                      accept=".mp4, .avi, .mov, .mpeg-4, .wmv"
+                      required
+                    />
+                    <h4>Select Video</h4>
+                  </button>
+                </div>
+                <div class="card poster-upload">
+                  <h3>Upload Poster</h3>
+                  <video src="" poster="" id="video-poster"></video>
+                  <button class="upload-btn">
+                    <input
+                      type="file"
+                      name="thumbnail"
+                      id="vidPoster"
+                      accept=".jpeg, .png, .jpg"
+                      onchange="setPoster(event);"
+                      required
+                    />
+                    <h4>Select Poster</h4>
+                  </button>
+                </div>
+              </div>
+              <button class="upload-btn" id="upload"><h4>Upload</h4></button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="right-pane">
+        <div class="popular subscribedTo">
+          <h3>Subscriptions</h3>
+          <div class="table">
+            <div
+              class="newUserMessage"
+              style="
+                color: #dddddd;
+                text-align: center;
+                font-family: 'Teko';
+                font-size: 15px;
+                margin: 8rem auto;
+                font-weight: 700;
+              "
+            >
+              You have no Subscriptions
+            </div>
+          </div>
+        </div>
+
+        <div class="popular messages">
+          <h3>Messages</h3>
+          <div class="table"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="loading"><h2>Uploading...</h2></div>
+    <div class="editUpload">
+      <i class="fa-solid fa-xmark"></i>
+      <span
+        class="textarea"
+        contenteditable
+        role="textbox"
+        id="title-edit"
+        name="title"
+      ></span>
+      <span
+        class="textarea"
+        contenteditable
+        role="textbox"
+        id="description-edit"
+        name="description"
+      ></span>
+      <span
+        class="textarea"
+        contenteditable
+        role="textbox"
+        id="tags-edit"
+        name="tags"
+      ></span>
+      <button id="saveEdit">Save</button>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Fari | Login</title>
+    <link rel="preload stylesheet" as="style" href="login.css" />
+    <link
+      rel="preload stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+      integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Fari Login." />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/public/images/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/public/images/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/public/images/favicon-16x16.png"
+    />
+    <link rel="manifest" href="/public/images/site.webmanifest" />
+
+    <script
+      defer
+      src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.13.4/underscore-min.js"
+      integrity="sha512-uLKRd6hCNYAENFn2h7w0p5hrUAz21bAu/85eqSqmQ1Y565lFInwRga9Lgk+QAAR9QvNfSlZjnEb+HHfzkAC/8Q=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      defer
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+    ></script>
+    <script
+      defer
+      src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.3.1/p5.min.js"
+    ></script>
+    <script defer src="login.js"></script>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="left-side">
+        <img
+          src="https://drotje36jteo8.cloudfront.net/1667408386418_Logo Black.png"
+          alt="fari-logo"
+          id="fari-logo"
+        />
+        <!--  <img src="https://faribucket.s3.amazonaws.com/pexels-oziel-g%C3%B3mez-925263.jpg" alt="" />
+      <div class="text">
+        <h1> Welcome to Fari. </h1>
+        <h4>Live. Life. Fari.</h4> 
+      </div>-->
+      </div>
+      <div class="right-side">
+        <div class="icons">
+          <h4>Follow Us:</h4>
+          <ul>
+            <li>
+              <a href="https://twitter.com/letsfari" target="_blank"
+                ><i class="fa-brands fa-twitter"></i
+              ></a>
+            </li>
+            <li>
+              <a href="https://www.instagram.com/letsfari/" target="_blank"
+                ><i class="fa-brands fa-instagram"></i
+              ></a>
+            </li>
+          </ul>
+        </div>
+        <div class="options">
+          <ul>
+            <li id="login">Login</li>
+            <li id="register">Register</li>
+          </ul>
+        </div>
+        <form class="login-form">
+          <div class="icons-img">
+            <input type="text" placeholder="username" id="username" required />
+            <span id="user-icon"><i class="fa-regular fa-user"></i></span>
+          </div>
+
+          <div class="password-toggle">
+            <input
+              type="password"
+              placeholder="password"
+              id="password"
+              required
+            />
+            <span id="toggle-login"></span>
+          </div>
+
+          <div class="messages">
+            <div class="message"></div>
+          </div>
+          <button type="submit" class="btn" id="login-btn">Login</button>
+          <h5 id="password-reset">Forgot Password?</h5>
+        </form>
+
+        <form class="password_reset-form">
+          <div class="icons-img">
+            <input
+              type="email"
+              placeholder="email"
+              id="reset-request"
+              required
+            />
+            <span id="mail-icon"><i class="fa-regular fa-envelope"></i></span>
+          </div>
+          <div class="messages">
+            <div class="message"></div>
+          </div>
+          <button class="btn" type="submit">Submit</button>
+        </form>
+
+        <form class="register-form">
+          <div class="icons-img">
+            <input type="text" placeholder="username" id="reg-user" required />
+            <span id="user-icon"><i class="fa-regular fa-user"></i></span>
+          </div>
+
+          <div class="icons-img">
+            <input type="email" placeholder="email" id="reg-email" required />
+            <span id="mail-icon"><i class="fa-regular fa-envelope"></i></span>
+          </div>
+          <div class="icons-img">
+            <input type="text" placeholder="location" id="reg-location" />
+            <span id="location-icon"
+              ><i class="fa-regular fa-compass"></i
+            ></span>
+          </div>
+
+          <div class="password-toggle">
+            <input
+              type="password"
+              placeholder="password"
+              id="reg-pass"
+              pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,}$"
+              required
+            />
+            <span id="toggle"></span>
+          </div>
+
+          <div class="password-toggle">
+            <input
+              type="password"
+              placeholder="confirm password"
+              id="reg-conpass"
+              pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,}$"
+              required
+            />
+            <span id="toggle2"></span>
+          </div>
+
+          <div class="messages">
+            <div class="message"></div>
+            <ul>
+              <li id="character-length">At least 8 characters</li>
+              <li id="uppercase-letter">At least one uppercase character</li>
+              <li id="lowercase-letter">At least one lowrcase character</li>
+              <li id="one-number">At least one number</li>
+              <li id="special-character">At least one special character</li>
+            </ul>
+          </div>
+
+          <button class="btn" id="reg-btn" type="submit">Register</button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

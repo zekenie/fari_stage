@@ -96,6 +96,15 @@ usersRouter.get("/", requireUser, async (req, res, next) => {
   }
 });
 
+usersRouter.get("/me", requireUser, async (req, res, next) => {		
+  try {	  
+    res.send({user: req.user});
+  } catch (error) {
+    console.error("Hmm, can't seem to get that user", error);
+    next(error);
+  }
+});
+
 usersRouter.get("/usernames", requireUser, async (req, res, next) => {
   // let getCache = await redisClient.get("fariUsers");
   // await redisClient.expire("fariUsers", 1800);
@@ -1000,6 +1009,35 @@ usersRouter.patch(
       try {
         const channelsubstatus = await updateChannelSubsStatus(id);
         res.send({ user: channelsubstatus });
+      } catch (error) {
+        console.log("Oops, could not check verification of vendor", error);
+      }
+    }
+  }
+);
+
+usersRouter.get(
+  "/vendor-verified/:vendorid",
+  cors(),
+  requireUser,
+  check("id")
+    .not()
+    .isEmpty()
+    .isNumeric()
+    .withMessage("Not a valid value")
+    .trim()
+    .escape(),
+  async (req, res, next) => {
+    const { vendorid } = req.params;
+    let errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res
+        .status(400)
+        .send({ name: "Validation Error", message: errors.array()[0].msg });
+    } else {
+      try {
+        const checkVerified = await verifiedVendors(vendorid);
+        res.send({ vendor: checkVerified });
       } catch (error) {
         console.log("Oops, could not check verification of vendor", error);
       }

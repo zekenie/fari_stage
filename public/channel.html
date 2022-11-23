@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fari | Channel Profile</title>
+    <link rel="preload stylesheet" as="style" href="channel.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Channel profile." />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+      integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <script
+      defer
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+    ></script>
+    <script
+      defer
+      src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.13.4/underscore-min.js"
+      integrity="sha512-uLKRd6hCNYAENFn2h7w0p5hrUAz21bAu/85eqSqmQ1Y565lFInwRga9Lgk+QAAR9QvNfSlZjnEb+HHfzkAC/8Q=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script defer src="channel.js"></script>
+  </head>
+  <header>
+    <div class="banner"></div>
+  </header>
+  <body>
+    <div class="profile-info">
+      <div class="top-info"></div>
+      <div class="menu">
+        <div class="menu-btns">
+          <button id="videos" class="btn selected" title="channel uploads">
+            Videos
+          </button>
+          <button id="paidcontent" class="btn" title="channel paid content">
+            Pay to View
+          </button>
+          <button id="message" class="btn" title="message">Message</button>
+          <button id="about" class="btn" title="about">About</button>
+        </div>
+      </div>
+    </div>
+    <div class="screen user-uploads">
+      <div
+        class="noUploads"
+        style="
+          color: #dddddd;
+          font-size: 18px;
+          text-align: center;
+          margin: 12rem auto;
+          font-family: 'Teko';
+        "
+      >
+        No uploads yet.
+      </div>
+    </div>
+    <div class="screen paytoview" style="display: none">
+      <div
+        class="noUploads"
+        style="
+          color: #dddddd;
+          font-size: 18px;
+          text-align: center;
+          margin: 12rem auto;
+          font-family: 'Teko';
+        "
+      >
+        No uploads yet.
+      </div>
+    </div>
+    <div class="screen message" style="display: none">
+      <div class="new_note">
+        <input type="text" placeholder="Send a message" id="message-channel" />
+        <button id="send" title="Send message" onclick="newMessage();">
+          Send
+        </button>
+      </div>
+      <div class="sent"></div>
+    </div>
+    <div class="screen about" style="display: none"></div>
+  </body>
+</html>

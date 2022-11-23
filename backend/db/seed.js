@@ -47,34 +47,34 @@ async function createTables() {
 
     await client.query(`
   CREATE TABLE Users (
-               id SERIAL PRIMARY KEY UNIQUE,
-               Username varchar(255) UNIQUE NOT NULL,
-               Email TEXT NOT NULL,
-               Password varchar(255) NOT NULL,
-               ConfirmPassword varchar(255) NOT NULL,
-               location varchar(200) NULL,
-               bio varchar(8000) NULL,
-               CreationDT DATE DEFAULT CURRENT_DATE NOT NULL,
-               subscribed_vendor_acct BOOLEAN DEFAULT FALSE,
-               subscribed_user_acct BOOLEAN DEFAULT FALSE,
-               UNIQUE(Username, Email)
+    id SERIAL PRIMARY KEY UNIQUE,
+    Username varchar(255) UNIQUE NOT NULL,
+    Email TEXT NOT NULL,
+    Password varchar(255) NOT NULL,
+    ConfirmPassword varchar(255) NOT NULL,
+    location varchar(200) NULL,
+    bio varchar(8000) NULL,
+    CreationDT DATE DEFAULT CURRENT_DATE NOT NULL,
+    subscribed_vendor_acct BOOLEAN DEFAULT FALSE,
+    subscribed_user_acct BOOLEAN DEFAULT FALSE,
+    UNIQUE(Username, Email)
   );
           
     
 CREATE TABLE User_Channel(
-            id SERIAL PRIMARY KEY UNIQUE,
-            userID INT UNIQUE,
-            FOREIGN KEY(userID) REFERENCES Users(id) ON DELETE CASCADE,
-            channelname varchar(255) UNIQUE,
-            FOREIGN KEY(channelName) REFERENCES Users(Username),
-            Profile_Avatar TEXT NULL,
-            Profile_Poster TEXT NULL,
-            Subscriber_Count INT NULL,
-            constraint Subscriber_Count_nonnegative check (Subscriber_Count >= 0),
-            user_islive BOOLEAN DEFAULT FALSE,
-            vendoractive BOOLEAN DEFAULT FALSE,
-            channel_earnings decimal(6,2) NULL,
-            UNIQUE(channelName, userID)
+  id SERIAL PRIMARY KEY UNIQUE,
+  userID INT UNIQUE,
+  FOREIGN KEY(userID) REFERENCES Users(id) ON DELETE CASCADE,
+  channelname varchar(255) UNIQUE,
+  FOREIGN KEY(channelName) REFERENCES Users(Username),
+  Profile_Avatar TEXT NULL,
+  Profile_Poster TEXT NULL,
+  Subscriber_Count INT NULL,
+  constraint Subscriber_Count_nonnegative check (Subscriber_Count >= 0),
+  user_islive BOOLEAN DEFAULT FALSE,
+  vendoractive BOOLEAN DEFAULT FALSE,
+  channel_earnings decimal(6,2) NULL,
+  UNIQUE(channelName, userID)
 );
 
 
@@ -286,10 +286,10 @@ FOREIGN KEY (videoid) REFERENCES channel_uploads(id) ON DELETE CASCADE,
 channelid INT NOT NULL,
 channelname varchar(255)  NULL,
 channelavi TEXT NULL,
-video TEXT NOT NULL,
+videofile TEXT NOT NULL,
 videoviewcount INT NOT NULL,
-thumbnail TEXT NULL,
-title varchar(800) NULL,
+videothumbnail TEXT NULL,
+videotitle varchar(800) NULL,
 favedDT DATE DEFAULT CURRENT_DATE NOT NULL
 
 );
@@ -304,10 +304,10 @@ channelid INT NOT NULL,
 channelname varchar(255)  NULL,
 channelavi TEXT  NULL,
 
-video TEXT NULL,
+videofile TEXT NULL,
 videoviewcount INT NOT NULL,
-thumbnail TEXT NULL,
-title varchar(800) NULL,
+videothumbnail TEXT NULL,
+videotitle varchar(800) NULL,
 
 paidtoview BOOLEAN DEFAULT FALSE,
 user_started_watching BOOLEAN DEFAULT FALSE,

@@ -1,0 +1,457 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Teko:wght@700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    background-color: hsla(240, 80%, 9%, 1);
+    /*   background-image: radial-gradient(at 91% 79%, hsla(240,0%,96%,0.2) 0px, transparent 50%), radial-gradient(at 0% 0%, hsla(0,0%,96%,0.2) 0px, transparent 50%);	 */
+
+}
+
+body::-webkit-scrollbar {
+    width: 5px;
+}
+
+body::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+body::-webkit-scrollbar-thumb {
+    background: #a9a9b0;
+    border-radius: 5px;
+}
+
+body::-webkit-scrollbar-corner {
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+
+
+.container {
+    width: 100%;
+    height: 50rem;
+    margin: 5rem auto;
+    display: flex;
+    padding: 20px;
+    /*   box-shadow: 10px 8px 15px 10px rgba(0, 0, 0, 0.5); */
+    border-radius: 10px;
+}
+
+.left-side {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+
+
+.left-side #fari-logo {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+}
+
+
+
+
+/* .left-side img{
+  width: 100%;
+  height: 100%;
+} */
+
+/* .left-side .text{
+  position: absolute;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  color: rgba(255, 255, 255, 0.9);
+}
+.left-side h1{
+  margin: 15rem 0 1rem 0;
+  font-family: 'Fredoka One';
+}
+.left-side h4{
+  font-family: 'Permanent Marker';
+} */
+
+
+.right-side {
+    width: 50%;
+    height: 100%;
+    background: whitesmoke;
+    position: relative;
+}
+
+.icons {
+    width: 100%;
+    height: 40px;
+    position: absolute;
+    bottom: 6%;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.icons h4 {
+    font-family: 'Teko';
+    color: #050529;
+    opacity: 0.7;
+}
+
+.icons ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.icons ul li a {
+    font-size: 35px;
+    color: #100a1c;
+}
+
+.icons ul li {
+    margin: 1rem;
+}
+
+i.fa-brands.fa-twitter {
+    color: #1DA1F2;
+}
+
+i.fa-brands.fa-instagram {
+    background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+
+.options {
+    width: 100%;
+    height: 70px;
+}
+
+.options ul {
+    display: flex;
+    list-style-type: none;
+}
+
+.options ul li {
+    margin: 3rem auto;
+    font-family: 'Teko';
+    letter-spacing: 0.04rem;
+    font-size: 30px;
+    cursor: pointer;
+    color: #050529;
+}
+
+.selected {
+    border-bottom: 1px solid black;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 3.5rem auto;
+}
+
+form input {
+    width: 100%;
+    height: 2.2rem;
+    margin: .5rem auto;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 20px;
+    padding: 10px;
+    outline: none;
+    color: #050529;
+    font-family: 'Teko';
+    letter-spacing: 0.03rem;
+    font-size: 18px;
+    box-shadow: inset 2px 2px 4px lightgrey, inset -2px -2px 4px whitesmoke;
+    position: relative;
+    caret-color: #050529;
+}
+
+
+#mail-icon,
+#user-icon,
+#location-icon {
+    position: absolute;
+    right: 2%;
+    margin-top: 20px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    color: #050529;
+}
+
+
+
+.password-toggle #toggle,
+#toggle2,
+#toggle-login {
+    position: absolute;
+    right: 2%;
+    margin-top: 20px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    cursor: pointer;
+    color: #050529;
+}
+
+.password-toggle #toggle::before {
+    content: "\f070";
+    font-family: fontAwesome;
+}
+
+.password-toggle #toggle2::before {
+    content: "\f070";
+    font-family: fontAwesome;
+}
+
+.password-toggle #toggle-login::before {
+    content: "\f070";
+    font-family: fontAwesome;
+}
+
+.password-toggle #toggle.show::before {
+    content: "\f06e";
+    font-family: fontAwesome;
+}
+
+
+.password-toggle #toggle2.show::before {
+    content: "\f06e";
+    font-family: fontAwesome;
+}
+
+.password-toggle #toggle-login.show::before {
+    content: "\f06e";
+    font-family: fontAwesome;
+}
+
+
+.password-toggle {
+    width: 60%;
+    padding: 5px;
+    position: relative;
+
+}
+
+.icons-img {
+    width: 60%;
+    padding: 5px;
+    position: relative;
+}
+
+.btn {
+    width: 10rem;
+    height: 2.5rem;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    background: #050529;
+    margin: 2rem auto;
+    color: whitesmoke;
+    font-family: 'Teko';
+    letter-spacing: 0.03rem;
+    font-size: 18px;
+}
+
+#password-reset {
+    font-family: 'Teko';
+    letter-spacing: 0.03rem;
+    cursor: pointer;
+}
+
+.register-form {
+    display: none;
+}
+
+.password_reset-form {
+    display: none;
+}
+
+.messages {
+    font-family: 'Teko';
+    letter-spacing: 0.03rem;
+    text-align: center;
+    color: #B2022F;
+}
+
+.register-form .messages ul {
+
+    text-align: left;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    display: none;
+
+}
+
+.register-form .messages li {
+    position: relative;
+    list-style-type: none;
+    transition: .5s;
+    color: #050529;
+}
+
+.register-form .messages ul li::before {
+    content: "\f192";
+    width: 20px;
+    height: 10px;
+    font-family: fontAwesome;
+    display: inline-flex;
+    margin-right: 5px;
+}
+
+.register-form .messages ul li.pass::before {
+    content: "\f058";
+    width: 20px;
+    height: 10px;
+    font-family: fontAwesome;
+    display: inline-flex;
+    color: green;
+}
+
+
+
+/* Media Queries */
+
+@media screen and (max-width: 325px) {
+    body {
+        background: #050529;
+    }
+
+    .container {
+        margin: 1rem auto;
+        width: 100%;
+        height: 52rem;
+    }
+
+    .left-side {
+        display: none;
+    }
+
+    .right-side {
+        width: 100%;
+    }
+
+    form input {
+        width: 100%;
+    }
+
+    .options {
+        margin-top: 0;
+        width: 100%;
+    }
+
+    .options ul li {
+        font-size: 18px;
+    }
+
+
+}
+
+@media screen and (min-width: 344px) and (max-width: 744px) {
+    body {
+        background: #050529;
+    }
+
+    .container {
+        margin: 1rem auto;
+        width: 100%;
+        height: 52rem;
+
+    }
+
+    .left-side {
+        display: none;
+    }
+
+    .right-side {
+        width: 100%;
+    }
+
+    form input {
+        width: 100%;
+    }
+
+    .options {
+        margin-top: 0;
+        width: 100%;
+    }
+
+    .options ul li {
+        font-size: 20px;
+    }
+
+
+}
+
+@media screen and (min-width: 745px) and (max-width: 944px) {
+    body {
+        background: #050529;
+    }
+
+
+    .container {
+        margin: 1rem auto;
+        width: 100%;
+        height: 52rem;
+    }
+
+    .left-side {
+        display: none;
+    }
+
+    .right-side {
+        width: 100%;
+    }
+
+    form input {
+        width: 100%;
+    }
+
+    .options {
+        margin-top: 0;
+        width: 100%;
+    }
+
+    .options ul li {
+        font-size: 20px;
+    }
+
+
+
+}
+
+@media screen and (min-width: 945px) and (max-width: 1550px) {
+
+    form input {
+        width: 100%;
+    }
+
+
+
+
+
+}

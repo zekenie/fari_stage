@@ -74,9 +74,9 @@ async function deleteUpload(id) {
       rows: [upload],
     } = await client.query(
       `
-              DELETE FROM channel_uploads
-              WHERE id=$1
-              RETURNING *;
+       DELETE FROM channel_uploads
+       WHERE id=$1
+       RETURNING *;
             `,
       [id]
     );
@@ -597,9 +597,9 @@ async function createFavs({
   videoid,
   channelname,
   channelavi,
-  video,
-  thumbnail,
-  title,
+  videofile,
+  videothumbnail,
+  videotitle,
   channelid,
   videoviewcount,
 }) {
@@ -608,7 +608,7 @@ async function createFavs({
       rows: [favs],
     } = await client.query(
       `
-              INSERT INTO user_favorites(userid, videoid, channelname, channelavi, video, thumbnail, title, channelid, videoviewcount) 
+              INSERT INTO user_favorites(userid, videoid, channelname, channelavi, videofile, videothumbnail, videotitle, channelid, videoviewcount) 
               VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)
               RETURNING *;
             `,
@@ -617,9 +617,9 @@ async function createFavs({
         videoid,
         channelname,
         channelavi,
-        video,
-        thumbnail,
-        title,
+        videofile,
+        videothumbnail,
+        videotitle,
         channelid,
         videoviewcount,
       ]
@@ -665,9 +665,9 @@ async function createLaters({
   videoid,
   channelname,
   channelavi,
-  video,
-  thumbnail,
-  title,
+  videofile,
+  videothumbnail,
+  videotitle,
   channelid,
   videoviewcount,
   paidtoview,
@@ -677,7 +677,7 @@ async function createLaters({
       rows: [watchlater],
     } = await client.query(
       `
-              INSERT INTO user_watchlist(userid, videoid, channelname, channelavi, video, thumbnail, title, channelid, videoviewcount, paidtoview) 
+              INSERT INTO user_watchlist(userid, videoid, channelname, channelavi, videofile, videothumbnail, videotitle, channelid, videoviewcount, paidtoview) 
               VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
               RETURNING *;
             `,
@@ -686,9 +686,9 @@ async function createLaters({
         videoid,
         channelname,
         channelavi,
-        video,
-        thumbnail,
-        title,
+        videofile,
+        videothumbnail,
+        videotitle,
         channelid,
         videoviewcount,
         paidtoview,

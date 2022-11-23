@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Fari | Dashboard</title>
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/public/images/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/public/images/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/public/images/favicon-16x16.png"
+    />
+    <link rel="manifest" href="/public/images/site.webmanifest" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="User Dashboard and menu options." />
+
+    <link rel="preload stylesheet" as="style" href="dashboard.css" />
+
+    <script
+      defer
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+    ></script>
+
+    <link
+      rel="preload stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
+    />
+    <link
+      rel="preload stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css"
+    />
+
+    <link
+      rel="preload stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css"
+    />
+
+    <script
+      defer
+      src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"
+    ></script>
+    <script
+      defer
+      src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"
+    ></script>
+    <script defer src="dashboard.js"></script>
+  </head>
+
+  <header>
+    <img id="logo" src="/public/images/Logo%20Black.png" alt="Fari-Logo" />
+    <i class="fa-solid fa-bell"></i>
+    <i class="fa-solid fa-bars"></i>
+  </header>
+
+  <body>
+    <div class="nav">
+      <i class="fa-solid fa-x"></i>
+
+      <ul>
+        <li><a href="/explorer">Explorer</a></li>
+        <li><a href="/profile">Profile</a></li>
+      </ul>
+
+      <div class="lite-text">
+        <h1>FARI.</h1>
+      </div>
+      <h5 id="logout">Logout</h5>
+    </div>
+    <div class="container">
+      <div class="greeting">
+        <div class="info">
+          <div class="userHello"></div>
+          <div class="box slider">
+            <div class="info card">Come expolore content.</div>
+            <div class="info card">Shop in the marketplace.</div>
+            <div class="info card">
+              Chat with friends or your favorite creators.
+            </div>
+            <div class="info card">Build your brand.</div>
+          </div>
+        </div>
+        <div class="userAvatar"></div>
+      </div>
+    </div>
+  </body>
+
+  <script
+    defer
+    src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"
+  ></script>
+</html>

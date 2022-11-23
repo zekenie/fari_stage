@@ -4,6 +4,12 @@ const jwt = require("jsonwebtoken");
 const { JWT_SECRET, REDIS_URL } = process.env;
 const { requireUser } = require("./utils");
 
+const { STRIPE_SECRET } = process.env;
+const { STRIPE_BUSINESS_SECRET } = process.env;
+const stripe = require("stripe")(process.env.STRIPE_SECRET);
+const stripe2 = require("stripe")(process.env.STRIPE_BUSINESS_SECRET);
+const bodyParser = require("body-parser");
+
 // const redis = require("redis");
 // let redisClient = redis.createClient({
 //   url: process.env.REDIS_URL,
@@ -991,7 +997,7 @@ explorerRouter.get(
 );
 
 explorerRouter.get(
-  "/explorer/mysubs/:userid",
+  "/mysubs/:userid",
   requireUser,
   check("userid")
     .not()
@@ -1085,7 +1091,7 @@ explorerRouter.get(
 );
 
 explorerRouter.get(
-  "/explorer/myfavs/:userid",
+  "/myfavs/:userid",
   requireUser,
   check("userid")
     .not()
@@ -1115,11 +1121,11 @@ explorerRouter.get(
 explorerRouter.post("/youfavedme", requireUser, async (req, res, next) => {
   const userid = req.body.userid;
   const videoid = req.body.videoid;
-  const channel = req.body.channel;
-  const channel_avi = req.body.channel_avi;
-  const video = req.body.video;
-  const thumbnail = req.body.thumbnail;
-  const title = req.body.title;
+  const channel = req.body.channelname;
+  const channel_avi = req.body.channelavi;
+  const video = req.body.videofile;
+  const thumbnail = req.body.videothumbnail;
+  const title = req.body.videotitle;
   const channelidentification = req.body.channelid;
   const videoviewcount = req.body.videoviewcount;
   try {
@@ -1144,7 +1150,7 @@ explorerRouter.post("/youfavedme", requireUser, async (req, res, next) => {
 });
 
 explorerRouter.get(
-  "/explorer/watchlater/:userid",
+  "/watchlater/:userid",
   requireUser,
   check("userid")
     .not()
@@ -1178,10 +1184,10 @@ explorerRouter.post("/watchlist", requireUser, async (req, res, next) => {
   const userid = req.body.userid;
   const videoid = req.body.videoid;
   const channel = req.body.channel;
-  const channel_avi = req.body.channel_avi;
-  const video = req.body.video;
-  const thumbnail = req.body.thumbnail;
-  const title = req.body.title;
+  const channel_avi = req.body.channelavi;
+  const video = req.body.videofile;
+  const thumbnail = req.body.videothumbnail;
+  const title = req.body.videotitle;
   const channelident = req.body.channelid;
   const views = req.body.videoviewcount;
   const paidtoview = req.body.paidtoview;
@@ -1190,11 +1196,11 @@ explorerRouter.post("/watchlist", requireUser, async (req, res, next) => {
     const laterData = {
       userid: userid,
       videoid: videoid,
-      channel: channel,
-      channel_avi: channel_avi,
-      video: video,
-      thumbnail: thumbnail,
-      title: title,
+      channelname: channel,
+      channelavi: channel_avi,
+      videofile: video,
+      videothumbnail: thumbnail,
+      videotitle: title,
       channelid: channelident,
       videoviewcount: views,
       paidtoview: paidtoview,
@@ -1620,5 +1626,49 @@ explorerRouter.get(
     }
   }
 );
+
+explorerRouter.post("/stripe-checkout/rental", async (req, res) => {
+  const stripeAcctID = req.body.stripe_acct;
+  const vendoremail = req.body.vendoremail;
+  try {
+    const session = await stripe.checkout.sessions.create(
+      {
+        payment_method_types: ["card"],
+        payment_intent_data: {
+          application_fee_amount: 100,
+          receipt_email: vendoremail,
+        },
+        line_items: req.body.items.map((item) => {
+          return {
+            price_data: {
+              currency: "usd",
+              product_data: {
+                name: item.name,
+                description: "Movie/Film",
+                images: [item.image],
+                metadata: {
+                  vendor: item.vendor,
+                },
+              },
+              unit_amount_decimal: Math.round(item.price * 100),
+            },
+            quantity: item.quantity,
+          };
+        }),
+        mode: "payment",
+        success_url:
+          "https://fari-test.netlify.app/success?id={CHECKOUT_SESSION_ID}",
+        cancel_url: "https://fari-test.netlify.app/explorer",
+      },
+      {
+        stripeAccount: stripeAcctID,
+      }
+    );
+    console.log(session);
+    res.json({ url: session.url, id: session.id });
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 module.exports = explorerRouter;

@@ -1,0 +1,481 @@
+@import url('https://fonts.googleapis.com/css2?family=Teko:wght@700&display=swap');
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+header {
+    height: 300px;
+    width: 100%;
+    margin-bottom: 3rem;
+    position: relative;
+}
+
+.banner {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+header img {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    background-color: hsla(240, 80%, 9%, 1);
+    background-image:
+        radial-gradient(at 91% 79%, hsla(240, 0%, 96%, 0.2) 0px, transparent 50%),
+        radial-gradient(at 0% 0%, hsla(0, 0%, 96%, 0.2) 0px, transparent 50%);
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+body::-webkit-scrollbar {
+    width: 5px;
+}
+
+body::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+body::-webkit-scrollbar-thumb {
+    background: #a9a9b0;
+    border-radius: 5px;
+}
+
+body::-webkit-scrollbar-corner {
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.profile-info {
+    width: 60%;
+    height: 250px;
+    background: rgba(255, 255, 255, 0.03);
+    margin: 1rem auto;
+    border-radius: 20px;
+    position: relative;
+    font-family: 'Teko';
+    color: #fdfbf9;
+}
+
+.avatar {
+    position: relative;
+    top: -42%;
+    left: -3%;
+    width: 300px;
+    height: 250px;
+    border-radius: 50%;
+}
+
+#avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.user-info {
+    width: 100%;
+    position: relative;
+    padding: 10px;
+    margin-left: -1.5rem;
+}
+
+.top-info {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    position: relative;
+    top: 0;
+}
+
+#subscriber-count {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+#location {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.menu {
+    width: 100%;
+    height: 50%;
+    position: absolute;
+    /*   bottom: 0; */
+    bottom: -8%;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.btn {
+    width: 8rem;
+    height: 2.5rem;
+    font-family: 'Teko';
+    color: #fdfbf9;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 23px;
+    /*   box-shadow: 5px 5px 8px rgba(0, 0, 0, .5); */
+    margin: 3rem 1rem;
+}
+
+#subscribe {
+    position: absolute;
+    top: 10%;
+    right: 2%;
+    width: 9rem;
+    height: 3rem;
+    border-radius: 20px;
+    border: none;
+    color: #fdfbf9;
+    font-family: 'Teko';
+    font-size: 25px;
+    background: rgba(255, 255, 255, .1);
+    padding: 8px;
+    cursor: pointer;
+    box-shadow: 10px 5px 10px rgba(0, 0, 0, .5);
+}
+
+
+.selected {
+    border-bottom: 3px solid white;
+}
+
+
+
+.screen {
+    width: 75%;
+    height: 100vh;
+    margin: 2.5rem auto;
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    font-family: 'Teko';
+    /*   overflow-y: scroll;
+  overflow-x: hidden; */
+}
+
+.screen.about {
+    height: 100%;
+}
+
+.card {
+    width: 18rem;
+    height: 12rem;
+    background: rgba(128, 128, 128, 0.15);
+    border: none;
+    border-radius: 10px;
+    margin: 2rem;
+    color: #dddddd;
+    font-family: 'Teko';
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+    position: relative;
+    content-visibility: auto;
+}
+
+.card video {
+    width: 100%;
+    height: 100%;
+}
+
+video[poster] {
+    object-fit: fill;
+    border-radius: 10px;
+}
+
+.card-overlay {
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+    background: rgba(19, 19, 19, 0.8);
+    border-radius: 10px;
+    z-index: 10;
+    position: absolute;
+    top: 0;
+    backdrop-filter: blur(.5px);
+}
+
+.card-top {
+    height: 4rem;
+    width: 100%;
+    display: flex;
+    padding: 5px;
+}
+
+.video-info {
+    display: flex;
+    width: 18rem;
+    height: 100%;
+}
+
+.video-info ul {
+    margin: 0;
+    margin-left: 10px;
+}
+
+.video-info li {
+    list-style-type: none;
+}
+
+#channelName a {
+    font-size: 16px;
+    color: #dddddd;
+    text-decoration: none;
+}
+
+#videoViews {
+    font-size: 12px;
+}
+
+.card-options {
+    width: 2rem;
+    height: 100%;
+    cursor: pointer;
+}
+
+.options {
+    background: rgba(0, 0, 0, .3);
+    backdrop-filter: blur(5px);
+    width: 8.5rem;
+    height: 2rem;
+    position: absolute;
+    right: 2%;
+    top: 13%;
+    border-radius: 10px;
+    padding: 5px;
+    transform: scale(0);
+    transition: 0.5s;
+    z-index: 10;
+}
+
+.options ul {
+    list-style-type: none;
+}
+
+.options ul li {
+    margin: .5rem auto;
+    font-family: 'Teko';
+    cursor: pointer;
+    color: #dddddd;
+    font-size: 14px;
+}
+
+.options.active {
+    transform: scale(1);
+}
+
+.options:after {
+    bottom: 100%;
+    left: 63%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-bottom-color: rgba(0, 0, 0, .5);
+    border-width: 8px;
+    margin-left: 30px;
+}
+
+.options h5 {
+    margin-left: 5px;
+}
+
+li#add {
+    list-style-type: none;
+}
+
+li#delete {
+    list-style-type: none;
+}
+
+i.fa-solid.fa-xmark {
+    margin-right: 8px;
+    font-size: 14px;
+}
+
+i.fa-solid.fa-pencil {
+    margin-right: 8px;
+    font-size: 14px;
+}
+
+.video-opts {
+    width: 6rem;
+    height: 2rem;
+    display: flex;
+    border: none;
+    padding: 5px;
+    margin: .5rem auto;
+    font-size: 16px;
+    font-family: 'Teko';
+    background: transparent;
+    color: #dddddd;
+    text-align: center;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.card-mid {
+    height: 3rem;
+    width: 100%;
+    text-align: center;
+}
+
+.card-mid .fa-play {
+    color: #090088;
+    font-size: 50px;
+    cursor: pointer;
+}
+
+#stripe-btn {
+    width: 10rem;
+    height: 2rem;
+    border: none;
+    background: #090088;
+    cursor: pointer;
+    color: #dddddd;
+    border-radius: 10px;
+    font-family: 'Teko';
+    letter-spacing: 0.02rem;
+    font-size: 18px;
+}
+
+.card-bottom {
+    margin-top: 10px;
+    height: 5rem;
+    width: 100%;
+    text-align: center;
+}
+
+.card-bottom h6 {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 16px;
+}
+
+#channelAvi {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    box-shadow: 1px 1px 4px 3px black;
+}
+
+
+
+.paid-content {
+    margin: 1.5rem 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.paid-content label {
+    font-size: 20px;
+    margin: 10px 1rem;
+    color: #dddddd;
+    font-family: 'Teko';
+}
+
+#bio[contenteditable]:empty::before {
+    content: "Bio";
+    color: gray;
+}
+
+
+.form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.about .textarea {
+    width: 42rem;
+    height: 22rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: none;
+    border-radius: 10px;
+    padding: 5px;
+    margin: 1rem auto;
+    outline: none;
+    color: #dddddd;
+    overflow: hidden;
+    resize: none;
+}
+
+.new_note {
+    display: flex;
+    width: 50%;
+    height: 30%;
+    position: relative;
+    margin: 1rem auto;
+    justify-content: center;
+    align-items: center;
+}
+
+
+input#message-channel {
+    width: 100%;
+    height: 3rem;
+    border: none;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    font-family: 'Teko';
+    font-size: 20px;
+    padding: 10px;
+    outline: none;
+    color: #fdfbf9;
+    position: relative;
+}
+
+#send {
+    width: 6rem;
+    height: 3rem;
+    border-radius: 0 10px 10px 0;
+    border: none;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fdfbf9;
+    font-family: 'Teko';
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    font-size: 18px;
+    margin: 1rem auto;
+}
+
+
+.sent {
+    margin: 1rem auto;
+    width: 50%;
+    height: 30%;
+    justify-content: center;
+    align-items: cneter;
+    text-align: center;
+    font-size: 20px;
+}
+
+/* 
+Mobile */
+
+@media screen and (min-width: 344px) and (max-width: 996px) {
+    .profile-info {
+        width: 100%;
+    }
+
+    .avatar {
+        width: 150px;
+        height: 150px;
+    }
+
+
+
+}

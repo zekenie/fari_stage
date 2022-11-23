@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Fari | Theater</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preload stylesheet" as="style" href="theater.css" />
+    <link
+      rel="preload stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/public/images/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/public/images/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/public/images/favicon-16x16.png"
+    />
+    <link rel="manifest" href="/public/images/site.webmanifest" />
+
+    <script
+      defer
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+    ></script>
+    <script
+      defer
+      src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"
+    ></script>
+    <script defer src="theater.js"></script>
+  </head>
+  <header>
+    <i class="fa-solid fa-bars"></i>
+    <img id="logo" src="/public/images/Logo%20Black.png" alt="Fari-Logo" />
+    <div class="search">
+      <input type="search" id="searchfield" placeholder="Seach" />
+    </div>
+
+    <div class="retreat">
+      <button class="btn" title="Redirect to Explorer.">
+        <a href="/explorer" style="text-decoration: none; color: #dddddd"
+          >Explorer <i class="fa-solid fa-circle-right"></i
+        ></a>
+      </button>
+    </div>
+  </header>
+
+  <body>
+    <div class="content-container">
+      <div class="mobile-nav">
+        <i class="fa-solid fa-x"></i>
+        <ul class="content-sort">
+          <li id="discover-mobile">
+            <a href="/explorer" style="color: #dddddd; text-decoration: none"
+              >Back to Explorer</a
+            >
+          </li>
+        </ul>
+      </div>
+
+      <div class="main-content">
+        <div class="display-options">
+          <div class="options">
+            <ul class="views">
+              <li id="info">Info</li>
+              <li id="comments">Comments</li>
+            </ul>
+            <ul class="interactions"></ul>
+          </div>
+          <div class="feature-info"></div>
+          <div class="comments">
+            <input
+              id="comment"
+              type="text"
+              placeholder="Add a comment"
+            /><button id="send-comment">Send</button>
+            <div id="comment-count"></div>
+            <div class="usersComments"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="right-pane">
+        <div class="pane-options">
+          <h3 id="discover">Discover</h3>
+          <h3 id="watchlist-videos">Watchlist</h3>
+          <h3 id="favorite-videos">Favorites</h3>
+        </div>
+        <div class="discover-videos"></div>
+        <div class="fav-videos">
+          <div class="newUserMessage-favs message">
+            You do not have any Favorites yet.
+          </div>
+        </div>
+        <div class="later-videos">
+          <div class="newUserMessage-watchlater message">
+            You do not have any videos on your Watchlist yet.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="legalities">
+      <div class="flag-opts">
+        <form class="flag-reasons">
+          <i class="fa-solid fa-xmark" id="exit"></i>
+          <input
+            type="radio"
+            id="harrasment"
+            value="Harassment/Abuse/Bullying"
+            name="flag"
+          />
+          <label for="harassment">Harassement/Abuse/Bullying</label><br />
+
+          <input
+            type="radio"
+            id="sexual"
+            value="Sexual/Pornography"
+            name="flag"
+          />
+          <label for="harassment">Sexual/Pornography</label><br />
+
+          <input type="radio" id="Voilence" value="Voilence" name="flag" />
+          <label for="Voilence">Voilence</label><br />
+
+          <input
+            type="radio"
+            id="copyright"
+            value="Stolen Content/Copyright Violation"
+            name="flag"
+          />
+          <label for="Stolen Content/Copyright Violation"
+            >Stolen Content/Copyright Violation</label
+          ><br />
+
+          <input type="radio" id="Spam" value="Spam" name="flag" />
+          <label for="Spam">Spam</label><br />
+
+          <input type="radio" id="hate" value="Hate Speech" name="flag" />
+          <label for="Hate Speech">Hate Speech</label><br />
+
+          <button class="report" type="submit">Report</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="copyright-form">
+      <form class="copyright">
+        <i class="fa-solid fa-xmark" id="exit"></i>
+        <input id="submittee-name" type="text" placeholder="Full Name" />
+        <input
+          id="submittee-owner"
+          type="text"
+          placeholder="Copyright Owner Name"
+        />
+        <input
+          id="submittee-relationship"
+          type="text"
+          palceholder="email"
+          placeholder="Relationship to Copyright owner"
+        />
+        <input id="submittee-address" type="text" placeholder="Address" />
+        <input id="submittee-city" type="text" placeholder="City, State, ZIP" />
+        <input id="submittee-country" type="text" placeholder="Country" />
+      </form>
+    </div>
+  </body>
+</html>

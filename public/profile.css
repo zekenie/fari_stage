@@ -1,0 +1,1378 @@
+@import url("https://fonts.googleapis.com/css2?family=Teko:wght@700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Teko:wght@500;600;700&display=swap');
+
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    letter-spacing: 0.02rem;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    background-color: hsla(240, 80%, 9%, 1);
+    background-image:
+        radial-gradient(at 91% 79%, hsla(240, 0%, 96%, 0.2) 0px, transparent 50%),
+        radial-gradient(at 0% 0%, hsla(0, 0%, 96%, 0.2) 0px, transparent 50%);
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+body::-webkit-scrollbar {
+    width: 5px;
+}
+
+body::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+body::-webkit-scrollbar-thumb {
+    background: #a9a9b0;
+    border-radius: 5px;
+}
+
+body::-webkit-scrollbar-corner {
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+
+
+
+
+header {
+    width: 100%;
+    height: 70px;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 5px;
+    display: flex;
+    letter-spacing: 0.02rem;
+}
+
+header h1 {
+    color: rgba(255, 255, 255, 0.3);
+    letter-spacing: 0.3rem;
+    margin: 0 1rem;
+    font-family: 'Teko';
+}
+
+#logo {
+    position: absolute;
+    left: 0;
+    top: 0;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    margin-top: -1.5rem;
+}
+
+.retreat {
+    width: 7rem;
+    height: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 1rem;
+    position: absolute;
+    right: 0;
+}
+
+.retreat a {
+    text-decoration: none;
+    color: #dddddd;
+}
+
+.retreat .btn {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    color: #dddddd;
+    font-family: "Teko";
+    font-size: 18px;
+    cursor: pointer;
+    border: none;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+    box-shadow: inset 2px 2px 4px #6a6a6a, inset -2px -2px 4px #050606;
+    border-radius: 10px;
+}
+
+.retreat i {
+    margin-left: 5px;
+}
+
+i#main-view-bars {
+    color: #dddddd;
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 30px;
+    margin: 1rem;
+    cursor: pointer;
+}
+
+i.fa-solid.fa-bars.id\= {
+    display: none;
+}
+
+#logo {
+    position: absolute;
+    left: 0;
+    top: 0;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    margin-top: -1.5rem;
+}
+
+.nav {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99;
+    display: none;
+    user-select: none;
+    background-color: hsla(240, 80%, 9%, 1);
+    background-image: radial-gradient(at 91% 79%, hsla(240, 0%, 96%, 0.2) 0px, transparent 50%), radial-gradient(at 0% 0%, hsla(0, 0%, 96%, 0.2) 0px, transparent 50%);
+
+}
+
+.nav i {
+    color: #dddddd;
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 30px;
+    margin: 1rem;
+}
+
+.nav ul {
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+
+}
+
+.nav ul li {
+    color: #dddddd;
+    font-size: 45px;
+    margin: 1rem 0;
+    cursor: pointer;
+    font-family: 'Teko';
+
+}
+
+.nav ul li a {
+    text-decoration: none;
+    color: #dddddd;
+    position: relative;
+}
+
+.nav ul li a::after {
+    content: '';
+    height: 3px;
+    width: 0;
+    background: #dddddd;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transition: width 0.5s;
+}
+
+.nav ul li a:hover::after {
+    width: 100%;
+
+}
+
+.lite-text {
+    color: whitesmoke;
+    opacity: 0.04;
+    font-size: 200px;
+    letter-spacing: 100px;
+    position: absolute;
+    z-index: -1;
+    top: 50%;
+    left: 55%;
+    transform: translate(-50%, -50%);
+    font-weight: 700;
+    font-family: 'Teko';
+}
+
+.lite-text h1 {
+    letter-spacing: 110px;
+}
+
+#logout {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    color: #dddddd;
+    font-family: 'Teko';
+    font-size: 25px;
+    cursor: pointer;
+    margin: 1rem;
+}
+
+
+.content-container {
+    width: 100%;
+    height: 120%;
+    border-radius: 15px;
+    display: flex;
+}
+
+
+.left-pane {
+    width: 20%;
+    height: 120vh;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.left-pane h4 {
+    color: #dddddd;
+    font-family: 'Teko';
+    margin-left: 10px;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+
+.menu {
+    width: 100%;
+    height: 100vh;
+}
+
+.content-sort {
+    margin-top: 30px;
+}
+
+.content-sort li {
+    color: #dddddd;
+    font-family: "Teko";
+    list-style-type: none;
+    margin: 15px;
+    margin-bottom: 40px;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 8px;
+    font-weight: 700;
+}
+
+.content-sort li:hover {
+    background: rgba(255, 255, 255, .05);
+    border-radius: 10px;
+}
+
+.content-sort li.selected {
+    background: rgba(255, 255, 255, .05);
+    border-radius: 10px;
+}
+
+.content-sort i {
+    width: 1.8rem;
+    height: 1.5rem;
+    padding: 5px;
+    background: rgba(128, 128, 128, 0.5);
+    border-radius: 10px;
+    text-align: center;
+    color: #cccccc;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+
+.user-info-card {
+    width: 15.7rem;
+    height: 23rem;
+    background: rgba(128, 128, 128, 0.08);
+    padding: 10px;
+    border-radius: 20px;
+    margin: 1rem 0;
+    margin-right: 30px;
+    backdrop-filter: blur(5px);
+    box-shadow: 10px 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+.channel-links {
+    width: 14.5rem;
+    height: 20rem;
+    border-top: 0.5px solid rgba(255, 255, 255, 0.1);
+}
+
+.channel-links h4 {
+    color: rgba(255, 255, 255, 0.4);
+    margin-top: 10px;
+}
+
+.channel-poster {
+    width: 100%;
+    height: 10rem;
+
+}
+
+#profile-poster {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    border-radius: 10px;
+}
+
+.channel-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    text-align: center;
+}
+
+#avatar {
+    width: 80px;
+    height: 70px;
+    border-radius: 30%;
+    border: 5px solid rgba(255, 255, 255, .1);
+    z-index: 10;
+    margin-top: -50px;
+    margin-bottom: 15px;
+}
+
+
+.channel-name {
+    text-align: center;
+    margin: 2rem auto;
+    color: #dddddd;
+    font-family: 'Teko';
+}
+
+.channel-name h3 {
+    margin-bottom: 20px;
+}
+
+.main-content {
+    width: 80%;
+    height: 120vh;
+    padding: 5px;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.screen {
+    width: 100%;
+    height: 120vh;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding-bottom: 100px;
+    font-family: 'Teko';
+}
+
+.screen::-webkit-scrollbar {
+    width: 5px;
+}
+
+.screen::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.screen::-webkit-scrollbar-thumb {
+    background: #a9a9b0;
+    border-radius: 5px;
+    box-shadow: inset 0 0 5px #a9a9b0;
+}
+
+
+.screen::-webkit-scrollbar-corner {
+    background: #03002e;
+}
+
+.user-uploads .card {
+    width: 18rem;
+    height: 12rem;
+    background: rgba(128, 128, 128, 0.15);
+    border: none;
+    border-radius: 10px;
+    margin: 10px;
+    color: #dddddd;
+    font-family: 'Teko';
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+    position: relative;
+    content-visibility: auto;
+}
+
+.user-uploads .card video {
+    width: 100%;
+    height: 100%;
+}
+
+.user-uploads video[poster] {
+    object-fit: fill;
+    border-radius: 10px;
+}
+
+.user-uploads .card-overlay {
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+    background: rgba(19, 19, 19, 0.8);
+    border-radius: 10px;
+    z-index: 10;
+    position: absolute;
+    top: 0;
+    backdrop-filter: blur(.5px);
+}
+
+.user-uploads .card-top {
+    height: 4rem;
+    width: 100%;
+    display: flex;
+    padding: 5px;
+    font-weight: 700;
+}
+
+.user-uploads .video-info {
+    display: flex;
+    width: 18rem;
+    height: 100%;
+}
+
+.user-uploads .video-info ul {
+    margin: 0;
+    margin-left: 10px;
+}
+
+.user-uploads .video-info li {
+    list-style-type: none;
+}
+
+.user-uploads #channelName a {
+    font-size: 16px;
+    color: #dddddd;
+    text-decoration: none;
+}
+
+.user-uploads #videoViews {
+    font-size: 12px;
+}
+
+.user-uploads .card-options {
+    width: 2rem;
+    height: 100%;
+    cursor: pointer;
+}
+
+.user-uploads .options {
+    background: rgba(0, 0, 0, .3);
+    backdrop-filter: blur(5px);
+    width: 7rem;
+    height: 5rem;
+    position: absolute;
+    right: 2%;
+    top: 13%;
+    border-radius: 10px;
+    padding: 5px;
+    transform: scale(0);
+    transition: 0.5s;
+    z-index: 10;
+}
+
+.options ul {
+    list-style-type: none;
+}
+
+.options ul li {
+    margin: .5rem auto;
+    font-family: 'Teko';
+    cursor: pointer;
+    color: #dddddd;
+    font-size: 14px;
+}
+
+.user-uploads .options.active {
+    transform: scale(1);
+}
+
+.user-uploads .options:after {
+    bottom: 100%;
+    left: 49%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-bottom-color: rgba(0, 0, 0, .5);
+    border-width: 8px;
+    margin-left: 30px;
+}
+
+.user-uploads .options h5 {
+    margin-left: 5px;
+}
+
+li#add {
+    list-style-type: none;
+}
+
+li#delete {
+    list-style-type: none;
+}
+
+i.fa-solid.fa-xmark {
+    margin-right: 8px;
+    font-size: 14px;
+}
+
+i.fa-solid.fa-pencil {
+    margin-right: 8px;
+    font-size: 14px;
+}
+
+.user-uploads .video-opts {
+    width: 6rem;
+    height: 2rem;
+    display: flex;
+    border: none;
+    padding: 5px;
+    margin: .5rem auto;
+    font-size: 16px;
+    font-family: 'Teko';
+    background: transparent;
+    color: #dddddd;
+    text-align: center;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.user-uploads .card-mid {
+    height: 3rem;
+    width: 100%;
+    text-align: center;
+}
+
+.user-uploads .card-mid .fa-play {
+    color: #090088;
+    font-size: 50px;
+    cursor: pointer;
+}
+
+.user-uploads .card-bottom {
+    margin-top: 10px;
+    height: 5rem;
+    width: 100%;
+    text-align: center;
+}
+
+.user-uploads .card-bottom h6 {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 16px;
+}
+
+.user-uploads #channelAvi {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    box-shadow: 1px 1px 4px 3px black;
+}
+
+.right-pane {
+    width: 25%;
+    height: 120vh;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 0 0 15px 0;
+}
+
+.popular {
+    width: 97%;
+    max-height: 42%;
+    background: rgba(128, 128, 128, 0.08);
+    margin: 1rem auto;
+    padding: 8px;
+    border-radius: 20px 0 0 20px;
+    backdrop-filter: blur(5px);
+    box-shadow: 10px 10px 25px rgba(0, 0, 0, 0.5);
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.popular.messages {
+    max-height: 40%;
+}
+
+.popular::-webkit-scrollbar {
+    width: 5px;
+}
+
+.popular::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.popular::-webkit-scrollbar-thumb {
+    background: #a9a9b0;
+    border-radius: 5px;
+    box-shadow: inset 0 0 5px #a9a9b0;
+}
+
+
+.popular::-webkit-scrollbar-corner {
+    background: #03002e;
+}
+
+.popular h3 {
+    color: #dddddd;
+    font-family: 'Teko';
+    margin-left: 10px;
+    margin-bottom: 10px;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+
+
+.right-pane #channelAvi {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    box-shadow: 1px 1px 4px 3px black;
+}
+
+
+.table a {
+    color: #dddddd;
+    font-family: 'Teko';
+    text-decoration: none;
+}
+
+.table {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    justify-content: center;
+    gap: 20px;
+    overflow: hidden;
+    text-align: center;
+}
+
+.top-channel-card {
+    width: 5rem;
+    height: 5rem;
+    margin: .5rem 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.top-channel-card img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+}
+
+
+
+.messages .note {
+    width: 100%;
+    height: 10rem;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.02);
+    position: relative;
+    border-radius: 20px;
+}
+
+.messages .channel-avi {
+    width: 100%;
+    height: 50px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    margin: .5rem 0;
+    display: flex;
+}
+
+.messages img {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    margin-right: 8px;
+}
+
+.message h3 {
+    color: rgba(255, 255, 255, 0.7);
+    font-family: 'Teko';
+}
+
+.messages h4 {
+    color: rgba(255, 255, 255, 0.7);
+    font-family: 'Teko';
+    margin: 3.5rem auto;
+}
+
+.messages .table {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#read {
+    width: 6rem;
+    height: 2rem;
+    position: absolute;
+    bottom: 3%;
+    right: 0;
+    border: none;
+    border-radius: 20px;
+    color: #fdfbf9;
+    background: transparent;
+    font-family: 'Teko';
+    cursor: pointer;
+}
+
+
+/* Subscribers */
+.subscriptions {
+    display: none;
+}
+
+
+
+/* Settings */
+
+.settings {
+    display: none;
+}
+
+.settings .card {
+    width: 20rem;
+    height: 24rem;
+    background: rgba(255, 255, 255, .04);
+    border-radius: 20px;
+    margin: 5rem auto;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.settings .card h3 {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.settings .card img {
+    width: 15rem;
+    height: 14rem;
+}
+
+.settings .card input {
+    height: 2.5rem;
+    width: 10rem;
+    cursor: pointer;
+    position: absolute;
+    margin: 0 -5rem;
+    z-index: 1;
+    opacity: 0;
+}
+
+.user-about {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.about {
+    display: flex;
+    position: relative;
+    margin: 1rem;
+    padding-bottom: 35px;
+}
+
+#bio[contenteditable]:empty::before {
+    content: "Bio";
+    color: gray;
+}
+
+span#bio {
+    height: 20rem;
+}
+
+#location[contenteditable]:empty::before {
+    content: "Location";
+    color: gray;
+}
+
+.settings .textarea {
+    width: 50rem;
+    height: 3.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 10px;
+    padding: 5px;
+    margin: 1rem 0;
+    outline: none;
+    color: #dddddd;
+    overflow: hidden;
+    resize: none;
+    font-weight: 700;
+    position: relative;
+}
+
+i.fa-solid.fa-pen {
+    position: absolute;
+    right: 0;
+    top: 2%;
+    color: #dddddd;
+    cursor: pointer;
+}
+
+.editMode {
+    border: 2px solid red;
+    border-radius: 10px;
+    outline: none;
+}
+
+.editSaveCancel {
+    position: absolute;
+    bottom: 0;
+    right: 2%;
+    padding-bottom: 10px;
+}
+
+.editsSave {
+    width: 5rem;
+    height: 2rem;
+    border-radius: 20px;
+    border: none;
+    font-family: 'Teko';
+    color: #dddddd;
+    background: rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+}
+
+.settings .upload-btn {
+    height: 2.5rem;
+    width: 12rem;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    position: relative;
+
+}
+
+.settings .upload-btn h4 {
+    text-align: center;
+    color: #dddddd;
+    font-size: 18px;
+}
+
+.settings #avatar {
+    height: 3rem;
+    width: 10rem;
+    border-radius: 30%;
+    border: 5px solid rgba(255, 255, 255, .1);
+    z-index: 10;
+    height: 2.5rem;
+    width: 10rem;
+    cursor: pointer;
+    position: absolute;
+    margin: -.5rem -5rem;
+    z-index: 1;
+    opacity: 0;
+}
+
+/* Analytics */
+
+.analytics {
+    display: none;
+}
+
+.dashboard {
+    width: 1050px;
+    height: 31rem;
+    border-radius: 15px;
+    margin: 1rem auto;
+    z-index: 10;
+    backdrop-filter: blur(8px);
+}
+
+.dashboard h1 {
+    text-align: center;
+    color: rgba(255, 255, 255, .5);
+    font-size: 40px;
+    letter-spacing: 0.03rem;
+}
+
+.analytics tbody {
+    color: #dddddd;
+    font-weight: 700;
+}
+
+.mainViews {
+    display: flex;
+    justify-content: center;
+}
+
+.analytics .card {
+    width: 15rem;
+    height: 12rem;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 15px;
+    margin: 10px;
+    text-align: center;
+    padding: 5px;
+}
+
+.analytics .card h2 {
+    color: rgba(255, 255, 255, 0.4);
+    margin: 1rem auto;
+}
+
+.miniViews {
+    display: flex;
+    justify-content: center;
+}
+
+.miniViews h4 {
+    color: rgba(255, 255, 255, 0.4);
+    margin: 1rem auto;
+}
+
+.miniViews img {
+    width: 60px;
+    height: 60px;
+}
+
+.miniViews .card {
+    height: 10rem;
+}
+
+.graphs {
+    display: flex;
+    justify-content: center;
+}
+
+.graphs h2 {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.graph {
+    width: 525px;
+    height: 20rem;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 15px;
+    margin: 10px;
+    text-align: center;
+    padding: 5px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.graph::-webkit-scrollbar {
+    width: 5px;
+}
+
+.graph::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.graph::-webkit-scrollbar-thumb {
+    background: #a9a9b0;
+    border-radius: 5px;
+    box-shadow: inset 0 0 5px #a9a9b0;
+}
+
+
+.graph::-webkit-scrollbar-corner {
+    background: #03002e;
+}
+
+
+.graph tr {
+    margin-bottom: 5px;
+}
+
+.graph th,
+td {
+    color: #dddddd;
+    padding: 20px;
+    text-align: left;
+    width: 20%;
+    font-size: 18px;
+}
+
+.graph img {
+    margin-right: 10px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.graph #product {
+    width: 250px;
+    display: flex;
+    align-items: center;
+}
+
+/* New Upload */
+
+.newUpload {
+    display: none;
+}
+
+.newUpload .user-input {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 50%;
+}
+
+.newUpload .video-info {
+    width: 525px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.newUpload .video-info .textarea {
+    width: 25rem;
+    height: 3.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 10px;
+    padding: 5px;
+    margin: 1rem 0;
+    outline: none;
+    color: #dddddd;
+    overflow: hidden;
+    resize: none;
+    font-weight: 700;
+}
+
+#tags,
+#description {
+    height: 10rem;
+}
+
+#tags[contenteditable]:empty::before {
+    content: "Video Tags";
+    color: gray;
+}
+
+#description[contenteditable]:empty::before {
+    content: "Video Description";
+    color: gray;
+}
+
+#title[contenteditable]:empty::before {
+    content: "Video Title";
+    color: gray;
+}
+
+.categories {
+    width: 525px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.categories .content-type {
+    height: auto;
+    display: flex;
+    align-items: center;
+}
+
+.content-type {
+
+    margin: 3rem 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.categories h2 {
+    color: rgba(255, 255, 255, 0.3);
+    text-align: center;
+}
+
+.content-type label {
+    font-size: 20px;
+    margin: 10px 1rem;
+    color: #dddddd;
+    font-family: 'Teko';
+    font-weight: 700;
+}
+
+.paid-content {
+    margin: 1.5rem 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.paid-content label {
+    font-size: 20px;
+    margin: 10px 1rem;
+    color: #dddddd;
+    font-family: 'Teko';
+    font-weight: 700;
+}
+
+#rentalprice {
+    border: none;
+    outline: none;
+    width: 8rem;
+    border-radius: 10px;
+    padding: 5px;
+    background: rgba(255, 0, 0, .3);
+    color: #dddddd;
+    text-align: center;
+    font-family: 'Teko';
+    font-weight: 700;
+
+}
+
+.newUpload .message {
+    margin: 1rem;
+}
+
+.newUpload .video-files {
+    width: 60rem;
+    height: auto;
+    display: flex;
+    margin: 1rem auto;
+}
+
+
+.newUpload .card {
+    width: 20rem;
+    height: 22rem;
+    background: rgba(255, 255, 255, .04);
+    border-radius: 20px;
+    margin: 1rem auto;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: inset 2px 2px 4px #6a6a6a, inset -2px -2px 4px #050606;
+}
+
+.newUpload .card h3 {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.newUpload .card img {
+    width: 15rem;
+    height: 14rem;
+}
+
+.newUpload .upload-btn input {
+    height: 2.5rem;
+    width: 10rem;
+    cursor: pointer;
+    position: absolute;
+    margin: 0 -4rem;
+    z-index: 1;
+    opacity: 0;
+
+}
+
+video#video-poster {
+    width: 100%;
+    height: 200px;
+}
+
+video#video-file {
+    width: 100%;
+    height: 200px;
+}
+
+.newUpload .upload-btn {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    margin: 1rem auto;
+    height: 3rem;
+    width: 12rem;
+    position: relative;
+}
+
+.newUpload .upload-btn h4 {
+    text-align: center;
+    color: #dddddd;
+    font-size: 18px;
+}
+
+.newUpload #upload:hover {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+button#upload {
+    width: 15rem;
+    height: 3rem;
+    position: relative;
+    left: 40%;
+    margin: 1rem auto;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+#submitAvatar {
+    margin: 2rem auto;
+}
+
+#submitPoster {
+    margin: 2rem auto;
+}
+
+
+#loading {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(0);
+    transition: 0.5s;
+    backdrop-filter: blur(8px);
+    text-align: center;
+    z-index: 10;
+}
+
+#loading.active {
+    transform: scale(1);
+}
+
+#loading h2 {
+    font-size: 50px;
+    font-family: 'Teko';
+    color: rgba(255, 255, 255, 0.3);
+    margin: 25rem auto;
+}
+
+.content.inactive {
+    backdrop-filter: blur(8px);
+}
+
+
+.editUpload {
+    width: 30rem;
+    height: 35rem;
+    background: rgba(255, 255, 255, .3);
+    margin: 1rem auto;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    border-radius: 10px;
+    backdrop-filter: blur(8px);
+    transform: scale(0);
+    transition: 0.5s;
+    top: 10%;
+    left: 35%;
+    z-index: 10;
+}
+
+.editUpload.active {
+    transform: scale(1);
+}
+
+.editUpload #tags-edit,
+#description-edit {
+    height: 10rem;
+}
+
+.editUpload .textarea {
+    width: 25rem;
+    height: 3.5rem;
+    background: rgba(0, 0, 0, 0.2);
+    border: none;
+    border-radius: 10px;
+    padding: 5px;
+    margin: 1rem 0;
+    outline: none;
+    color: #dddddd;
+    overflow: hidden;
+    resize: none;
+    font-family: 'Teko';
+}
+
+.editUpload .fa-xmark {
+    color: red;
+    font-size: 20px;
+    position: absolute;
+    right: 2%;
+    top: 0;
+    margin: 1rem 0;
+    cursor: pointer;
+}
+
+.editUpload #title-edit[contenteditable]:empty::before {
+    content: "Video Title";
+    color: gray;
+}
+
+.editUpload #description-edit[contenteditable]:empty::before {
+    content: "Video Description";
+    color: gray;
+}
+
+.editUpload #tags-edit[contenteditable]:empty::before {
+    content: "Video Tags";
+    color: gray;
+}
+
+
+button#saveEdit {
+    width: 8rem;
+    height: 2rem;
+    border: none;
+    border-radius: 20px;
+    color: #dddddd;
+    background: rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+}
+
+/* Mobile */
+
+@media screen and (min-width: 344px) and (max-width: 996px) {
+    .content-container {
+        width: 100%;
+        height: 120%;
+        border-radius: 15px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .right-pane {
+        display: none;
+    }
+
+    .left-pane {
+        width: 100%;
+        height: 40vh;
+        background: rgba(0, 0, 0, 0.3);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .channel-links {
+        display: none;
+    }
+
+    .main-content {
+        width: 100%;
+    }
+}

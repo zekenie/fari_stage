@@ -29,7 +29,7 @@ async function createUser({
     await client.query(
       `
      
-     INSERT INTO Users_Channel(userID, channelName) 
+     INSERT INTO user_channel(userID, channelName) 
                 VALUES($1, $2)
                 RETURNING *;
      `,
@@ -95,7 +95,7 @@ async function createChannel({
       rows: [channel],
     } = await client.query(
       `
-                INSERT INTO Users_Channel( userID, channelname, profile_avatar, profile_poster) 
+                INSERT INTO user_channel( userID, channelname, profile_avatar, profile_poster) 
                 VALUES($1, $2, $3, $4 )
                 RETURNING *;
               `,
@@ -113,11 +113,11 @@ async function createVendor({ userid, vendor_name }) {
       rows: [vendor],
     } = await client.query(
       `
-   INSERT INTO vendors(userid, vendor_name) 
+                INSERT INTO vendors(userid, vendorname) 
                 VALUES($1, $2)
                 RETURNING *;
               `,
-      [userid, vendor_name]
+      [userid, vendorname]
     );
     return vendor;
   } catch (error) {
@@ -238,7 +238,7 @@ async function getAllUsers() {
 
 async function getAllUsersUsername() {
   const { rows } = await client.query(`
-  SELECT users.id AS userid, username, email, users_channel.profile_avatar 
+  SELECT users.id AS userid, username, email, user_channel.profile_avatar 
   FROM users
   JOIN users_channel ON users.id = users_channel.userid;
   `);
