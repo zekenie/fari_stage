@@ -85,7 +85,7 @@ const {
   updateChannelSubsStatus,
 } = require("../db");
 
-usersRouter.get("/", requireUser, async (req, res, next) => {
+usersRouter.get("/", async (req, res, next) => {
   try {
     const allUsers = await getAllUsers();
     res.send({
@@ -96,9 +96,9 @@ usersRouter.get("/", requireUser, async (req, res, next) => {
   }
 });
 
-usersRouter.get("/me", requireUser, async (req, res, next) => {		
-  try {	  
-    res.send({user: req.user});
+usersRouter.get("/me", requireUser, async (req, res, next) => {
+  try {
+    res.send({ user: req.user });
   } catch (error) {
     console.error("Hmm, can't seem to get that user", error);
     next(error);
