@@ -39,7 +39,7 @@ async function createUser({
     await client.query(
       `
      
-     INSERT INTO vendors(userid, vendor_name) 
+     INSERT INTO vendors(userid, vendorname) 
                 VALUES($1, $2)
                 RETURNING *;
      `,
@@ -107,7 +107,7 @@ async function createChannel({
   }
 }
 
-async function createVendor({ userid, vendor_name }) {
+async function createVendor({ userid, vendorname }) {
   try {
     const {
       rows: [vendor],
@@ -340,7 +340,7 @@ async function getUserProfile(username) {
     const { rows } = await client.query(
       `
   SELECT DISTINCT users.id AS userID, users.username, users.email, user_channel.channelname, user_channel.profile_avatar, user_channel.id AS channelid, user_channel.user_islive,
-  vendors.id AS vendorID, vendors.vendor_name, vendors.stripe_acctid
+  vendors.id AS vendorID, vendors.vendorname, vendors.stripe_acctid
   FROM users
   RIGHT JOIN user_channel ON users.username = user_channel.channelname
   RIGHT JOIN vendors ON users.username = vendors.vendorname

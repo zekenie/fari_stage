@@ -55,6 +55,7 @@ $(".login-form").on("submit", async (event) => {
       body: JSON.stringify(user),
     });
     const data = await response.json();
+    console.log(data);
     if (data.error) {
       $(".message")
         .text(data.message)
