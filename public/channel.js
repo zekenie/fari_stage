@@ -3,7 +3,7 @@ const myToken = localStorage.getItem("fariToken");
 
 (function () {
   if (!myToken || myToken === null) {
-    window.location.href = "/login";
+    window.location.href = "public/login.html";
   }
 })();
 
@@ -59,7 +59,7 @@ async function getUserProfile() {
     });
     const data = await response.json();
     if (data.profile.length === 0) {
-      window.location.href = "/login";
+      window.location.href = "public/login.html";
     }
     return data.profile;
   } catch (error) {
@@ -244,13 +244,13 @@ function renderPost(channelUploads, index) {
               <div class="card-overlay">
                 <div class="card-top">
                   <div class="video-info">
-                    <a href="/channel-profile" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
+                    <a href="public/channel.html" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
                       channelUploads.profile_avatar
                         ? channelUploads.profile_avatar
                         : "https://drotje36jteo8.cloudfront.net/noAvi.png"
                     }" alt="channelAvatar" /></a>
                     <ul id="v">
-                      <li id="channelName"><a href="/channel-profile">${unesUsername}</a></li>
+                      <li id="channelName"><a href="public/channel.html">${unesUsername}</a></li>
                       <li id="videoViews">${
                         viewsString ? viewsString + " " + "Views" : "No Views"
                       }</li>
@@ -264,7 +264,7 @@ function renderPost(channelUploads, index) {
                   </div>
                 </div>
                 <div class="card-mid">
-                  <a href="/theater" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
+                  <a href="public/theater.html" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
                 </div>
                 <div class="card-bottom">
                   <h6>${unesTitle}</h6>
@@ -365,7 +365,7 @@ function renderPost(channelUploads, index) {
                       : "https://drotje36jteo8.cloudfront.net/noAvi.png"
                   }" alt="channelAvatar" /></a>
                     <ul id="v">
-                      <li id="channelName"><a href="/channel-profile">${unesUsername}</a></li>
+                      <li id="channelName"><a href="public/channel.html">${unesUsername}</a></li>
                       <li id="videoViews">${
                         viewsString ? viewsString + " " + "Views" : "No Views"
                       }</li>
