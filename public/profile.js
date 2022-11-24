@@ -1228,7 +1228,7 @@ $(".newUpload form").on("submit", async function submitUpload(event) {
 async function vendorVerificationCheck() {
   let id = localStorage.getItem("vendorID");
   try {
-    const response = await fetch(`${FARI_API}/user/vendor-verified/${id}`, {
+    const response = await fetch(`${FARI_API}/users/vendor-verified/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

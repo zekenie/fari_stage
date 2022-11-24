@@ -14,7 +14,7 @@ async function createMessage({
       rows: [message],
     } = await client.query(
       `
- INSERT INTO users_inbox(senderid, senderName, senderPic, receiverID, receiverName, receiverPic, note_message) 
+ INSERT INTO channel_messages(senderid, senderName, senderPic, receiverID, receiverName, receiverPic, note_message) 
               VALUES($1, $2, $3, $4, $5, $6, $7)
               RETURNING *;
             `,
@@ -40,7 +40,7 @@ async function deleteMessage(id) {
       rows: [message],
     } = await client.query(
       `
-              DELETE FROM users_inbox
+              DELETE FROM channel_messages
               WHERE id=$1
               RETURNING *;
             `,
@@ -57,7 +57,7 @@ async function editMessage(id, note) {
   try {
     const { rows } = await client.query(
       `
-              UPDATE users_inbox
+              UPDATE channel_messages
               SET note_message=$2
               WHERE id=$1
               RETURNING *;
@@ -74,7 +74,7 @@ async function getMyMessages(receiverid) {
   try {
     const { rows } = await client.query(
       `
-              SELECT * FROM users_inbox
+              SELECT * FROM channel_messages
               WHERE receiverid=$1 AND noteRead='false';
             `,
       [receiverid]
@@ -89,7 +89,7 @@ async function getMySentMessages(senderid) {
   try {
     const { rows } = await client.query(
       `
-              SELECT * FROM users_inbox
+              SELECT * FROM channel_messages
               WHERE senderid=$1;
             `,
       [senderid]
@@ -104,7 +104,7 @@ async function markRead(id) {
   try {
     const { rows } = await client.query(
       `
-              UPDATE users_inbox
+              UPDATE channel_messages
               SET noteRead='true'
               WHERE id=$1;
             `,
@@ -120,7 +120,7 @@ async function getMyRead(receiverid) {
   try {
     const { rows } = await client.query(
       `
-              SELECT * FROM users_inbox
+              SELECT * FROM channel_messages
               WHERE receiverid=$1 AND noteRead='true';
             `,
       [receiverid]
