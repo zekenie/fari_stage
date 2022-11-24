@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
+  "proxy": "https://fari-stage.netlify.app/",
   "engines": {
     "node": "14.15.4"
   },

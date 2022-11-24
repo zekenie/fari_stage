@@ -12,8 +12,6 @@ const ddos = limiter({
 });
 const cors = require("cors");
 usersRouter.use(cors());
-const bodyParser = require("body-parser");
-usersRouter.use(bodyParser.json());
 
 // const redis = require("redis");
 // let redisClient = redis.createClient({
