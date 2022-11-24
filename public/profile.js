@@ -1048,7 +1048,7 @@ $("#submitPoster").click(async function (event) {
     const formData = new FormData(
       document.getElementById("profilePosterUpdate")
     );
-
+    console.log(formData);
     const response = await fetch(
       `${FARI_API}/users/myprofile/update/posters/${channelname}`,
       {
@@ -1088,7 +1088,7 @@ $("#submitAvatar").click(async function (event) {
   try {
     var channelname = localStorage.getItem("channelName");
     const formData = new FormData(document.getElementById("profileAviUpdate"));
-
+    console.log(formData);
     const response = await fetch(
       `${FARI_API}/users/myprofile/update/avatar/${channelname}`,
       {
