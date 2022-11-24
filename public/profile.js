@@ -1322,7 +1322,7 @@ function bootstrap() {
   getUserChannelSubscriptions().then(renderSubsTable);
   getMessages().then(rendermessageList);
   totalEarningsRentals().then(totalEarningsMarketplace).then(totalEarnings);
-  totalRentedSold().then(totalShopSold).then(totalSold);
+  // totalRentedSold().then(totalShopSold).then(totalSold);
   totalViews().then(renderViews);
   totalLikes().then(renderLikes);
   totalDislikes().then(renderdisLikes);
@@ -1332,10 +1332,10 @@ function bootstrap() {
     .then(rentalCount)
     .then(rentalSoldCountByVideoID)
     .then(renderrentalSoldCount);
-  marketSoldCount()
-    .then(productCount)
-    .then(getItemPurchaseTotal)
-    .then(renderMarketSoldCount);
+  // marketSoldCount()
+  //   .then(productCount)
+  //   .then(getItemPurchaseTotal)
+  //   .then(renderMarketSoldCount);
 }
 
 bootstrap();
