@@ -543,9 +543,9 @@ async function buildDB() {
     client.connect();
     await dropTables();
     await createTables();
-    await createInitialUsers();
-    await updateChannelPics();
-    await createContent();
+//     await createInitialUsers();
+//     await updateChannelPics();
+//     await createContent();
   } catch (error) {
     throw error;
   }
