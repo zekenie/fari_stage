@@ -596,6 +596,7 @@ usersRouter.put(
   requireUser,
   check("channelname").not().isEmpty().trim().escape(),
   async (req, res, next) => {
+     console.log('in route to update avi');
     const { channelname } = req.params;
     const channel_name = channelname;
     const commentorName = channelname;
