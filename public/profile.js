@@ -1108,6 +1108,7 @@ $("#submitAvatar").click(async function (event) {
     userChannel().then(renderUserInfo);
     return data;
   } catch (error) {
+    console.log(error);
     response.status(400).send(error);
   }
 });
