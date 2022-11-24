@@ -120,7 +120,7 @@ CREATE TABLE channel_uploads (
   rental_price varchar(255),
   hold_for_review BOOLEAN DEFAULT FALSE,
   vendor_email varchar(255),
-  stipe_acctid TEXT NULL,
+  stripe_acctid TEXT NULL,
   flagged_content BOOLEAN DEFAULT FALSE,
   flag_reason varchar(255) NULL,
   vendoractive BOOLEAN DEFAULT FALSE
