@@ -2141,7 +2141,7 @@ async function getRecentlySubsUploads() {
 }
 
 function renderRecentUploadsChannels(mysubscriptions) {
-  let unesUsername = _.unescape(mysubscriptions.channel);
+  let unesUsername = _.unescape(mysubscriptions.channelname);
   let recentchannel = $(`	
 	       <div class="top-channel-card">
               <img loading="lazy" src="${
