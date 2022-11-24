@@ -608,6 +608,23 @@ async function verifiedVendors(id) {
   }
 }
 
+async function updateChannel(id, {profile_avatar, profile_poster}) {
+  try {
+    const { rows } = await client.query(
+      `
+              UPDATE user_channel
+              SET profile_avatar=$2, profile_poster=$3
+              WHERE id=$1
+              RETURNING *;
+            `,
+      [id]
+    );
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
 //Inactive Vendor
 
 // UPDATE vendors
@@ -665,4 +682,5 @@ module.exports = {
   verifyUserSubscriptionStatus,
   updateChannelSubsStatus,
   verifiedVendors,
+  updateChannel,
 };
