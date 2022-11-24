@@ -592,6 +592,22 @@ async function verifyUserSubscriptionStatus(id) {
   }
 }
 
+async function verifiedVendors(id) {
+  try {
+    const { rows } = await client.query(
+      `
+ SELECT *
+ FROM vendors
+ WHERE id=$1;
+ `,
+      [id]
+    );
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+}
+
 //Inactive Vendor
 
 // UPDATE vendors
@@ -648,4 +664,5 @@ module.exports = {
   updateUserSubscription,
   verifyUserSubscriptionStatus,
   updateChannelSubsStatus,
+  verifiedVendors,
 };
