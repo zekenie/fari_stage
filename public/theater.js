@@ -566,7 +566,7 @@ async function favVideo() {
   let views = getFeature[0].videoviewcount;
 
   const favedBody = {
-    userFaved: favedUser,
+    userid: favedUser,
     videoid: vidID,
     channelname: channelname,
     channelavi: channel_avi,
