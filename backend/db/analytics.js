@@ -217,11 +217,11 @@ async function getMarketBuys(vendorid) {
   try {
     const { rows } = await client.query(
       `
-    SELECT customer_market_orders.product_name, COUNT(*) AS count, products.id AS productid, customer_market_orders.purchase_total, to_char(DATE(customer_market_orders.product_orderdt)::date, 'MM/DD/YYYY') as dateFormatted, products.*
+    SELECT customer_market_orders.product_name, COUNT(*) AS count, vendor_products.id AS productid, customer_market_orders.purchase_total, to_char(DATE(customer_market_orders.product_orderdt)::date, 'MM/DD/YYYY') as dateFormatted, vendor_products.*
     FROM customer_market_orders
-    RIGHT JOIN products ON customer_market_orders.productid = products.id
+    RIGHT JOIN vendor_products ON customer_market_orders.productid = vendor_products.id
     WHERE customer_market_orders.vendorid=$1
-    GROUP BY customer_market_orders.product_name, products.id, customer_market_orders.product_orderdt, customer_market_orders.purchase_total
+    GROUP BY customer_market_orders.product_name, vendor_products.id, customer_market_orders.product_orderdt, customer_market_orders.purchase_total
     ORDER BY customer_market_orders.product_orderdt DESC;
  
   `,
@@ -314,11 +314,11 @@ async function filterOrdersByDate(vendorid, fromdt, thrudt) {
   try {
     const { rows } = await client.query(
       `
-    SELECT customer_market_orders.product_name, COUNT(*) AS count, to_char(DATE(customer_market_orders.product_orderdt)::date, 'MM/DD/YYYY') as dateFormatted, products.*
+    SELECT customer_market_orders.product_name, COUNT(*) AS count, to_char(DATE(customer_market_orders.product_orderdt)::date, 'MM/DD/YYYY') as dateFormatted, vendor_products.*
     FROM customer_market_orders
-    RIGHT JOIN products ON customer_market_orders.productid = products.id
+    RIGHT JOIN vendor_products ON customer_market_orders.productid = vendor_products.id
     WHERE customer_market_orders.vendorid=$1 AND customer_market_orders.product_orderdt BETWEEN '${fromdt}' AND '${thrudt}'
-    GROUP BY customer_market_orders.product_name, products.id, customer_market_orders.product_orderdt
+    GROUP BY customer_market_orders.product_name, vendor_products.id, customer_market_orders.product_orderdt
     ORDER BY customer_market_orders.product_orderdt DESC;
        `,
       [vendorid]

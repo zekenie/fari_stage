@@ -912,11 +912,9 @@ function renderrentalSoldCount(pricing) {
     videoPricing.forEach(function (total) {
       let rentalSold = $(`	  	      
        <tr>
-          <td id="product"><img src="${
-            total.videothumbnail
-          }" alt="product-img"/>${total.videotitle}</td>
+          <td id="product"><img src="${total.videothumbnail}" alt="product-img"/>${total.videotitle}</td>
           <td></td>
-          <td>${total.count ? total.count : "0"}</td>
+          <td>${total.count}</td>
           <td>$${total.videoordertotal}</td>
           <td></td>
           <td></td>
@@ -1003,22 +1001,26 @@ async function getItemPurchaseTotal() {
 
 async function renderMarketSoldCount(pricing) {
   let productPricing = JSON.parse(localStorage.getItem("orderPrices"));
-  productPricing.forEach(function (total) {
-    let marketSells = $(`
-	 <tr>
-        <td id="product"><img src="${total.prod_img}" alt="product-img"/>${total.product_name}</td>
-        <td></td>
-        <td>${total.count}</td>
-        <td>$${total.itemsordertotal}</td>
-        <td></td>
-        <td></td>
-        
-        </tr>
- `).data("pricing", pricing);
-    $(".shop .graph tbody").append(marketSells);
+  if (!productPricing) {
+    return;
+  } else {
+    productPricing.forEach(function (total) {
+      let marketSells = $(`
+     <tr>
+          <td id="product"><img src="${total.prod_img}" alt="product-img"/>${total.product_name}</td>
+          <td></td>
+          <td>${total.count}</td>
+          <td>$${total.itemsordertotal}</td>
+          <td></td>
+          <td></td>
+          
+          </tr>
+   `).data("pricing", pricing);
+      $(".shop .graph tbody").append(marketSells);
 
-    return marketSells;
-  });
+      return marketSells;
+    });
+  }
 }
 
 function rendermarketList(marketList) {
