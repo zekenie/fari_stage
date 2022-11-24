@@ -617,7 +617,7 @@ async function updateChannel(channelname, profile_avatar, profile_poster) {
               WHERE channelname=$1
               RETURNING *;
             `,
-      [channelname]
+      [channelname, profile_avatar, profile_poster]
     );
     return rows;
   } catch (error) {
