@@ -1220,6 +1220,7 @@ async function getHistory() {
       $(".newUserMessage-history message").css("display", "block");
     }
     return data.history;
+	  console.log(data)
   } catch (error) {
     response.status(400).send(error);
   }
@@ -2242,7 +2243,7 @@ async function getVideoData() {
 
 async function laterVideo() {
   var getFeature = await getVideoData();
-
+  console.log(getFeature)
   var userid = localStorage.getItem("userID");
   var vidID = getFeature[0].videoid;
   var channelname = getFeature[0].channelname;
