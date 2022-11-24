@@ -1050,7 +1050,7 @@ $("#submitPoster").click(async function (event) {
     );
     console.log(formData);
     const response = await fetch(
-      `${FARI_API}/users/myprofile/update/posters/${channelname}`,
+      `${FARI_API}/users/update/posters/${channelname}`,
       {
         method: "PUT",
         headers: {
@@ -1089,7 +1089,7 @@ $("#submitAvatar").click(async function (event) {
     var channelname = localStorage.getItem("channelName");
     const formData = new FormData(document.getElementById("profileAviUpdate"));
     const response = await fetch(
-      `${FARI_API}/users/myprofile/update/avatar/${channelname}`,
+      `${FARI_API}/users/update/avatar/${channelname}`,
       {
         method: "PUT",
         headers: {
