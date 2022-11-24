@@ -1,4 +1,3 @@
-require("dotenv").config();
 const express = require("express");
 const usersRouter = express.Router();
 const { JWT_SECRET, JWT_SECRET_RESET } = process.env;

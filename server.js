@@ -10,7 +10,7 @@ const os = require("os");
 const helmet = require("helmet");
 const numCPU = os.cpus().length;
 
-const client = require("./backend/db/client");
+const client = require("./db/client");
 client.connect();
 
 const hpp = require("hpp");
@@ -64,7 +64,7 @@ const morgan = require("morgan");
 server.use(morgan("dev"));
 
 //Router API
-server.use("/api", require("./backend/api"));
+server.use("/api", require("./api"));
 
 if (cluster.isMaster) {
   for (let index = 0; index < numCPU; index++) {

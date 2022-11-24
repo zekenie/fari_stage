@@ -1,5 +1,3 @@
-require("dotenv").config();
-
 const express = require("express");
 const explorerRouter = express.Router();
 const { requireUser } = require("./utils");
