@@ -906,22 +906,26 @@ async function rentalSoldCountByVideoID() {
 
 function renderrentalSoldCount(pricing) {
   let videoPricing = JSON.parse(localStorage.getItem("videoPrices"));
-
-  videoPricing.forEach(function (total) {
-    let rentalSold = $(`	  
-	      
-	<tr>
-        <td id="product"><img src="${total.videothumbnail}" alt="product-img"/>${total.videotitle}</td>
-        <td></td>
-        <td>${total.count}</td>
-        <td>$${total.videoordertotal}</td>
-        <td></td>
-        <td></td>
-        
-        </tr>
- `).data("pricing", pricing);
-    $(".videos .graph tbody").append(rentalSold);
-  });
+  if (!videoPricing) {
+    return;
+  } else {
+    videoPricing.forEach(function (total) {
+      let rentalSold = $(`	  	      
+       <tr>
+          <td id="product"><img src="${
+            total.videothumbnail
+          }" alt="product-img"/>${total.videotitle}</td>
+          <td></td>
+          <td>${total.count ? total.count : "0"}</td>
+          <td>$${total.videoordertotal}</td>
+          <td></td>
+          <td></td>
+          
+       </tr>
+   `).data("pricing", pricing);
+      $(".videos .graph tbody").append(rentalSold);
+    });
+  }
 }
 
 function renderrentalsList(rentList) {
