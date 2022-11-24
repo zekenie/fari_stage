@@ -195,7 +195,7 @@ usersRouter.get(
     .trim()
     .escape(),
   async (req, res, next) => {
-    const { userSubed } = req.params;
+    const { userid } = req.params;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res
@@ -686,9 +686,9 @@ usersRouter.get(
 usersRouter.post(
   "/subscribe/:channelname",
   requireUser,
-  check("userSubed").not().isEmpty().trim().escape(),
+  check("userid").not().isEmpty().trim().escape(),
   async (req, res, next) => {
-    const userSubed = req.body.userSubed;
+    const userid = req.body.userid;
     const channelID = req.body.channelID;
     const channel_avi = req.body.channel_avi;
     const channel = req.body.channel;
@@ -702,7 +702,7 @@ usersRouter.post(
     } else {
       try {
         const subedData = {
-          userSubed: userSubed,
+          userid: userid,
           channelID: channelID,
           channel: channel,
           channel_avi: channel_avi,
@@ -798,7 +798,7 @@ usersRouter.get(
 usersRouter.get(
   "/getChannel/:channelName",
   requireUser,
-  check("userSubed").not().isEmpty().trim().escape(),
+  check("userid").not().isEmpty().trim().escape(),
   async (req, res, next) => {
     const { channelName } = req.params;
     let errors = validationResult(req);
