@@ -1019,7 +1019,7 @@ usersRouter.get(
   "/vendor-verified/:vendorid",
   cors(),
   requireUser,
-  check("id")
+  check("vendorid")
     .not()
     .isEmpty()
     .isNumeric()
