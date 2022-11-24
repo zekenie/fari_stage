@@ -416,7 +416,7 @@ explorerRouter.post(
     } else {
       try {
         const likingUser = {
-          likedUser: userid,
+          userid: userid,
           videoid: videoid,
         };
 
@@ -503,7 +503,7 @@ explorerRouter.post(
     const { userid, videoid } = req.body;
 
     const dislikingUser = {
-      dislikedUser: userid,
+      userid: userid,
       videoid: videoid,
     };
     let errors = validationResult(req);
@@ -725,11 +725,10 @@ explorerRouter.post(
     const tags = req.body.tags;
     const channelid = req.body.channelid;
     const channelname = req.body.channelname;
-    const channelpic = req.body.channelpic;
+    const channelpic = req.body.channelavi;
     const content_type = req.body.content_type;
     const paid_content = req.body.paid_content;
     const rental_price = req.body.ticketprice;
-    const vendor_paypal = req.body.vendor_paypal;
     const vendor_email = req.body.vendor_email;
     const stripe_acctid = req.body.stripe_acctid;
 
@@ -755,8 +754,8 @@ explorerRouter.post(
 
           const uploadData = {
             channelID: channelid,
-            channel_name: channelname,
-            channelpic: channelpic,
+            channelname: channelname,
+            channelavi: channelpic,
             videoFile: cloudfront + "/" + video1.Key,
             videoKey: video1.Key,
             videoThumbnail: cloudfront + "/" + thumbnail1.Key,
@@ -767,7 +766,6 @@ explorerRouter.post(
             content_type: content_type,
             paid_content: paid_content,
             rental_price: rental_price,
-            vendor_paypal: vendor_paypal,
             vendor_email: vendor_email,
             stripe_acctid: stripe_acctid,
           };
@@ -1127,11 +1125,11 @@ explorerRouter.post("/youfavedme", requireUser, async (req, res, next) => {
     const favedData = {
       userid: userid,
       videoid: videoid,
-      channel: channel,
-      channel_avi: channel_avi,
-      video: video,
-      thumbnail: thumbnail,
-      title: title,
+      channelname: channel,
+      channelavi: channel_avi,
+      videofile: video,
+      videothumbnail: thumbnail,
+      videotitle: title,
       channelid: channelidentification,
       videoviewcount: videoviewcount,
     };
@@ -1570,8 +1568,8 @@ explorerRouter.post(
       const videoHistory = {
         userid: userID,
         videoid: videoid,
-        channel: channel,
-        channel_avi: channel_avi,
+        channelname: channel,
+        channelavi: channel_avi,
         channelid: channelid,
         videofile: videofile,
         videothumbnail: videothumbnail,
