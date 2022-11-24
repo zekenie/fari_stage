@@ -637,6 +637,7 @@ usersRouter.put(
             commentorName,
             updateCommentPicture
           );
+          console.log(result);
           res.send({ channel: updatedchannel });
         } catch (error) {
           console.error("Could not update user profile", error);
