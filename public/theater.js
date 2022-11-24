@@ -14,7 +14,7 @@ let commentFlag = false;
   }
   setTimeout(function () {
     updateViews();
-  }, 90000);
+  }, 60000);
 })();
 
 $("#comments").click(() => {
