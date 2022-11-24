@@ -5,7 +5,7 @@ const myToken = localStorage.getItem("fariToken");
 (function () {
   $("#videos").addClass("selected");
   if (!myToken || myToken === null) {
-    window.location.href = "/login.html";
+    window.location.href = "/login";
   }
 })();
 
@@ -32,7 +32,7 @@ $(".btn-board").click(function () {
 
 $("#logout").click(function () {
   localStorage.clear();
-  window.location.href = "index.html";
+  window.location.href = "index";
 });
 
 $(".bio .fa-pen").click(function () {
@@ -185,7 +185,7 @@ $("#analytics").click(() => {
 
 $("#logout").click(function () {
   localStorage.clear();
-  window.location.href = "login.html";
+  window.location.href = "login";
 });
 
 //Defaults
@@ -201,7 +201,7 @@ async function getUserProfile() {
     });
     const data = await response.json();
     if (data.profile.length === 0) {
-      window.location.href = "/login.html";
+      window.location.href = "/login";
     }
     return data.profile;
   } catch (error) {
@@ -242,8 +242,8 @@ function renderUserInfo(profile) {
     
           <div class="channel-poster">
             <img id="profile-poster" src="${
-              profile[0].slider_pic1
-                ? profile[0].slider_pic1
+              profile[0].profile_poster
+                ? profile[0].profile_poster
                 : "https://drotje36jteo8.cloudfront.net/wp7707348-white-blank-wallpapers.jpg"
             }" alt="poster" />
           </div>
@@ -320,7 +320,7 @@ function renderPost(channelUploads) {
                     }" alt="channelAvatar" /></a>
                     <ul id="v">
                       <li id="channelName"><a href="#">${
-                        channelUploads.channel_name
+                        channelUploads.channelname
                       }</a></li>
                       <li id="videoViews">${
                         viewsString ? viewsString + " " + "Views" : "No Views"
@@ -338,7 +338,7 @@ function renderPost(channelUploads) {
                   </div>
                 </div>
                 <div class="card-mid">
-                  <a href="/theater.html" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
+                  <a href="/theater" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
                 </div>
                 <div class="card-bottom">
                   <h6>${unesTitle}</h6>
@@ -489,15 +489,15 @@ async function getUserChannelSubscriptions() {
 }
 
 function rendersubChannels(mysubscriptions) {
-  let unesChannel = _.unescape(mysubscriptions.channel);
+  let unesChannel = _.unescape(mysubscriptions.channelname);
   let subedChannels = $(`
     <div class="top-channel-card">
        <img src="${
-         mysubscriptions.channel_avi
-           ? mysubscriptions.channel_avi
+         mysubscriptions.channelavi
+           ? mysubscriptions.channelavi
            : "https://drotje36jteo8.cloudfront.net/noAvi.png"
        }" alt="avatar" />
-        <h5 id="channelID"><a href="/channel.html">${unesChannel}</a></h5>
+        <h5 id="channelID"><a href="/channel">${unesChannel}</a></h5>
     </div>
     
    `).data("mysubscriptions", mysubscriptions);
@@ -1192,7 +1192,6 @@ $(".newUpload form").on("submit", async function submitUpload(event) {
       ? profile[0].profile_avatar
       : "https://drotje36jteo8.cloudfront.net/noAvi.png";
     var channelid = profile[0].channelid;
-    var paypal = profile[0].paypalme_link;
     var vendor_email = profile[0].email;
     var stripe_acct = profile[0].stripe_acctid;
 
@@ -1274,7 +1273,7 @@ async function renderMessages(notes) {
   let note = $(`
 <div class="note">
 <div class="channel-avi">
-<a href="/channel.html"><img loading="lazy" src="${notes.senderpic}" alt="sender pic" /></a>
+<a href="/channel"><img loading="lazy" src="${notes.senderpic}" alt="sender pic" /></a>
 <h3 id="channel"><a href="#">${unesChannel}</a></h3>
 </div>
 <h4>${unesMessage}</h4>

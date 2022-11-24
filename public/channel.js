@@ -3,7 +3,7 @@ const myToken = localStorage.getItem("fariToken");
 
 (function () {
   if (!myToken || myToken === null) {
-    window.location.href = "public/login.html";
+    window.location.href = "login";
   }
 })();
 
@@ -59,7 +59,7 @@ async function getUserProfile() {
     });
     const data = await response.json();
     if (data.profile.length === 0) {
-      window.location.href = "public/login.html";
+      window.location.href = "login";
     }
     return data.profile;
   } catch (error) {
@@ -159,8 +159,8 @@ function renderChannelSlider(channel) {
 
   let channelBanner = $(`
 <img src="${
-    channel[0].slider_pic1
-      ? channel[0].slider_pic1
+    channel[0].profile_poster
+      ? channel[0].profile_poster
       : "https://drotje36jteo8.cloudfront.net/wp7707348-white-blank-wallpapers.jpg"
   }" alt="poster" />
 `).data("channel", channel);
@@ -234,7 +234,7 @@ function renderPost(channelUploads, index) {
     }
 
     let unesTitle = _.unescape(channelUploads.videotitle);
-    let unesUsername = _.unescape(channelUploads.channel_name);
+    let unesUsername = _.unescape(channelUploads.channelname);
 
     let freeUpload = $(`
 <div class="card">
@@ -244,13 +244,13 @@ function renderPost(channelUploads, index) {
               <div class="card-overlay">
                 <div class="card-top">
                   <div class="video-info">
-                    <a href="public/channel.html" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
+                    <a href="channel" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
                       channelUploads.profile_avatar
                         ? channelUploads.profile_avatar
                         : "https://drotje36jteo8.cloudfront.net/noAvi.png"
                     }" alt="channelAvatar" /></a>
                     <ul id="v">
-                      <li id="channelName"><a href="public/channel.html">${unesUsername}</a></li>
+                      <li id="channelName"><a href="channel">${unesUsername}</a></li>
                       <li id="videoViews">${
                         viewsString ? viewsString + " " + "Views" : "No Views"
                       }</li>
@@ -264,7 +264,7 @@ function renderPost(channelUploads, index) {
                   </div>
                 </div>
                 <div class="card-mid">
-                  <a href="public/theater.html" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
+                  <a href="theater" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
                 </div>
                 <div class="card-bottom">
                   <h6>${unesTitle}</h6>
@@ -321,7 +321,6 @@ function renderPost(channelUploads, index) {
         let videoUpload = $(this).closest(".card").data("channelUploads");
         let id = videoUpload.videoid;
         localStorage.setItem("videoID", id);
-        //    updateViews();
         try {
           const response = await fetch(`${FARI_API}/explorer/play/${id}`, {
             method: "GET",
@@ -350,7 +349,7 @@ function renderPost(channelUploads, index) {
     }
 
     let unesTitle = _.unescape(channelUploads.videotitle);
-    let unesUsername = _.unescape(channelUploads.channel_name);
+    let unesUsername = _.unescape(channelUploads.channelname);
 
     let paidUpload = $(` 
 <div class="card paid-content">
@@ -360,12 +359,12 @@ function renderPost(channelUploads, index) {
               <div class="card-overlay">
                 <div class="card-top">
                   <div class="video-info"><img loading="lazy" id="channelAvi" src="${
-                    channelUploads.channelpic
-                      ? channelUploads.channelpic
+                    channelUploads.channelavi
+                      ? channelUploads.channelavi
                       : "https://drotje36jteo8.cloudfront.net/noAvi.png"
                   }" alt="channelAvatar" /></a>
                     <ul id="v">
-                      <li id="channelName"><a href="public/channel.html">${unesUsername}</a></li>
+                      <li id="channelName"><a href="channel">${unesUsername}</a></li>
                       <li id="videoViews">${
                         viewsString ? viewsString + " " + "Views" : "No Views"
                       }</li>
@@ -402,7 +401,7 @@ function renderPost(channelUploads, index) {
         videoid: videoView.videoid,
         name: videoView.videotitle,
         image: videoView.videothumbnail,
-        vendor: videoView.channel_name,
+        vendor: videoView.channelname,
         quantity: 1,
         price: videoView.rental_price,
         total: videoView.rental_price,
@@ -574,8 +573,8 @@ async function laterVideo() {
   var getFeature = await getVideoData();
   var userid = localStorage.getItem("userID");
   var vidID = getFeature[0].videoid;
-  var channelname = getFeature[0].channel_name;
-  var channel_avi = getFeature[0].channelpic;
+  var channelname = getFeature[0].channelname;
+  var channel_avi = getFeature[0].channelavi;
   var video = getFeature[0].videofile;
   var posFile = getFeature[0].videothumbnail;
   var vidTitle = getFeature[0].videotitle;

@@ -6,7 +6,7 @@ const myToken = localStorage.getItem("fariToken");
   $("#discover").addClass("selected");
   $(".main-content #title").text("Discover");
   if (!myToken || myToken === null) {
-    window.location.href = "public/login.html";
+    window.location.href = "login";
   }
 })();
 
@@ -41,7 +41,7 @@ $("#mobile-view-x").click(function () {
 
 $("#logout").click(function () {
   localStorage.clear();
-  window.location.href = "public/index.html";
+  window.location.href = "index";
 });
 
 $(".menu .content-sort li").click(function () {
@@ -67,7 +67,7 @@ async function getUserProfile() {
     });
     const data = await response.json();
     if (data.profile.length === 0) {
-      window.location.href = "public/login.html";
+      window.location.href = "login";
     }
 
     return data.profile;
@@ -139,7 +139,7 @@ function renderFreeContent(uploads) {
     viewsString = (uploads.videoviewcount / 1_000).toFixed(1) + "k";
   }
   let unesTitle = _.unescape(uploads.videotitle);
-  let unesUsername = _.unescape(uploads.channel_name);
+  let unesUsername = _.unescape(uploads.channelname);
   let videos = $(`    
 <div class="card" data-tilt data-tilt-axis="x" data-tilt-speed="400" data-tilt-glare="true">
               <video class="feature" src="${uploads.videofile}" poster="${
@@ -148,13 +148,13 @@ function renderFreeContent(uploads) {
               <div class="card-overlay">
                 <div class="card-top">
                   <div class="video-info">
-                    <a href="public/channel.html"><img id="channelAvi" loading="lazy" src="${
-                      uploads.channelpic
-                        ? uploads.channelpic
+                    <a href="/channel"><img id="channelAvi" loading="lazy" src="${
+                      uploads.channelavi
+                        ? uploads.channelavi
                         : "https://drotje36jteo8.cloudfront.net/noAvi.png"
                     }" alt="channelAvatar" /></a>
                     <ul id="v">
-                      <li id="channelName"><a href="public/channel.html">${unesUsername}</a></li>
+                      <li id="channelName"><a href="/channel">${unesUsername}</a></li>
                       <li id="videoViews">${
                         viewsString ? viewsString + " " + "Views" : "No Views"
                       }</li>
@@ -168,7 +168,7 @@ function renderFreeContent(uploads) {
                   </div>
                 </div>
                 <div class="card-mid">
-                  <a href="public/theater.html.html" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
+                  <a href="/theater" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
                 </div>
                 <div class="card-bottom">
                   <h6>${unesTitle}</h6>
@@ -311,7 +311,7 @@ function renderPayMedia(uploads) {
   }
 
   let unesTitle = _.unescape(uploads.videotitle);
-  let unesUsername = _.unescape(uploads.channel_name);
+  let unesUsername = _.unescape(uploads.channelname);
   let paidVids = $(`
  <div class="card paid-content" data-tilt data-tilt-axis="x" data-tilt-speed="400" data-tilt-glare="true">
               <video class="feature" src="${uploads.videofile}" poster="${
@@ -320,13 +320,13 @@ function renderPayMedia(uploads) {
               <div class="card-overlay">
                 <div class="card-top">
                   <div class="video-info">
-                    <a href="public/channel.html"><img loading="lazy" id="channelAvi" src="${
-                      uploads.channelpic
-                        ? uploads.channelpic
+                    <a href="/channel"><img loading="lazy" id="channelAvi" src="${
+                      uploads.channelavi
+                        ? uploads.channelavi
                         : "https://drotje36jteo8.cloudfront.net/noAvi.png"
                     }" alt="channelAvatar" /></a>
                     <ul id="v">
-                      <li id="channelName"><a href="public/channel.html">${unesUsername}</a></li>
+                      <li id="channelName"><a href="/channel">${unesUsername}</a></li>
                       <li id="videoViews">${
                         viewsString ? viewsString + " " + "Views" : "No Views"
                       }</li>
@@ -385,7 +385,7 @@ function renderPayMedia(uploads) {
         videoid: videoView.videoid,
         name: videoView.videotitle,
         image: videoView.videothumbnail,
-        vendor: videoView.channel_name,
+        vendor: videoView.channelname,
         quantity: 1,
         price: videoView.rental_price,
         total: videoView.rental_price,
@@ -504,8 +504,10 @@ function renderSubsVids(subscriptionUploads) {
     ) {
       freeSubVideos.push(subscriptionUploads[index]);
     } else if (
-      subscriptionUploads[index].paid_content === "pay" &&
-      subscriptionUploads[index].content_type === "film"
+      (subscriptionUploads[index].paid_content === "pay" &&
+        subscriptionUploads[index].content_type === "film") ||
+      (subscriptionUploads[index].paid_content === "pay" &&
+        subscriptionUploads[index].content_type === "shows")
     ) {
       paySubVideos.push(subscriptionUploads[index]);
     }
@@ -523,7 +525,7 @@ function renderSubsVids(subscriptionUploads) {
     }
 
     let unesTitle = _.unescape(subscriptionUploads.videotitle);
-    let unesUsername = _.unescape(subscriptionUploads.channel);
+    let unesUsername = _.unescape(subscriptionUploads.channelname);
     let mySubVideos = $(`
 <div class="card">
               <video src="${subscriptionUploads.videofile}" poster="${
@@ -532,13 +534,13 @@ function renderSubsVids(subscriptionUploads) {
               <div class="card-overlay">
                 <div class="card-top">
                   <div class="video-info">
-                    <a href="public/channel.html" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
-                      subscriptionUploads.channel_avi
-                        ? subscriptionUploads.channel_avi
+                    <a href="/channel" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
+                      subscriptionUploads.channelavi
+                        ? subscriptionUploads.channelavi
                         : "https://drotje36jteo8.cloudfront.net/noAvi.png"
-                    }" alt="channelAvatar" /></a>
+                    }" alt="channelAvatar"/></a>
                     <ul id="v">
-                      <li id="channelName"><a href="public/channel.html">${unesUsername}</a></li>
+                      <li id="channelName"><a href="/channel">${unesUsername}</a></li>
                       <li id="videoViews">${
                         viewsString ? viewsString + " " + "Views" : "No Views"
                       }</li>
@@ -552,7 +554,7 @@ function renderSubsVids(subscriptionUploads) {
                   </div>
                 </div>
                 <div class="card-mid">
-                  <a href="public/theater.html.html" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
+                  <a href="/theater" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
                 </div>
                 <div class="card-bottom">
                   <h6>${unesTitle}</h6>
@@ -638,7 +640,7 @@ function renderSubsVids(subscriptionUploads) {
     }
 
     let unesTitle = _.unescape(subscriptionUploads.videotitle);
-    let unesUsername = _.unescape(subscriptionUploads.channel);
+    let unesUsername = _.unescape(subscriptionUploads.channelname);
 
     let mySubVideos = $(`
 <div class="card paid-content" data-tilt data-tilt-axis="x" data-tilt-speed="400" data-tilt-glare="true">
@@ -650,13 +652,13 @@ function renderSubsVids(subscriptionUploads) {
               <div class="card-overlay">
                 <div class="card-top">
                   <div class="video-info">
-                    <a href="public/channel.html" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
-                      subscriptionUploads.channel_avi
-                        ? subscriptionUploads.channel_avi
+                    <a href="/channel" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
+                      subscriptionUploads.channelavi
+                        ? subscriptionUploads.channelavi
                         : "https://drotje36jteo8.cloudfront.net/noAvi.png"
                     }" alt="channelAvatar" /></a>
                     <ul id="v">
-                      <li id="channelName"><a href="public/channel.html">${unesUsername}</a></li>
+                      <li id="channelName"><a href="/channel">${unesUsername}</a></li>
                       <li id="videoViews">${
                         viewsString ? viewsString + " " + "Views" : "No Views"
                       }</li>
@@ -706,7 +708,7 @@ function renderSubsVids(subscriptionUploads) {
         videoid: videoView.videoid,
         name: videoView.videotitle,
         image: videoView.videothumbnail,
-        vendor: videoView.channel_name,
+        vendor: videoView.channelname,
         quantity: 1,
         price: videoView.rental_price,
         total: videoView.rental_price,
@@ -850,24 +852,24 @@ function renderFavs(myFavVids) {
   } else if (myFavVids.videoviewcount > 1_000) {
     viewsString = (myFavVids.videoviewcount / 1_000).toFixed(1) + "k";
   }
-  let unesTitle = _.unescape(myFavVids.title);
-  let unesUsername = _.unescape(myFavVids.channel);
+  let unesTitle = _.unescape(myFavVids.videotitle);
+  let unesUsername = _.unescape(myFavVids.channelname);
 
   let myFavs = $(`
 <div class="card" data-tilt data-tilt-axis="x" data-tilt-speed="400" data-tilt-glare="true">
-              <video src="${myFavVids.video}" poster="${
-    myFavVids.thumbnail
+              <video src="${myFavVids.videofile}" poster="${
+    myFavVids.videothumbnail
   }" preload="none" muted></video>
               <div class="card-overlay">
                 <div class="card-top">
                   <div class="video-info">
-                    <a href="/channel.html" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
-                      myFavVids.channel_avi
-                        ? myFavVids.channel_avi
+                    <a href="/channel" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
+                      myFavVids.channelavi
+                        ? myFavVids.channelavi
                         : "https://drotje36jteo8.cloudfront.net/noAvi.png"
                     }" alt="channelAvatar" /></a>
                     <ul id="v">
-                      <li id="channelName"><a href="public/channel.html">${unesUsername}</a></li>
+                      <li id="channelName"><a href="/channel">${unesUsername}</a></li>
                       <li id="videoViews">${
                         viewsString ? viewsString + " " + "Views" : "No Views"
                       }</li>
@@ -881,7 +883,7 @@ function renderFavs(myFavVids) {
                   </div>
                 </div>
                 <div class="card-mid">
-                  <a href="public/theater.html.html" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
+                  <a href="/theater" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
                 </div>
                 <div class="card-bottom">
                   <h6>${unesTitle}</h6>
@@ -919,7 +921,6 @@ function renderFavs(myFavVids) {
     let myFaved = $(this).closest(".card").data("myFavVids");
     let id = myFaved.videoid;
     localStorage.setItem("videoID", id);
-    //     updateViews();
     try {
       const response = await fetch(`${FARI_API}/explorer`, {
         method: "GET",
@@ -1009,24 +1010,24 @@ function renderWatchLaters(myWatchList) {
       viewsString = (myWatchList.videoviewcount / 1_000).toFixed(1) + "k";
     }
 
-    let unesTitle = _.unescape(myWatchList.title);
-    let unesUsername = _.unescape(myWatchList.channel);
+    let unesTitle = _.unescape(myWatchList.videotitle);
+    let unesUsername = _.unescape(myWatchList.channelname);
 
     let myLater = $(`
 <div class="card" data-tilt data-tilt-axis="x" data-tilt-speed="400" data-tilt-glare="true">
-              <video src="${myWatchList.video}" poster="${
-      myWatchList.thumbnail
+              <video src="${myWatchList.videofile}" poster="${
+      myWatchList.videothumbnail
     }" preload="none" muted></video>
               <div class="card-overlay">
                 <div class="card-top">
                   <div class="video-info">
-                    <a href="public/channel.html" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
-                      myWatchList.channel_avi
-                        ? myWatchList.channel_avi
+                    <a href="/channel" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
+                      myWatchList.channelavi
+                        ? myWatchList.channelavi
                         : "https://drotje36jteo8.cloudfront.net/noAvi.png"
                     }" alt="channelAvatar" /></a>
                     <ul id="v">
-                      <li id="channelName"><a href="public/channel.html">${unesUsername}</a></li>
+                      <li id="channelName"><a href="/channel">${unesUsername}</a></li>
                       <li id="videoViews">${
                         viewsString ? viewsString + " " + "Views" : "No Views"
                       }</li>
@@ -1040,7 +1041,7 @@ function renderWatchLaters(myWatchList) {
                   </div>
                 </div>
                 <div class="card-mid">
-                  <a href="public/theater.html" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
+                  <a href="/theater" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
                 </div>
                 <div class="card-bottom">
                   <h6>${unesTitle}</h6>
@@ -1103,24 +1104,24 @@ function renderWatchLaters(myWatchList) {
       viewsString = (myWatchList.videoviewcount / 1_000).toFixed(1) + "k";
     }
 
-    let unesTitle = _.unescape(myWatchList.title);
-    let unesUsername = _.unescape(myWatchList.channel);
+    let unesTitle = _.unescape(myWatchList.videotitle);
+    let unesUsername = _.unescape(myWatchList.channelname);
 
     let myLater = $(`
 <div class="card" data-tilt data-tilt-axis="x" data-tilt-speed="400" data-tilt-glare="true">
-              <video src="${myWatchList.video}" poster="${
-      myWatchList.thumbnail
+              <video src="${myWatchList.videofile}" poster="${
+      myWatchList.videothumbnail
     }" preload="none" muted></video>
               <div class="card-overlay">
                 <div class="card-top">
                   <div class="video-info">
-                    <a href="public/channel.html" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
-                      myWatchList.channel_avi
-                        ? myWatchList.channel_avi
+                    <a href="/channel" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
+                      myWatchList.channelavi
+                        ? myWatchList.channelavi
                         : "https://drotje36jteo8.cloudfront.net/noAvi.png"
                     }" alt="channelAvatar" /></a>
                     <ul id="v">
-                      <li id="channelName"><a href="public/channel.html">${unesUsername}</a></li>
+                      <li id="channelName"><a href="/channel">${unesUsername}</a></li>
                       <li id="videoViews">${
                         viewsString ? viewsString + " " + "Views" : "No Views"
                       }</li>
@@ -1129,7 +1130,7 @@ function renderWatchLaters(myWatchList) {
                   <div class="card-options"></div>
                 </div>
                 <div class="card-mid">
-                  <a href="public/theater.html" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
+                  <a href="/theater" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
                 </div>
                 <div class="card-bottom">
                   <h6>${unesTitle}</h6>
@@ -1234,7 +1235,7 @@ function renderHistory(history) {
   }
 
   let unesTitle = _.unescape(history.videotitle);
-  let unesUsername = _.unescape(history.channel);
+  let unesUsername = _.unescape(history.channelname);
 
   let myHistory = $(`
 <div class="card" data-tilt data-tilt-axis="x" data-tilt-speed="400" data-tilt-glare="true">
@@ -1244,13 +1245,13 @@ function renderHistory(history) {
               <div class="card-overlay">
                 <div class="card-top">
                   <div class="video-info">
-                    <a href="public/channel.html" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
-                      history.channel_avi
-                        ? history.channel_avi
+                    <a href="/channel" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
+                      history.channelavi
+                        ? history.channelavi
                         : "https://drotje36jteo8.cloudfront.net/noAvi.png"
                     }" alt="channelAvatar" /></a>
                     <ul id="v">
-                      <li id="channelName"><a href="public/channel.html">${unesUsername}</a></li>
+                      <li id="channelName"><a href="/channel">${unesUsername}</a></li>
                       <li id="videoViews">${
                         viewsString ? viewsString + " " + "Views" : "No Views"
                       }</li>
@@ -1259,7 +1260,7 @@ function renderHistory(history) {
                   
                 </div>
                 <div class="card-mid">
-                  <a href="public/theater.html" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
+                  <a href="/theater" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
                 </div>
                 <div class="card-bottom">
                   <h6>${unesTitle}</h6>
@@ -1485,7 +1486,7 @@ function renderFilteredContent(videos) {
   }
 
   let unesTitle = _.unescape(videos.videotitle);
-  let unesUsername = _.unescape(videos.channel_name);
+  let unesUsername = _.unescape(videos.channelname);
 
   let video = $(`
 <div class="card">
@@ -1495,13 +1496,13 @@ function renderFilteredContent(videos) {
               <div class="card-overlay">
                 <div class="card-top">
                   <div class="video-info">
-                    <a href="public/channel.html" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
-                      videos.channelpic
-                        ? videos.channelpic
+                    <a href="/channel" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
+                      videos.channelavi
+                        ? videos.channelavi
                         : "https://drotje36jteo8.cloudfront.net/noAvi.png"
                     }" alt="channelAvatar" /></a>
                     <ul id="v">
-                      <li id="channelName"><a href="public/channel.html">${unesUsername}</a></li>
+                      <li id="channelName"><a href="/channel">${unesUsername}</a></li>
                       <li id="videoViews">${
                         viewsString ? viewsString + " " + "Views" : "No Views"
                       }</li>
@@ -1515,7 +1516,7 @@ function renderFilteredContent(videos) {
                   </div>
                 </div>
                 <div class="card-mid">
-                  <a href="public/theater.html" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
+                  <a href="/theater" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
                 </div>
                 <div class="card-bottom">
                   <h6>${unesTitle}</h6>
@@ -1638,7 +1639,7 @@ function renderChannelSearched(profile) {
                     ? profile[0].profile_avatar
                     : "https://drotje36jteo8.cloudfront.net/noAvi.png"
                 }" alt="channel-avi" id="channel-search-avi" />
-                <h4 id="profile"><a href="public/channel.html" aria-label="View user channel">${unesUsername}</a></h4>
+                <h4 id="profile"><a href="/channel" aria-label="View user channel">${unesUsername}</a></h4>
               </div>
 `).data("profile", profile);
   $(".channel-search").append(channelSearched);
@@ -1686,8 +1687,10 @@ function renderVideoSearchResults(videos) {
     ) {
       freeVideos.push(videos[index]);
     } else if (
-      videos[index].paid_content === "pay" &&
-      videos[index].content_type === "film"
+      (videos[index].paid_content === "pay" &&
+        videos[index].content_type === "film") ||
+      (videos[index].paid_content === "pay" &&
+        videos[index].content_type === "shows")
     ) {
       payVideos.push(videos[index]);
     }
@@ -1702,7 +1705,7 @@ function renderVideoSearchResults(videos) {
     }
 
     let unesTitle = _.unescape(videos.videotitle);
-    let unesUsername = _.unescape(videos.channel_name);
+    let unesUsername = _.unescape(videos.channelname);
 
     let video = $(`
 <div class="card" data-tilt data-tilt-axis="x" data-tilt-speed="400" data-tilt-glare="true">
@@ -1712,13 +1715,13 @@ function renderVideoSearchResults(videos) {
               <div class="card-overlay">
                 <div class="card-top">
                   <div class="video-info">
-                    <a href="public/channel.html" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
-                      videos.channelpic
-                        ? videos.channelpic
+                    <a href="/channel" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
+                      videos.channelavi
+                        ? videos.channelavi
                         : "https://drotje36jteo8.cloudfront.net/noAvi.png"
                     }" alt="channelAvatar" /></a>
                     <ul id="v">
-                      <li id="channelName"><a href="public/channel.html">${unesUsername}</a></li>
+                      <li id="channelName"><a href="/channel">${unesUsername}</a></li>
                       <li id="videoViews">${
                         viewsString ? viewsString + " " + "Views" : "No Views"
                       }</li>
@@ -1732,7 +1735,7 @@ function renderVideoSearchResults(videos) {
                   </div>
                 </div>
                 <div class="card-mid">
-                  <a href="public/theater.html" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
+                  <a href="/theater" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
                 </div>
                 <div class="card-bottom">
                   <h6>${unesTitle}</h6>
@@ -1828,7 +1831,7 @@ function renderVideoSearchResults(videos) {
     }
 
     let unesTitle = _.unescape(videos.videotitle);
-    let unesUsername = _.unescape(videos.channel_name);
+    let unesUsername = _.unescape(videos.channelname);
 
     let video = $(`
 <div class="card paid-content" data-tilt data-tilt-axis="x" data-tilt-speed="400" data-tilt-glare="true">
@@ -1838,13 +1841,13 @@ function renderVideoSearchResults(videos) {
               <div class="card-overlay">
                 <div class="card-top">
                   <div class="video-info">
-                    <a href="public/channel.html" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
-                      videos.channelpic
-                        ? videos.channelpic
+                    <a href="/channel" aria-label="View user channel"><img loading="lazy" id="channelAvi" src="${
+                      videos.channelavi
+                        ? videos.channelavi
                         : "https://drotje36jteo8.cloudfront.net/noAvi.png"
                     }" alt="channelAvatar" /></a>
                     <ul id="v">
-                      <li id="channelName"><a href="public/channel.html" aria-label="View user channel">${unesUsername}</a></li>
+                      <li id="channelName"><a href="/channel" aria-label="View user channel">${unesUsername}</a></li>
                       <li id="videoViews">${
                         viewsString ? viewsString + " " + "Views" : "No Views"
                       }</li>
@@ -1893,7 +1896,7 @@ function renderVideoSearchResults(videos) {
         videoid: videoView.videoid,
         name: videoView.videotitle,
         image: videoView.videothumbnail,
-        vendor: videoView.channel_name,
+        vendor: videoView.channelname,
         quantity: 1,
         price: videoView.rental_price,
         total: videoView.rental_price,
@@ -2018,7 +2021,7 @@ function renderChannels(allChannels) {
                   ? allChannels.profile_avatar
                   : "https://drotje36jteo8.cloudfront.net/noAvi.png"
               }" alt="avatar" />
-              <h5 id="channelID"><a href="public/channel.html" aria-label="View user channel">${unesUsername}</a></h5>
+              <h5 id="channelID"><a href="/channel" aria-label="View user channel">${unesUsername}</a></h5>
             </div>
     
    `).data("allChannels", allChannels);
@@ -2059,16 +2062,16 @@ async function getPopularMedia() {
 
 function renderTopUploads(uploads) {
   let unesTitle = _.unescape(uploads.videotitle);
-  let unesUsername = _.unescape(uploads.channel_name);
+  let unesUsername = _.unescape(uploads.channelname);
   let popularVideo = $(`	
           <div class="pop-card">
             <div class="upload">
               <video src="${uploads.videofile}" poster="${uploads.videothumbnail}" preload="none"></video>
               <div class="upload-overlay">
-                <a href="public/theater.html" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
+                <a href="/theater" aria-label="Play video"><i class="fa-solid fa-play"></i></a>
               </div>
               <div class="upload-info">
-                <a href="public/channel.html" aria-label="View user channel">
+                <a href="/channel" aria-label="View user channel">
                   <h6 id="channelNameLink">${unesUsername}<h6>
                 </a>
                 <h5>${unesTitle}</h5>
@@ -2140,11 +2143,11 @@ function renderRecentUploadsChannels(mysubscriptions) {
   let recentchannel = $(`	
 	       <div class="top-channel-card">
               <img loading="lazy" src="${
-                mysubscriptions.channel_avi
-                  ? mysubscriptions.channel_avi
+                mysubscriptions.channelavi
+                  ? mysubscriptions.channelavi
                   : "https://drotje36jteo8.cloudfront.net/noAvi.png"
               }" alt="avatar" />
-              <h5 id="channelLink"><a href=public/channel.html" aria-label="View user channel">${unesUsername}</a></h5>
+              <h5 id="channelLink"><a href=/channel" aria-label="View user channel">${unesUsername}</a></h5>
             </div>
     
    `).data("mysubscriptions", mysubscriptions);
@@ -2243,7 +2246,7 @@ async function laterVideo() {
   var userid = localStorage.getItem("userID");
   var vidID = getFeature[0].videoid;
   var channelname = getFeature[0].channelname;
-  var channel_avi = getFeature[0].channelavi;
+  var channelavi = getFeature[0].channelavi;
   var video = getFeature[0].videofile;
   var posFile = getFeature[0].videothumbnail;
   var vidTitle = getFeature[0].videotitle;
@@ -2254,7 +2257,7 @@ async function laterVideo() {
     userid: userid,
     videoid: vidID,
     channelname: channelname,
-    channelavi: channel_avi,
+    channelavi: channelavi,
     videofile: video,
     videothumbnail: posFile,
     videotitle: vidTitle,
@@ -2284,8 +2287,8 @@ async function laterVideoPurchased() {
 
   var userid = localStorage.getItem("userID");
   var vidID = getFeature[0].videoid;
-  var channelname = getFeature[0].channel_name;
-  var channel_avi = getFeature[0].channelpic;
+  var channelname = getFeature[0].channelname;
+  var channelavi = getFeature[0].channelavi;
   var video = getFeature[0].videofile;
   var posFile = getFeature[0].videothumbnail;
   var vidTitle = getFeature[0].videotitle;
@@ -2296,7 +2299,7 @@ async function laterVideoPurchased() {
     userid: userid,
     videoid: vidID,
     channelname: channelname,
-    channelavi: channel_avi,
+    channelavi: channelavi,
     videofile: video,
     videothumbnail: posFile,
     videotitle: vidTitle,

@@ -50,6 +50,9 @@ apiRouter.use("/mailer", mailRouter);
 const analyticsRouter = require("./analytics");
 apiRouter.use("/analytics", analyticsRouter);
 
+const messagesRouter = require("./inbox");
+apiRouter.use("/inbox", messagesRouter);
+
 apiRouter.use((error, req, res, next) => {
   res.send(error);
 });

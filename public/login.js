@@ -5,7 +5,7 @@ let TOKEN;
   $("#login").addClass("selected");
   let setUser = localStorage.getItem("fariToken");
   if (setUser) {
-    window.location.href = "public/dashboard.html";
+    window.location.href = "/dashboard";
   }
 })();
 
@@ -66,7 +66,7 @@ $(".login-form").on("submit", async (event) => {
         .text(data.message)
         .css("color", "#100a1c")
         .css("letter-spacing", ".05rem");
-      window.location.href = "public/dashboard.html";
+      window.location.href = "/dashboard";
       localStorage.setItem("fariToken", data.token);
     }
   } catch (error) {

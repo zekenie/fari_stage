@@ -4,4 +4,5 @@ module.exports = {
   ...require("./users"),
   ...require("./explorer"),
   ...require("./analytics"),
+  ...require("./inbox"),
 };

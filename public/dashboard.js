@@ -3,7 +3,7 @@ const myToken = localStorage.getItem("fariToken");
 
 (function () {
   if (!myToken || myToken === null) {
-    window.location.href = "public/login.html";
+    window.location.href = "login";
   }
 })();
 
@@ -42,7 +42,7 @@ $(".dropdown i").click(function () {
 
 $("#logout").click(function () {
   localStorage.clear();
-  window.location.href = "public/index.html";
+  window.location.href = "index";
 });
 
 async function getUserProfile() {
@@ -65,7 +65,7 @@ async function getUserProfile() {
       localStorage.setItem("channelName", data.profile[0].channelname);
       localStorage.setItem("userStripeAcct", data.profile[0].stripe_acctid);
     } else if (data.profile.length === 0) {
-      window.location.href = "public/login.html";
+      window.location.href = "login";
     }
 
     return data.profile;
