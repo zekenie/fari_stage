@@ -1050,7 +1050,7 @@ $("#submitPoster").click(async function (event) {
     );
     console.log(formData);
     const response = await fetch(
-      `${FARI_API}/users/update/posters/${channelname}`,
+      `${FARI_API}/users/update/poster/${channelname}`,
       {
         method: "PUT",
         headers: {

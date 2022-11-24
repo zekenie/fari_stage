@@ -548,7 +548,7 @@ usersRouter.get(
 );
 
 usersRouter.put(
-  "/update/posters/:channelname",
+  "/update/poster/:channelname",
   cors(),
   profilePosterUpdate,
   requireUser,
