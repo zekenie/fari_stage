@@ -393,7 +393,7 @@ async function updateAvatar(channelname, photos) {
 }
 
 async function updatePosters(channelname, photos) {
-  const { slider_pic1 } = photos;
+  const { profile_poster } = photos;
   try {
     const { rows } = await client.query(
       `
