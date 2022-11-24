@@ -377,8 +377,8 @@ async function createInitialUsers() {
       username: "Rashon",
       email: "rashonwill92@gmail.com",
       location: "Southern Louisiana",
-      password: "P@ssw0rd!!",
-      confirmpassword: "P@ssw0rd!!",
+      password: "Shonmusic92$!",
+      confirmpassword: "Shonmusic92$",
     });
 
     await createUser({
@@ -543,6 +543,9 @@ async function buildDB() {
     client.connect();
     await dropTables();
     await createTables();
+    await createInitialUsers();
+    await updateChannelPics()
+    await createContent();
   } catch (error) {
     throw error;
   }
