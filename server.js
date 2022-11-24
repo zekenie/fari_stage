@@ -16,11 +16,6 @@ client.connect();
 const hpp = require("hpp");
 server.use(hpp());
 
-const httpServer = http.createServer(server);
-
-const { setupMaster, setupWorker } = require("@socket.io/sticky");
-const { createAdapter, setupPrimary } = require("@socket.io/cluster-adapter");
-
 server.use(express.static("public", { extensions: ["html"] }));
 server.use(express.urlencoded({ extended: false, limit: "1kb" }));
 server.use(express.json({ limit: "100mb" }));
@@ -76,6 +71,6 @@ if (cluster.isMaster) {
   });
 } else {
   server.listen(PORT, async () => {
-    console.log("Welcome to Fari!");
+    console.log(`Welcome to Fari! Listening on ${PORT}`);
   });
 }
