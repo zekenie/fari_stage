@@ -1176,7 +1176,7 @@ explorerRouter.get(
 explorerRouter.post("/watchlist", requireUser, async (req, res, next) => {
   const userid = req.body.userid;
   const videoid = req.body.videoid;
-  const channel = req.body.channel;
+  const channel = req.body.channelname;
   const channel_avi = req.body.channelavi;
   const video = req.body.videofile;
   const thumbnail = req.body.videothumbnail;
@@ -1556,8 +1556,8 @@ explorerRouter.post(
     const { user } = req.user;
     const userID = req.body.userid;
     const videoid = req.body.videoid;
-    const channel = req.body.channel;
-    const channel_avi = req.body.channel_avi;
+    const channel = req.body.channelname;
+    const channel_avi = req.body.channelavi;
     const channelid = req.body.channelid;
     const videofile = req.body.videofile;
     const videothumbnail = req.body.videothumbnail;
