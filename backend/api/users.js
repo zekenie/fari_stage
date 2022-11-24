@@ -570,7 +570,7 @@ usersRouter.put(
         try {
           const result1 = await uploadThumbnails(pic2);
           const updateData = {
-            slider_pic1: cloudfront + "/" + result1.Key,
+            profile_poster: cloudfront + "/" + result1.Key,
           };
 
           const updatedchannel = await updatePosters(channelname, updateData);
@@ -618,7 +618,7 @@ usersRouter.put(
             profile_avatar: cloudfront + "/" + result.Key,
           };
           const updateChannelPic = {
-            channelpic: cloudfront + "/" + result.Key,
+            channelavi: cloudfront + "/" + result.Key,
           };
 
           const updateCommentPicture = {
