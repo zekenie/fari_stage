@@ -1088,7 +1088,6 @@ $("#submitAvatar").click(async function (event) {
   try {
     var channelname = localStorage.getItem("channelName");
     const formData = new FormData(document.getElementById("profileAviUpdate"));
-    console.log(formData);
     const response = await fetch(
       `${FARI_API}/users/myprofile/update/avatar/${channelname}`,
       {
@@ -1100,6 +1099,7 @@ $("#submitAvatar").click(async function (event) {
       }
     );
     const data = await response.json();
+    console.log(data);
     $(".user-info-card").empty();
     $("#avatar-photo").attr(
       "src",
@@ -1109,7 +1109,7 @@ $("#submitAvatar").click(async function (event) {
     return data;
   } catch (error) {
     console.log(error);
-    response.status(400).send(error);
+    response.send(error);
   }
 });
 
