@@ -608,16 +608,16 @@ async function verifiedVendors(id) {
   }
 }
 
-async function updateChannel(id, {profile_avatar, profile_poster}) {
+async function updateChannel(channelname, profile_avatar, profile_poster) {
   try {
     const { rows } = await client.query(
       `
               UPDATE user_channel
               SET profile_avatar=$2, profile_poster=$3
-              WHERE id=$1
+              WHERE channelname=$1
               RETURNING *;
             `,
-      [id]
+      [channelname]
     );
     return rows;
   } catch (error) {
