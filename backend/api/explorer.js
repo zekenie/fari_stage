@@ -140,12 +140,12 @@ explorerRouter.get("/discover", requireUser, async (req, res, next) => {
   // console.log("no cache found");
   try {
     const freeContent = await getFreeContent();
-    let setData = await redisClient.set(
-      "discoverContent",
-      JSON.stringify(freeContent),
-      "ex",
-      150
-    );
+//     let setData = await redisClient.set(
+//       "discoverContent",
+//       JSON.stringify(freeContent),
+//       "ex",
+//       150
+//     );
     res.send({ uploads: freeContent });
   } catch (error) {
     console.log(error);
@@ -167,10 +167,10 @@ explorerRouter.get("/popular-uploads", requireUser, async (req, res, next) => {
   //   console.log("no cache found");
   try {
     const freeContent = await getTopUploads();
-    let setData = await redisClient.set(
-      "popularContent",
-      JSON.stringify(freeContent)
-    );
+//     let setData = await redisClient.set(
+//       "popularContent",
+//       JSON.stringify(freeContent)
+//     );
     res.send({ uploads: freeContent });
   } catch (error) {
     console.log(error);
@@ -192,10 +192,10 @@ explorerRouter.get("/paytoview", requireUser, async (req, res, next) => {
   //   console.log("no cache found");
   try {
     const payContent = await getPayToViewContent();
-    let setData = await redisClient.set(
-      "paidContent",
-      JSON.stringify(payContent)
-    );
+//     let setData = await redisClient.set(
+//       "paidContent",
+//       JSON.stringify(payContent)
+//     );
     res.send({ uploads: payContent });
   } catch (error) {
     next({
@@ -216,10 +216,10 @@ explorerRouter.get("/recommended", requireUser, async (req, res, next) => {
   //   console.log("no cache found");
   try {
     const recUploads = await getLimitedUploads();
-    let setData = await redisClient.set(
-      "recContent",
-      JSON.stringify(recUploads)
-    );
+//     let setData = await redisClient.set(
+//       "recContent",
+//       JSON.stringify(recUploads)
+//     );
     res.send({ uploads: recUploads });
   } catch (error) {
     next({
@@ -299,7 +299,7 @@ explorerRouter.get("/search/vlogs", requireUser, async (req, res, next) => {
   //   console.log("no cache found");
   try {
     const vlogVids = await vlogSearch();
-    redisClient.set("vloggerContent", JSON.stringify(vlogVids));
+//     redisClient.set("vloggerContent", JSON.stringify(vlogVids));
     res.send({ videos: vlogVids });
   } catch (error) {
     console.log("Oops could not find search results", error);
@@ -324,7 +324,7 @@ explorerRouter.get(
     //   console.log("no cache found");
     try {
       const animationsSearch = await animationSearch();
-      redisClient.set("animationContent", JSON.stringify(animationsSearch));
+//       redisClient.set("animationContent", JSON.stringify(animationsSearch));
       res.send({ videos: animationsSearch });
     } catch (error) {
       console.log("Oops could not find search results", error);
@@ -347,7 +347,7 @@ explorerRouter.get("/search/movies", requireUser, async (req, res, next) => {
   //   console.log("no cache found");
   try {
     const movieVids = await movieSearch();
-    redisClient.set("movieContent", JSON.stringify(movieVids));
+//     redisClient.set("movieContent", JSON.stringify(movieVids));
     res.send({ videos: movieVids });
   } catch (error) {
     console.log("Oops could not find search results", error);
@@ -369,7 +369,7 @@ explorerRouter.get("/search/shows", requireUser, async (req, res, next) => {
   //   console.log("no cache found");
   try {
     const showsVids = await showsSearch();
-    redisClient.set("showsContent", JSON.stringify(showsVids));
+//     redisClient.set("showsContent", JSON.stringify(showsVids));
     res.send({ videos: showsVids });
   } catch (error) {
     console.log("Oops could not find search results", error);
