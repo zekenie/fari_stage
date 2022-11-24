@@ -544,7 +544,7 @@ async function buildDB() {
     await dropTables();
     await createTables();
     await createInitialUsers();
-    await updateChannelPics()
+    await updateChannelPics();
     await createContent();
   } catch (error) {
     throw error;
