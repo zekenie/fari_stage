@@ -88,6 +88,7 @@ CREATE TABLE channel_messages(
   senderpic TEXT NULL,
   receiverid INT,
   receivername varchar(255),
+  receiverpic TEXT,
   note_message varchar(8000),
   noteread BOOLEAN DEFAULT FALSE,
   note_dt DATE DEFAULT CURRENT_DATE NOT NULL
