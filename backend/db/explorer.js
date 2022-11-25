@@ -830,7 +830,7 @@ async function getUserSubsLimit(userid) {
        WHERE userid=$1
        ORDER BY random() limit 8;
       `,
-      [userSubed]
+      [userid]
     );
     return rows;
   } catch (error) {
