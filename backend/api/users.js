@@ -590,7 +590,7 @@ usersRouter.put(
   }
 );
 
-usersRouter.put(
+usersRouter.patch(
   "/update/avatar/:channelname",
   cors(),
   profileAvatarUpdate,
@@ -652,15 +652,6 @@ usersRouter.put(
     }
   }
 );
-
-usersRouter.get("/update/avatar/:channelname", async (req, res) => {
-  const { channelname } = req.params;
-  try {
-    res.send({ Aavatar: "Avatar updater" });
-  } catch (error) {
-    console.log(error);
-  }
-});
 
 usersRouter.get(
   "/channel/:channelid",
