@@ -11,7 +11,7 @@ const ddos = limiter({
   max: 5, // Limit each IP to 5 requests per `window` (here, per 15 minutes)
 });
 
-const { uploadFile, uploadThumbnails } = require("../aws");
+const { uploadPhotos } = require("../aws");
 
 const multer = require("multer");
 const storage = multer.diskStorage({
@@ -569,7 +569,7 @@ usersRouter.put(
         req.file.mimetype === "image/gif"
       ) {
         try {
-          const result1 = await uploadThumbnails(pic2);
+          const result1 = await uploadPhotos(pic2);
           const updateData = {
             profile_poster: cloudfront + "/" + result1.Key,
           };
@@ -613,7 +613,7 @@ usersRouter.put(
         req.file.mimetype === "image/gif"
       ) {
         try {
-          const result = await uploadThumbnails(pic1);
+          const result = await uploadPhotos(pic1);
           const updatedAvi = {
             profile_avatar: cloudfront + "/" + result.Key,
           };
@@ -652,6 +652,15 @@ usersRouter.put(
     }
   }
 );
+
+usersRouter.get("/update/avatar/:channelname", async () => {
+  const { channelname } = req.params;
+  try {
+    res.send({ Aavatar: "Avatar updater" });
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 usersRouter.get(
   "/channel/:channelid",
