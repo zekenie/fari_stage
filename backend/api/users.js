@@ -724,9 +724,9 @@ usersRouter.post(
 );
 
 usersRouter.delete(
-  "/unsubscribe/:channelname/:userid",
+  "/unsubscribe/:userid/:channelid",
   requireUser,
-  check("channelname").not().isEmpty().trim().escape(),
+  check("channelid").not().isEmpty().isNumeric().withMessage('Not a valid value').trim().escape(),
   check("userid")
     .not()
     .isEmpty()
@@ -735,8 +735,8 @@ usersRouter.delete(
     .trim()
     .escape(),
   async (req, res, next) => {
-    const { channelname, userid } = req.params;
-    const channel = channelname;
+    const { channelid, userid } = req.params;
+    const channel = channelid;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res
@@ -745,7 +745,7 @@ usersRouter.delete(
     } else {
       try {
         const myunSubs = await removeSubs(userid, channel);
-        const userunSubs = await removeChannelSub(channelname);
+        const userunSubs = await removeChannelSub(channelid);
         res.send({ removedSub: myunSubs });
       } catch (error) {
         console.log(error);
