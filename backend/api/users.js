@@ -590,13 +590,14 @@ usersRouter.put(
   }
 );
 
-usersRouter.patch(
+usersRouter.put(
   "/update/avatar/:channelname",
   cors(),
   profileAvatarUpdate,
   requireUser,
   check("channelname").not().isEmpty().trim().escape(),
   async (req, res, next) => {
+    console.log("hitting route");
     const { channelname } = req.params;
     const channel_name = channelname;
     const commentorName = channelname;
