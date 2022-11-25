@@ -467,7 +467,7 @@ async function subscribe() {
       userid: userid,
       channelID: channelid,
       channelname: channel,
-      channelavi: channelavi,
+      channelavi: channel_avi,
     };
     var channelname = getChannel[0].channelname;
     const response = await fetch(`${FARI_API}/users/subscribe/${channelname}`, {
@@ -480,6 +480,7 @@ async function subscribe() {
     });
     const data = await response.json();
   } catch (error) {
+    console.log(error)
     response.status(400).send(error);
   }
 }
