@@ -18,13 +18,23 @@ server.use(hpp());
 
 server.use(express.static("public", { extensions: ["html"] }));
 server.use(express.urlencoded({ extended: true, limit: "1kb" }));
+// good. Important.
 server.use(express.json({ limit: "100mb" }));
 
+// very good. I was going to recommend this.
 server.use(helmet());
+// i believe this is taken care of by `helmet` and you don't need to do this yourself.
 server.disable("x-powered-by");
 
 //middleware
 const limiter = require("express-rate-limit");
+// Your rate limiter retains state. It needs to keep track of IP addresses and how frequently 
+// each IP makes a request.
+//
+// [PROBLEM] Right now this state is stored in memory. this means that you cannot scale your server
+// if you scale up, you will have n pieces of state for each of your n servers. 
+//
+// Try installing [one of the official data stores for this package](https://github.com/express-rate-limit/express-rate-limit#store) 
 server.use(
   limiter({
     windowMs: 15 * 60 * 1000, // 15 minutes
@@ -39,7 +49,9 @@ server.use(cors());
 server.use(cors({ origin: "*" }));
 
 const bodyParser = require("body-parser");
+// [PROBLEM] 50mb is a pretty huge payload, I'd consider lowering this
 server.use(bodyParser.json({ limit: "50mb" }));
+// [PROBLEM] 50mb is a pretty huge payload, I'd consider lowering this
 server.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 
 server.use(function (req, res, next) {

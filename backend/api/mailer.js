@@ -100,6 +100,12 @@ mailRouter.post(
         if (!_email) {
           next({
             error: "EmailDoesNotExistsError",
+            // [PROBLEM]: This is actually a big problem! You never want to tell an 
+            // outsider if an account exists or not. This will allow them to do something
+            // called "account enumeration." If they have a list of emails that _might_
+            // be registered with you, they can try to log in with each of them and learn
+            // who is registered and who is not. The best practice is to always return 200,
+            // even if someone tries "forgot my password" with an invalid account.
             message: "We do not have a user with that email.",
           });
           return false;

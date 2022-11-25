@@ -1,3 +1,8 @@
+// These are big files! I'd recommend splitting up auth and other user needs
+// one file for login & signup, another for the rest of it.
+
+// maybe even a 3d for profile picture stuff.
+
 const express = require("express");
 const usersRouter = express.Router();
 const { JWT_SECRET, JWT_SECRET_RESET } = process.env;
@@ -411,6 +416,7 @@ usersRouter.patch(
         const data = {
           bio: bio,
         };
+        // [PROBLEM] is there anything stopping a user from passing someone else's user ID in editing their bio?
         const biography = await addBio(id, data);
         res.send({ user: biography });
       } catch (error) {
