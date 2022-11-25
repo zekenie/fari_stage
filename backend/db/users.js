@@ -431,7 +431,7 @@ async function updateChannelSubs(channelname) {
   }
 }
 
-async function removeChannelSub(channelname) {
+async function removeChannelSub(id) {
   try {
     const {
       rows: [channel],
@@ -439,10 +439,10 @@ async function removeChannelSub(channelname) {
       `
               UPDATE user_channel
               SET subscriber_count = subscriber_count - 1
-              WHERE channelname=$1
+              WHERE id=$1
               RETURNING *;
             `,
-      [channelname]
+      [id]
     );
 
     return channel;
