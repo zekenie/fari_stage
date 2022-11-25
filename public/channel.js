@@ -518,11 +518,11 @@ async function checkSubStatus() {
 
 async function unsubscribe() {
   var getChannel = await getChannelProfile();
-  var channelname = getChannel[0].channelname;
+  var channelname = getChannel[0].channelid;
   var userid = localStorage.getItem("userID");
   try {
     const response = await fetch(
-      `${FARI_API}/users/unsubscribe/${channelname}/${userid}`,
+      `${FARI_API}/users/unsubscribe/${userid}/${channelid}`,
       {
         method: "DELETE",
         headers: {
