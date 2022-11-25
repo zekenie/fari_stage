@@ -10,17 +10,6 @@ const ddos = limiter({
   windowMs: 1 * 60 * 1000, // 1 minute
   max: 5, // Limit each IP to 5 requests per `window` (here, per 15 minutes)
 });
-const cors = require("cors");
-usersRouter.use(cors());
-
-// const redis = require("redis");
-// let redisClient = redis.createClient({
-//   url: process.env.REDIS_URL,
-//   socket: {
-//     tls: true,
-//     rejectUnauthorized: false,
-//   },
-// });
 
 const { uploadFile, uploadThumbnails } = require("../aws");
 
@@ -42,6 +31,9 @@ const upload = multer({
 const profilePosterUpdate = upload.single("channel-poster");
 
 const profileAvatarUpdate = upload.single("avatar");
+
+const cors = require("cors");
+usersRouter.use(cors());
 
 const {
   createUser,
@@ -83,6 +75,15 @@ const {
   verifyUserSubscriptionStatus,
   updateChannelSubsStatus,
 } = require("../db");
+
+// const redis = require("redis");
+// let redisClient = redis.createClient({
+//   url: process.env.REDIS_URL,
+//   socket: {
+//     tls: true,
+//     rejectUnauthorized: false,
+//   },
+// });
 
 usersRouter.get("/", async (req, res, next) => {
   try {
@@ -321,7 +322,7 @@ usersRouter.post(
               id: user.id,
               username,
             },
-            process.env.JWT_SECRET
+            JWT_SECRET
           );
 
           res.send({
@@ -601,7 +602,6 @@ usersRouter.put(
     const commentorName = channelname;
     const cloudfront = "https://drotje36jteo8.cloudfront.net";
     const pic1 = req.file;
-
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).send(errors.array());
