@@ -518,8 +518,7 @@ async function checkSubStatus() {
 
 async function unsubscribe() {
   var getChannel = await getChannelProfile();
-  console.log(getChannel)
-  var channelname = getChannel[0].channelid;
+  var channelid = getChannel[0].channelid;
   var userid = localStorage.getItem("userID");
   try {
     const response = await fetch(
