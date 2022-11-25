@@ -1042,6 +1042,7 @@ explorerRouter.get(
         const recentUploadedSubs = await getUserSubsLimit(userid);
         res.send({ mysubscriptions: recentUploadedSubs });
       } catch (error) {
+        console.log(error)
         next({
           name: "ErrorGettingRecentUserSubs",
           message: "Could not get recent subscriptions",
