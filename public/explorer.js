@@ -2137,6 +2137,7 @@ async function getRecentlySubsUploads() {
 	  console.log(data)
     return data.mysubscriptions;
   } catch (error) {
+	  console.log(error)
     response.status(400).send(error);
   }
 }
