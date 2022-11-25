@@ -688,12 +688,12 @@ usersRouter.get(
 usersRouter.post(
   "/subscribe/:channelname",
   requireUser,
-  check("userid").not().isEmpty().trim().escape(),
+  check("channelname").not().isEmpty().trim().escape(),
   async (req, res, next) => {
     const userid = req.body.userid;
     const channelID = req.body.channelID;
-    const channel_avi = req.body.channel_avi;
-    const channel = req.body.channel;
+    const channel_avi = req.body.channelavi;
+    const channel = req.body.channelname;
     const subscriber_count = req.body.subscriber_count;
     const { channelname } = req.params;
     let errors = validationResult(req);
@@ -706,8 +706,8 @@ usersRouter.post(
         const subedData = {
           userid: userid,
           channelID: channelID,
-          channel: channel,
-          channel_avi: channel_avi,
+          channelname: channel,
+          channelavi: channel_avi,
         };
         const mySubs = await createSubs(subedData);
         const userSubs = await updateChannelSubs(channelname);
