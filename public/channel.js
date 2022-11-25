@@ -518,6 +518,7 @@ async function checkSubStatus() {
 
 async function unsubscribe() {
   var getChannel = await getChannelProfile();
+  console.log(getChannel)
   var channelname = getChannel[0].channelid;
   var userid = localStorage.getItem("userID");
   try {
@@ -533,6 +534,7 @@ async function unsubscribe() {
     );
     const data = await response.json();
   } catch (error) {
+    console.log(error)
     response.status(400).send(error);
   }
 }
