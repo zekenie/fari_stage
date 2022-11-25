@@ -596,7 +596,6 @@ usersRouter.put(
   requireUser,
   check("channelname").not().isEmpty().trim().escape(),
   async (req, res, next) => {
-     console.log('in route to update avi');
     const { channelname } = req.params;
     const channel_name = channelname;
     const commentorName = channelname;
@@ -641,7 +640,7 @@ usersRouter.put(
           console.log(result);
           res.send({ channel: updatedchannel });
         } catch (error) {
-          console.error("Could not update user profile", error);
+          console.log("Could not update user profile", error);
           next(error);
         }
       } else {
@@ -726,7 +725,13 @@ usersRouter.post(
 usersRouter.delete(
   "/unsubscribe/:userid/:channelid",
   requireUser,
-  check("channelid").not().isEmpty().isNumeric().withMessage('Not a valid value').trim().escape(),
+  check("channelid")
+    .not()
+    .isEmpty()
+    .isNumeric()
+    .withMessage("Not a valid value")
+    .trim()
+    .escape(),
   check("userid")
     .not()
     .isEmpty()

@@ -71,6 +71,6 @@ if (cluster.isMaster) {
   });
 } else {
   server.listen(PORT, async () => {
-    console.log(`Welcome to Fari! Listening on ${PORT}`);
+    console.log(`Welcome to Fari! Listening on Port: ${PORT}`);
   });
 }

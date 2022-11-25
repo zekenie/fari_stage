@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
+  "build": "set INLINE_RUNTIME_CHUNK=false",
   "proxy": "https://fari-stage.netlify.app/",
   "engines": {
     "node": "14.15.4"
@@ -46,9 +47,12 @@
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.8.0",
     "nodemailer-express-handlebars": "^5.0.0",
-    "nodemon": "^2.0.20",
     "pg": "^8.8.0",
     "redis": "^4.5.0",
     "stripe": "^11.1.0"
+  },
+  "devDependencies": {
+    "http-proxy-middleware": "^2.0.6",
+    "nodemon": "^2.0.20"
   }
 }
