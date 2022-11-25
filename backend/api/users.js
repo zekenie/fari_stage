@@ -653,7 +653,7 @@ usersRouter.put(
   }
 );
 
-usersRouter.get("/update/avatar/:channelname", async () => {
+usersRouter.get("/update/avatar/:channelname", async (req, res) => {
   const { channelname } = req.params;
   try {
     res.send({ Aavatar: "Avatar updater" });
