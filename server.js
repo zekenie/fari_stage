@@ -55,6 +55,7 @@ server.use(bodyParser.json({ limit: "50mb" }));
 server.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 
 server.use(function (req, res, next) {
+  // [PROBLEM] This URL should be in an environment variable
   res.header("Access-Control-Allow-Origin", "https://fari-stage.netlify.app");
   res.header(
     "Access-Control-Allow-Methods",

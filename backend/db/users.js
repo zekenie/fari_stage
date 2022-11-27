@@ -10,6 +10,14 @@ async function createUser({
   location,
 }) {
   const hashedPassword = await bcrypt.hash(password, SALT_COUNT);
+  // [PERFORMANCE] You don't need to hash the confirm password, just check that it's the same as the password
+  // that's proof that the PWs are the same. Bcrypt hashes are deliverately slow, so you're making create user,
+  // a vital flow, 2x slower than it has to be. If you want it that slow, double the SALT_COUNT.
+
+  // But! When you compare your confirm pw and your pw, make sure to use 
+
+  // Additionally, you don't need to store a confirmpassword in the database, either.
+
   const confirmedhashedPassword = await bcrypt.hash(
     confirmpassword,
     SALT_COUNT
@@ -200,6 +208,7 @@ async function getUser({ username, password }) {
     }
     const hashedPassword = user.password;
     const passwordMatch = await bcrypt.compare(password, hashedPassword);
+    // [NIT]: You never need to write `something === true`. You can just say `if (passwordMatch)` here
     if (passwordMatch === true) {
       return user;
     }
@@ -231,6 +240,10 @@ async function getUserById(id) {
 }
 
 async function getAllUsers() {
+  // [PROBLEM]: This operation won't scale if you have any sizable number of users
+  // Depending on what you need it for, you'll need other ways to achieve this, perhaps with pagination. 
+  // [PROBLEM]: By selecting all columns, you're exposing your pw hashes.
+  // These should be kept private!
   const { rows } = await client.query(`SELECT * FROM users;`);
 
   return rows;
@@ -257,6 +270,14 @@ async function getUsersByUsername(username) {
   return rows;
 }
 
+// [OPPORTUNITY]: Depending on what you're using this for, ILIKE may not be the best option.
+// Postgres has amazing and powerful search features. Here's an article about them:
+// https://leandronsp.com/a-powerful-full-text-search-in-postgresql-in-less-than-20-lines
+
+// [PROBLEM] This will get very slow with many users. At a minimum there should be an index
+// on `username`. But even so, you'll need to paginate this function at scale. It can wait a little while
+// but if you have even 2000 users, this will get REALLY slow if you're trying to search, serialize to JSON
+// and send back to a client
 async function userSearch(query) {
   try {
     const { rows } = await client.query(
@@ -393,6 +414,7 @@ async function updateAvatar(channelname, photos) {
 }
 
 async function updatePosters(channelname, photos) {
+  // [NIT]: Doesn't look like `profile_poster` or `photos` is being used
   const { profile_poster } = photos;
   try {
     const { rows } = await client.query(
@@ -402,6 +424,7 @@ async function updatePosters(channelname, photos) {
               WHERE channelname=$1
               RETURNING *;
             `,
+      // [PROBLEM]: I don't see where `slider_pic1` is defined
       [channelname, slider_pic1]
     );
 
@@ -411,6 +434,10 @@ async function updatePosters(channelname, photos) {
   }
 }
 
+// [QUESTION]: Could this information be achieved with a query? Do you have to maintain a `subscriber_count` column?
+// If it could be achieved with a query, and you're worried about performance, you could look into a materialized view.
+// I'm happy to do a session on these, they're a wonderful trick. It basically is a cached query result that you can
+// update when you want.
 async function updateChannelSubs(channelname) {
   try {
     const {
@@ -527,6 +554,8 @@ async function endLive(id) {
 }
 
 async function updateUserSubscription(id) {
+  // [QUESTION]: Is the type of the column subscribed_user_acct varchar or text? Because you're setting it to 'true' instead of `true`
+  // it makes me think it might be. I'd think it should be a boolean?
   try {
     const { rows } = await client.query(
       `
@@ -577,6 +606,8 @@ async function updateVendorSubscription(id) {
   }
 }
 
+// [PROBLEM]: Leaking pw hash
+// [QUESTION]: Is this the same query as `getUserById`
 async function verifyUserSubscriptionStatus(id) {
   try {
     const { rows } = await client.query(
@@ -592,6 +623,7 @@ async function verifyUserSubscriptionStatus(id) {
   }
 }
 
+// [NIT] I'd rename this function to be `getVendorById`
 async function verifiedVendors(id) {
   try {
     const { rows } = await client.query(

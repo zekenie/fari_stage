@@ -86,6 +86,10 @@ async function deleteUpload(id) {
   }
 }
 
+// [PERFORMANCE] order by random can get very slow if the table gets very big.
+// There are other solutions but they're complex. Just have this on a list of things
+// to watch out for if you're getting a lot of scale. There are other solutions, but 
+// I wouldn't reach for them just yet
 async function getAllUploads() {
   const { rows } = await client.query(`
   SELECT *, channel_uploads.id AS videoID
@@ -388,6 +392,8 @@ async function revokeLikes(videoid) {
   }
 }
 
+// [NIT] It's hard to tell from some of these function names if they're writing or reading data
+// I'd rename to `createUserLike` or something like that, and have a consistent convention.
 async function usersLikes({ userid, videoid }) {
   try {
     const {
@@ -439,6 +445,8 @@ async function myLikes(videoid, userid) {
   }
 }
 
+// [QUESTION]: Could likes and dislikes be modeled in one table?
+// Perhaps with a value of -1 or 1?
 async function videoDisLikes(id) {
   try {
     const {

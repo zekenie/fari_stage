@@ -562,6 +562,7 @@ usersRouter.put(
   check("channelname").not().isEmpty().trim().escape(),
   async (req, res, next) => {
     const { channelname } = req.params;
+    // [PROBLEM: this URL should be in an environment variable]
     const cloudfront = "https://drotje36jteo8.cloudfront.net";
     const pic2 = req.file;
     let errors = validationResult(req);
@@ -606,6 +607,7 @@ usersRouter.patch(
     const { channelname } = req.params;
     const channel_name = channelname;
     const commentorName = channelname;
+    // [PROBLEM: this URL should be in an environment variable]
     const cloudfront = "https://drotje36jteo8.cloudfront.net";
     const pic1 = req.file;
     let errors = validationResult(req);

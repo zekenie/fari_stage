@@ -1,3 +1,4 @@
+/* [PROBLEM]: These are a lot of fonts! The more fonts you download, the slower the pageload. Make sure you actually need all of them, and need all the weights */
 @import url("https://fonts.googleapis.com/css?family=Open+Sans");
 @import url("https://fonts.googleapis.com/css?family=Lato:300,400,700");
 @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");

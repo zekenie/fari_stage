@@ -717,6 +717,7 @@ explorerRouter.post(
   check("ticketprice").trim().escape(),
   async (req, res, next) => {
     const { user } = req.user;
+    // [PROBLEM: this URL should be in an environment variable]
     const cloudfront = "https://drotje36jteo8.cloudfront.net";
     const title = req.body.title;
     const vid = req.files["video"][0];
@@ -1651,6 +1652,7 @@ explorerRouter.post("/stripe-checkout/rental", async (req, res) => {
         }),
         mode: "payment",
         success_url:
+        // [PROBLEM] these URLs should be in environment variables
           "https://fari-test.netlify.app/success?id={CHECKOUT_SESSION_ID}",
         cancel_url: "https://fari-test.netlify.app/explorer",
       },
