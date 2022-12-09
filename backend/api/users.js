@@ -372,6 +372,29 @@ usersRouter.post(
       try {
         const user = await getUser({ username, password });
         if (user) {
+          // [PROBLEM]: This token has no expiration
+          // We could do a session to talk about good JWT practices.
+          // But, basically, you need a way to revoke tokens.
+          // Unlike "traditional" sessions, jwts are not checked against
+          // the db on every request. If you ban a user in the db, it doesn't
+          // expire the jwt.
+
+          // JWTs are faster than traditional sessions because they don't hit
+          // the DB on every request. 
+
+          // One solution is to impliment "refresh tokens"
+          // Refresh tokens are a token that gives you access to get a new jwt
+          // Refresh tokens _are_ checked against the db
+
+          // A typical setup might be to have the jwt expire every 1 hr, but 
+          // allow clients to get themselves a new JWT with a valid refresh token.
+
+          // This allows most requests to go through quickly without a DB check
+          // but, if a user gets banned, they'll evenaully  lose access.
+
+          // Another solution is a ban-list stored in Redis or the database. Then you 
+          // can check against the ban list on every request. But this gets rid of 
+          // some of the benefits of jwts.
           const token = jwt.sign(user, process.env.JWT_SECRET);
           next({
             success: "SuccsessfulLogin",

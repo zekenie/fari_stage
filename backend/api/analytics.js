@@ -1,8 +1,5 @@
 const express = require("express");
 const analyticsRouter = express.Router();
-const jwt = require("jsonwebtoken");
-const { JWT_SECRET } = process.env;
-const { requireUser } = require("./utils");
 const { check, validationResult } = require("express-validator");
 const cors = require("cors");
 analyticsRouter.use(cors());
